@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — RAWAN Footwear</title>
+  <meta name="description" content="RAWAN Footwear Journal — shoe care guides, style tips, craft stories, and behind-the-brand content.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="ann-bar"><span>🚚 Free Delivery Rs. 4,999+</span><span class="ann-sep">|</span><a href="shop.html">Shop Now →</a></div>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div class="nav-links">
+        <a href="shop.html">Shop</a>
+        <a href="journal.html" class="active">Journal</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+    <a href="index.html" class="nav-logo"><span class="logo-ar">قدم</span><span class="logo-en">RAWAN</span><span class="logo-sub">Footwear</span></a>
+    <div class="nav-right">
+      <button class="nav-icon cart-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg><span class="cart-badge" id="cart-badge-nav">0</span></button>
+    </div>
+  </nav>
+</div>
+
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-nav-close" id="mob-nav-close">✕</button>
+  <div class="mob-nav-links"><a href="shop.html">Shop</a><a href="journal.html">Journal</a><a href="about.html">About</a></div>
+</div>
+
+<div class="page-hero-bar">
+  <h1>The Journal</h1>
+  <p>Style guides, craft stories, aur shoe care tips — RAWAN ki duniya mein khush aamdeed.</p>
+</div>
+
+<!-- CATEGORY FILTERS -->
+<div style="max-width:1440px;margin:0 auto;padding:var(--space-xl) var(--space-xl) 0;display:flex;gap:8px;flex-wrap:wrap">
+  <button class="filter-chip on" data-jcat="all">All</button>
+  <button class="filter-chip" data-jcat="craft">Craft</button>
+  <button class="filter-chip" data-jcat="style">Style</button>
+  <button class="filter-chip" data-jcat="care">Shoe Care</button>
+  <button class="filter-chip" data-jcat="brand">Behind the Brand</button>
+</div>
+
+<!-- JOURNAL GRID -->
+<div style="max-width:1440px;margin:0 auto;padding:var(--space-xl)">
+  <div class="journal-grid" id="journal-grid">
+
+    <article class="j-card reveal d1" data-cat="care">
+      <div class="j-card-img" style="background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:4rem">🧹</div>
+      <div class="j-card-body">
+        <div class="j-cat">Shoe Care</div>
+        <h2 class="j-title">Suede ko properly care karne ka tareeqa</h2>
+        <div class="j-excerpt">Suede ki khubsurti maintain karna mushkil nahi. Sirf kuch simple steps aur aapka joota salon tak naya lagega.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">5 min read · September 2026</div>
+          <a href="#article-suede" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="j-card reveal d2" data-cat="style">
+      <div class="j-card-img" style="background:var(--bone-dark);display:flex;align-items:center;justify-content:center;font-size:4rem">👔</div>
+      <div class="j-card-body">
+        <div class="j-cat">Style</div>
+        <h2 class="j-title">Loafer ke sath 5 perfect outfits — Office se Weekend tak</h2>
+        <div class="j-excerpt">The Saba Loafer har occasion ke liye versatile hai — lekin kaise style karein? Yahan 5 tested combinations hain.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">4 min read · September 2026</div>
+          <a href="#article-loafer" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="j-card reveal d3" data-cat="craft">
+      <div class="j-card-img" style="background:var(--sand-dark);display:flex;align-items:center;justify-content:center;font-size:4rem">🧵</div>
+      <div class="j-card-body">
+        <div class="j-cat">Craft</div>
+        <h2 class="j-title">Goodyear Welt vs Blake Stitch — Kya Farq Hai?</h2>
+        <div class="j-excerpt">Sole construction ka quality par kya asar hota hai — ek simple guide jo shoes khareedne mein help karegi.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">6 min read · August 2026</div>
+          <a href="#article-welt" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="j-card reveal d1" data-cat="brand">
+      <div class="j-card-img" style="background:var(--espresso);display:flex;align-items:center;justify-content:center;font-size:4rem">🌙</div>
+      <div class="j-card-body">
+        <div class="j-cat">Behind the Brand</div>
+        <h2 class="j-title">RAWAN kaise shuru hua — Ek Honest Story</h2>
+        <div class="j-excerpt">Hum ne kisi bhi branded shoe mein genuinely comfortable feeling nahi milti thi — isliye khud banaya. Yeh woh story hai.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">7 min read · August 2026</div>
+          <a href="about.html" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="j-card reveal d2" data-cat="care">
+      <div class="j-card-img" style="background:var(--bone);display:flex;align-items:center;justify-content:center;font-size:4rem">🌧️</div>
+      <div class="j-card-body">
+        <div class="j-cat">Shoe Care</div>
+        <h2 class="j-title">Barsaat mein Leather Shoes kaise bachayein?</h2>
+        <div class="j-excerpt">Monsoon season mein leather shoes ko damage se bachana zaroori hai. Yahan ek simple routine hai jo 5 minute mein ho jati hai.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">3 min read · July 2026</div>
+          <a href="#article-rain" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="j-card reveal d3" data-cat="style">
+      <div class="j-card-img" style="background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:4rem">🎓</div>
+      <div class="j-card-body">
+        <div class="j-cat">Style</div>
+        <h2 class="j-title">Formal Shoes ko Casual outfit ke sath kaise pehnen?</h2>
+        <div class="j-excerpt">Smart casual trend Pakistan mein tezi se barh raha hai — formal shoes ko smart casual mein mix karna ab acceptable hai.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="j-meta">4 min read · July 2026</div>
+          <a href="#article-smartcasual" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<!-- NEWSLETTER / FUTURE SITE CTA -->
+<section style="background:var(--espresso);color:var(--bone);padding:var(--space-4xl) var(--space-xl);text-align:center">
+  <div class="section-eyebrow" style="color:var(--accent-gold-lt);justify-content:center;text-align:center;margin-bottom:var(--space-lg)">Coming Soon</div>
+  <h2 style="font-family:var(--font-serif);font-size:2.5rem;color:var(--bone);margin-bottom:var(--space-lg)">Full Editorial Website</h2>
+  <p style="color:rgba(249,246,242,.62);max-width:480px;margin:0 auto var(--space-xl);line-height:1.75">
+    Hamari dedicated website <strong style="color:var(--accent-gold-lt)">www.RAWAN.pk</strong> par journal, lookbooks, craft guides, aur bohat kuch aane wala hai. WhatsApp par follow karein update ke liye.
+  </p>
+  <a href="https://wa.me/923001234567?text=RAWAN%20website%20launch%20par%20notify%20karein%20please!" class="btn btn-gold btn-lg" target="_blank">Notify Me on Launch →</a>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div><div class="footer-logo-ar">قدم</div><div class="footer-logo-en">RAWAN</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
+    <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?filter=new">New Arrivals</a><a href="shop.html?filter=bestseller">Bestsellers</a></div></div>
+    <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
+    <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
+  </div>
+  <div class="footer-bot"><span>© 2026 RAWAN Footwear.</span></div>
+</footer>
+
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hd"><div><div class="cart-hd-title">Your Bag</div><div class="cart-hd-count" id="cart-count-drawer">0 items</div></div><button class="cart-close" id="cart-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="cart-del-bar"><div class="cart-del-txt"></div><div class="del-prog"><div class="del-prog-fill" style="width:0%"></div></div></div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-empty-state" id="cart-empty-state" style="display:flex"><h3>Your bag is empty</h3></div>
+  <div class="coupon-row"><input class="coupon-inp" id="coupon-inp" placeholder="Coupon Code"><button class="btn btn-outline btn-sm" id="apply-coupon">Apply</button></div>
+  <div id="coupon-msg" class="coupon-msg"></div>
+  <div id="cart-totals" class="cart-foot"><div class="cart-totals"></div></div>
+  <div style="padding:0 var(--space-xl) var(--space-lg);background:#fff;border-top:1px solid var(--sand)"><button class="btn btn-primary btn-full" id="cart-checkout-btn">Proceed to Checkout</button></div>
+</div>
+<div class="toast-wrap" id="toast-container"></div>
+<a class="wa-float" href="https://wa.me/923001234567" target="_blank"><span class="wa-label">Chat on WhatsApp</span><div class="wa-circle"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg></div></a>
+
+<script src="js/store.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  // Journal category filter
+  document.querySelectorAll('[data-jcat]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-jcat]').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+      const cat = chip.dataset.jcat;
+      document.querySelectorAll('#journal-grid .j-card').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.style.display = '';
+          setTimeout(() => card.classList.add('in'), 50);
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
+

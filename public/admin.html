@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — RAWAN Footwear</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: #F1F1F3; }
+    .admin-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+    @media(max-width:768px){ .admin-panel-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body class="admin-body">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div class="admin-login" id="admin-login">
+  <div class="admin-login-card">
+    <div style="font-size:2.5rem;font-weight:700;font-family:serif;margin-bottom:4px">قدم</div>
+    <h2>Admin Panel</h2>
+    <p>RAWAN Footwear — Store Management</p>
+    <div class="form-grid" style="text-align:left;margin-bottom:var(--space-xl)">
+      <div class="f-group">
+        <label class="f-label">Username</label>
+        <input class="f-inp" id="admin-user" placeholder="admin" type="text">
+      </div>
+      <div class="f-group">
+        <label class="f-label">Password</label>
+        <input class="f-inp" id="admin-pass" placeholder="••••••••" type="password" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <span id="login-err" style="color:var(--danger);font-size:.78rem;font-weight:700;display:none">Invalid credentials</span>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="doLogin()">Login</button>
+    <p style="font-size:.7rem;color:var(--warm-grey);margin-top:var(--space-md)">Default: admin / RAWAN2026</p>
+  </div>
+</div>
+
+<!-- ============ ADMIN WRAP ============ -->
+<div class="admin-wrap" id="admin-wrap">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-logo">
+      <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">قدم</div>
+      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div>
+    </div>
+
+    <div class="admin-nav-sec">Main</div>
+    <button class="admin-nav-item on" data-panel="dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+    <button class="admin-nav-item" data-panel="orders">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Orders
+    </button>
+    <button class="admin-nav-item" data-panel="inventory">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      Inventory
+    </button>
+
+    <div class="admin-nav-sec">Collections</div>
+    <button class="admin-nav-item" data-panel="collections" id="nav-collections">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      Collection Manager
+    </button>
+
+    <div class="admin-nav-sec">Marketing</div>
+    <button class="admin-nav-item" data-panel="countdown">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Countdown / Offers
+    </button>
+    <button class="admin-nav-item" data-panel="coupons">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      Coupons
+    </button>
+    <button class="admin-nav-item" data-panel="analytics">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Analytics
+    </button>
+
+    <div class="admin-nav-sec">Settings</div>
+    <button class="admin-nav-item" data-panel="rto">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      RTO Ledger
+    </button>
+    <button class="admin-nav-item" data-panel="dispatch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      Dispatch
+    </button>
+    <button class="admin-nav-item" data-panel="export">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export Data
+    </button>
+    <button class="admin-nav-item" data-panel="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      Store Settings
+    </button>
+
+    <div style="padding:var(--space-xl);margin-top:auto;border-top:1px solid rgba(255,255,255,.08)">
+      <button class="btn btn-sm" style="width:100%;color:rgba(255,255,255,.5);border-color:rgba(255,255,255,.2);font-size:.72rem" onclick="doLogout()">Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="admin-main">
+    <div class="admin-topbar">
+      <div class="admin-topbar-title" id="panel-title">Dashboard</div>
+      <div class="admin-topbar-right">
+        <div class="admin-role">Owner</div>
+        <div class="admin-avatar" style="background:var(--emerald);color:var(--rose-gold-light)">RW</div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- ======= DASHBOARD ======= -->
+      <div class="admin-panel on" id="panel-dashboard">
+        <div class="stats-grid" id="stats-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="chart-card" id="revenue-chart">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md)">
+            <h3 style="font-size:1rem;font-weight:900">Revenue (Last 7 Days)</h3>
+            <span style="font-size:.72rem;color:var(--warm-grey)">Demo Data</span>
+          </div>
+          <div class="chart-bars" id="chart-bars">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <div class="admin-panel-grid">
+          <div class="admin-card">
+            <h3>Recent Orders</h3>
+            <div id="recent-orders-mini"></div>
+          </div>
+          <div class="admin-card">
+            <h3>Low Stock Alert</h3>
+            <div id="low-stock-alert"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= ORDERS ======= -->
+      <div class="admin-panel" id="panel-orders">
+        <div class="admin-tbl-wrap">
+          <div class="admin-tbl-hd">
+            <div class="admin-tbl-title">All Orders</div>
+            <div class="admin-tbl-ctrl">
+              <button class="filter-chip on" data-order-filter="all">All</button>
+              <button class="filter-chip" data-order-filter="pending">Pending</button>
+              <button class="filter-chip" data-order-filter="confirmed">Confirmed</button>
+              <button class="filter-chip" data-order-filter="dispatched">Dispatched</button>
+              <button class="filter-chip" data-order-filter="delivered">Delivered</button>
+              <button class="filter-chip" data-order-filter="cancelled">Cancelled</button>
+              <input class="admin-srch" id="order-srch" placeholder="Search name, order ID, phone...">
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-tbl">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>City</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= COLLECTION MANAGER ======= -->
+      <div class="admin-panel" id="panel-collections">
+        <div class="admin-panel-hd">
+          <div>
+            <div class="admin-panel-title">Collection Manager</div>
+            <div class="admin-panel-sub">Toggle each product between Rawan Executive and Regular Collection. Turn Highly Recommended tags on/off.</div>
+          </div>
+          <button class="btn btn-emerald btn-sm" onclick="saveAllCollectionSettings()">Save All Changes</button>
+        </div>
+
+        <div class="admin-card" style="margin-bottom:var(--space-lg);background:linear-gradient(135deg,#EEF5F2,#E8F0EC);border-color:rgba(10,58,47,.15)">
+          <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md)">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--emerald);display:flex;align-items:center;justify-content:center;color:var(--rose-gold-light);font-size:1.1rem">✦</div>
+            <div>
+              <div style="font-weight:700;color:var(--emerald)">Rawan Executive Collection</div>
+              <div style="font-size:.78rem;color:var(--warm-grey)">Products shown with emerald green theme, luxury framing, no factory blueprint banner</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:var(--space-md)">
+            <div style="width:36px;height:36px;border-radius:50%;background:var(--terracotta);display:flex;align-items:center;justify-content:center;color:white;font-size:1.1rem">◈</div>
+            <div>
+              <div style="font-weight:700;color:var(--terracotta)">Regular Collection</div>
+              <div style="font-size:.78rem;color:var(--warm-grey)">Products shown with terracotta theme, includes factory blueprint banner and cost-saving message</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card" id="collection-manager-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ======= INVENTORY ======= -->
+      <div class="admin-panel" id="panel-inventory">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-xl)">
+          <div>
+            <h2 style="font-family:var(--font-serif);font-size:1.6rem">Inventory Management</h2>
+            <p style="font-size:.82rem;color:var(--warm-grey);margin-top:4px">Har product ka size-wise stock manage karein</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveAllInventory()">Save All Changes</button>
+        </div>
+        <div class="inv-grid" id="inv-grid"><!-- Populated by JS --></div>
+      </div>
+
+      <!-- ======= COUNTDOWN / OFFERS ======= -->
+      <div class="admin-panel" id="panel-countdown">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-xl)">Countdown Timer & Offers</h2>
+
+        <div class="cd-admin-card">
+          <h3>Global Announcement Countdown</h3>
+          <div class="toggle-row">
+            <input type="checkbox" class="toggle-inp" id="cd-active">
+            <label for="cd-active" class="toggle-track"></label>
+            <span class="toggle-lbl">Countdown Active</span>
+          </div>
+          <div class="form-grid">
+            <div class="f-group">
+              <label class="f-label">Label / Offer Name</label>
+              <input class="f-inp" id="cd-label" placeholder="e.g. Eid Sale Ends In" value="Limited Drop Ends In">
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group">
+                <label class="f-label">End Date</label>
+                <input class="f-inp" id="cd-end-date" type="date">
+              </div>
+              <div class="f-group">
+                <label class="f-label">End Time</label>
+                <input class="f-inp" id="cd-end-time" type="time" value="23:59">
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveCountdown()">Save & Activate Countdown</button>
+          <div class="cd-preview">
+            <div>Announcement Bar Preview:</div>
+            <div class="cd-digits" id="cd-preview-digits">
+              <span id="cd-prev-d">02</span><span class="cd-sep">d</span>
+              <span id="cd-prev-h">14</span><span class="cd-sep">h</span>
+              <span id="cd-prev-m">32</span><span class="cd-sep">m</span>
+              <span id="cd-prev-s">08</span><span class="cd-sep">s</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cd-admin-card">
+          <h3>Homepage Drop Section</h3>
+          <div class="toggle-row">
+            <input type="checkbox" class="toggle-inp" id="drop-active" checked>
+            <label for="drop-active" class="toggle-track"></label>
+            <span class="toggle-lbl">Show Drop Section on Homepage</span>
+          </div>
+          <div class="f-group" style="margin-top:var(--space-md)">
+            <label class="f-label">Drop Title</label>
+            <input class="f-inp" id="drop-title" value="Only 20 Pairs Available.">
+          </div>
+          <div class="f-group" style="margin-top:var(--space-md)">
+            <label class="f-label">Pairs Remaining (shown as urgency)</label>
+            <input class="f-inp" id="drop-pairs" type="number" value="20" min="0" max="999">
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:var(--space-md)" onclick="saveDropSettings()">Save Drop Settings</button>
+        </div>
+      </div>
+
+      <!-- ======= COUPONS ======= -->
+      <div class="admin-panel" id="panel-coupons">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-xl)">Coupon Management</h2>
+
+        <div class="admin-card">
+          <h3>Create New Coupon</h3>
+          <div class="admin-form-row">
+            <div class="f-group">
+              <label class="f-label">Coupon Code</label>
+              <input class="f-inp" id="new-coupon-code" placeholder="EID20" style="text-transform:uppercase">
+            </div>
+            <div class="f-group">
+              <label class="f-label">Discount Type</label>
+              <select class="f-sel" id="new-coupon-type">
+                <option value="percent">Percentage (%)</option>
+                <option value="flat">Flat Amount (Rs.)</option>
+              </select>
+            </div>
+          </div>
+          <div class="admin-form-row">
+            <div class="f-group">
+              <label class="f-label">Value</label>
+              <input class="f-inp" id="new-coupon-value" type="number" placeholder="10" min="1">
+            </div>
+            <div class="f-group">
+              <label class="f-label">Label (shown to customer)</label>
+              <input class="f-inp" id="new-coupon-label" placeholder="10% off — Eid Special">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="createCoupon()">Create Coupon</button>
+        </div>
+
+        <div class="admin-card">
+          <h3>Active Coupons</h3>
+          <div class="coupon-list" id="coupon-list"><!-- Populated by JS --></div>
+        </div>
+      </div>
+
+      <!-- ======= ANALYTICS ======= -->
+      <div class="admin-panel" id="panel-analytics">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-xl)">Analytics Overview</h2>
+        <div class="stats-grid" id="analytics-stats"><!-- Populated by JS --></div>
+        <div class="chart-card">
+          <h3 style="font-size:1rem;font-weight:900;margin-bottom:var(--space-lg)">Orders by City (Top 5)</h3>
+          <div id="city-analytics"><!-- Populated by JS --></div>
+        </div>
+        <div class="chart-card">
+          <h3 style="font-size:1rem;font-weight:900;margin-bottom:var(--space-lg)">Best Selling Products</h3>
+          <div id="product-analytics"><!-- Populated by JS --></div>
+        </div>
+      </div>
+
+      <!-- ======= RTO LEDGER ======= -->
+      <div class="admin-panel" id="panel-rto">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-sm)">RTO Risk Ledger</h2>
+        <p style="font-size:.85rem;color:var(--warm-grey);margin-bottom:var(--space-xl)">Phone numbers jinhon ne delivery refuse ki — unka record. High risk orders par advance deposit required.</p>
+
+        <div class="admin-card">
+          <h3>Mark RTO / Failed Delivery</h3>
+          <div style="display:flex;gap:8px;margin-top:var(--space-sm)">
+            <input class="admin-srch" id="rto-phone-inp" placeholder="03xx-xxxxxxx" style="flex:1;width:auto">
+            <button class="btn btn-primary btn-sm" onclick="markRTO()">Mark as RTO</button>
+          </div>
+        </div>
+
+        <div class="admin-tbl-wrap">
+          <div class="admin-tbl-hd"><div class="admin-tbl-title">RTO Records</div></div>
+          <table class="admin-tbl">
+            <thead><tr><th>Phone</th><th>RTO Count</th><th>Risk Level</th><th>Last Date</th><th>Actions</th></tr></thead>
+            <tbody id="rto-tbody"><!-- Populated by JS --></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ======= DISPATCH ======= -->
+      <div class="admin-panel" id="panel-dispatch">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-xl)">Courier Dispatch Management</h2>
+
+        <div class="admin-tbl-wrap">
+          <div class="admin-tbl-hd">
+            <div class="admin-tbl-title">Orders Ready to Dispatch</div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-tbl">
+              <thead><tr><th>Order ID</th><th>Customer</th><th>City</th><th>Courier</th><th>Tracking #</th><th>Status</th></tr></thead>
+              <tbody id="dispatch-tbody"><!-- Populated by JS --></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= EXPORT ======= -->
+      <div class="admin-panel" id="panel-export">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-sm)">Export Data</h2>
+        <p style="font-size:.85rem;color:var(--warm-grey);margin-bottom:var(--space-xl)">Orders aur customer data ko CSV ya JSON format mein download karein.</p>
+
+        <div class="admin-card">
+          <h3>Orders Export</h3>
+          <p style="font-size:.82rem;color:var(--warm-grey);margin-bottom:var(--space-lg)">Sare orders download karein — Excel/Sheets mein open ho jayega.</p>
+          <div class="export-row">
+            <button class="btn btn-primary btn-sm" onclick="exportCSV()">⬇ Export Orders CSV</button>
+            <button class="btn btn-outline btn-sm" onclick="exportJSON()">⬇ Export Orders JSON</button>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3>Customer Data</h3>
+          <p style="font-size:.82rem;color:var(--warm-grey);margin-bottom:var(--space-lg)">Customer phone, city, total spend data.</p>
+          <div class="export-row">
+            <button class="btn btn-outline btn-sm" onclick="exportCustomers()">⬇ Export Customers CSV</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= SETTINGS ======= -->
+      <div class="admin-panel" id="panel-settings">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-xl)">Store Settings</h2>
+
+        <div class="admin-card">
+          <h3>Business Information</h3>
+          <div class="form-grid">
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">WhatsApp Number</label><input class="f-inp" id="set-wa" value="923001234567"></div>
+              <div class="f-group"><label class="f-label">Admin Password</label><input class="f-inp" id="set-pass" type="password" placeholder="New password"></div>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">Free Delivery Threshold (Rs.)</label><input class="f-inp" id="set-free-del" type="number" value="4999"></div>
+              <div class="f-group"><label class="f-label">Delivery Charge (Rs.)</label><input class="f-inp" id="set-del-charge" type="number" value="250"></div>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">Advance Deposit Amount (Rs.)</label><input class="f-inp" id="set-advance" type="number" value="200"></div>
+              <div class="f-group"><label class="f-label">High Value Threshold (Rs.)</label><input class="f-inp" id="set-hv" type="number" value="15000"></div>
+            </div>
+            <div class="f-group">
+              <label class="f-label">Future Website URL (blog/editorial)</label>
+              <input class="f-inp" id="set-website" placeholder="https://www.RAWAN.pk">
+              <span style="font-size:.72rem;color:var(--warm-grey);margin-top:4px">Yeh URL footer mein show hoga jab ready ho.</span>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:var(--space-lg)" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <div class="admin-card">
+          <h3>Bank Details</h3>
+          <div class="form-grid">
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">Bank Name</label><input class="f-inp" id="set-bank" value="HBL"></div>
+              <div class="f-group"><label class="f-label">Account Name</label><input class="f-inp" id="set-acc-name" value="RAWAN Footwear"></div>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">Account Number</label><input class="f-inp" id="set-acc-num" value="0012345678901"></div>
+              <div class="f-group"><label class="f-label">IBAN</label><input class="f-inp" id="set-iban" value="PK36HABB0012345678901"></div>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label">EasyPaisa Number</label><input class="f-inp" id="set-ep" placeholder="03xx-xxxxxxx"></div>
+              <div class="f-group"><label class="f-label">JazzCash Number</label><input class="f-inp" id="set-jc" placeholder="03xx-xxxxxxx"></div>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm" style="margin-top:var(--space-lg)" onclick="saveBankDetails()">Save Bank Details</button>
+        </div>
+
+        <div class="admin-card">
+          <h3 style="color:var(--danger)">Danger Zone</h3>
+          <p style="font-size:.82rem;color:var(--warm-grey);margin-bottom:var(--space-md)">Sare orders aur data delete ho jayega — irreversible action.</p>
+          <button class="btn btn-sm" style="border-color:var(--danger);color:var(--danger)" onclick="if(confirm('Sab kuch delete hoga — sure hain?')){localStorage.clear();Toast.show('All data cleared','error');location.reload()}">⚠️ Clear All Data</button>
+        </div>
+      </div>
+
+    </div><!-- /admin-content -->
+  </div><!-- /admin-main -->
+</div><!-- /admin-wrap -->
+
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="js/store.js"></script>
+<script src="js/seed.js"></script>
+<script>
+/* ============================================================
+   ADMIN LOGIC
+   ============================================================ */
+
+const ADMIN_CREDS = { user: 'admin', pass: 'RAWAN2026' };
+
+// ---- AUTH ----
+function doLogin() {
+  const user = document.getElementById('admin-user').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+  if (user === ADMIN_CREDS.user && pass === ADMIN_CREDS.pass) {
+    sessionStorage.setItem('RAWAN_admin', '1');
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-wrap').classList.add('on');
+    initAdmin();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('RAWAN_admin');
+  location.reload();
+}
+
+// ---- PANEL NAVIGATION ----
+document.querySelectorAll('.admin-nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const panel = item.dataset.panel;
+    document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('on'));
+    document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('on'));
+    item.classList.add('on');
+    document.getElementById('panel-' + panel)?.classList.add('on');
+    document.getElementById('panel-title').textContent = item.textContent.trim();
+    if (panel === 'orders') renderOrders();
+    if (panel === 'inventory') renderInventory();
+    if (panel === 'coupons') renderCoupons();
+    if (panel === 'rto') renderRTO();
+    if (panel === 'dispatch') renderDispatch();
+    if (panel === 'analytics') renderAnalytics();
+    if (panel === 'collections') renderCollectionManager();
+  });
+});
+
+function initAdmin() {
+  renderDashboard();
+  renderOrders();
+  renderInventory();
+  renderCoupons();
+  renderRTO();
+  renderDispatch();
+  renderCollectionManager();
+
+  // Set default countdown date
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 3);
+  document.getElementById('cd-end-date').value = tomorrow.toISOString().split('T')[0];
+
+  // Order search
+  document.getElementById('order-srch').addEventListener('input', renderOrders);
+  document.querySelectorAll('[data-order-filter]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-order-filter]').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+      renderOrders();
+    });
+  });
+}
+
+// ---- DASHBOARD ----
+function renderDashboard() {
+  const orders = Store.orders;
+  const totalRev = orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.total, 0);
+  const pending = orders.filter(o => o.status === 'pending').length;
+  const delivered = orders.filter(o => o.status === 'delivered').length;
+  const cancelled = orders.filter(o => o.status === 'cancelled').length;
+
+  document.getElementById('stats-grid').innerHTML = `
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">Total Revenue</div>
+          <div class="stat-val">Rs. ${(totalRev/1000).toFixed(0)}K</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      </div>
+      <div class="stat-change up">↑ All Time</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">Total Orders</div>
+          <div class="stat-val">${orders.length}</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>
+      </div>
+      <div class="stat-change up">Live data</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">Pending COD</div>
+          <div class="stat-val">${pending}</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      </div>
+      <div class="stat-change ${pending > 0 ? 'dn' : 'up'}">${pending > 0 ? 'Needs verification' : 'All clear!'}</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">Delivered</div>
+          <div class="stat-val">${delivered}</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
+      </div>
+      <div class="stat-change up">✓ Successful</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">Cancelled / RTO</div>
+          <div class="stat-val">${cancelled}</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+      </div>
+      <div class="stat-change ${cancelled > 0 ? 'dn' : 'up'}">${cancelled > 0 ? 'Review RTO ledger' : 'No cancellations'}</div>
+    </div>
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="stat-lbl">RTO Ledger</div>
+          <div class="stat-val">${Object.keys(Store.rtoLedger).length}</div>
+        </div>
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
+      </div>
+      <div class="stat-change ${Object.keys(Store.rtoLedger).length > 0 ? 'dn' : 'up'}">High risk numbers</div>
+    </div>
+  `;
+
+  // Chart (demo data)
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const vals = [12000,28000,18000,35000,22000,45000,31000];
+  const max = Math.max(...vals);
+  document.getElementById('chart-bars').innerHTML = days.map((d, i) => `
+    <div class="chart-bar-grp">
+      <div class="chart-bar" style="height:${Math.round((vals[i]/max)*140)}px" data-v="Rs. ${(vals[i]/1000).toFixed(0)}K"></div>
+      <div class="chart-lbl">${d}</div>
+    </div>
+  `).join('');
+
+  // Recent orders mini
+  const recent = [...Store.orders].reverse().slice(0, 5);
+  document.getElementById('recent-orders-mini').innerHTML = recent.length ? recent.map(o => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0F0F2;font-size:.82rem">
+      <div>
+        <div style="font-weight:700">${o.customer.name}</div>
+        <div style="font-size:.72rem;color:var(--warm-grey)">${o.id}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:800">Rs. ${o.total.toLocaleString()}</div>
+        <div class="status s-${o.status}" style="margin-top:2px">${o.status}</div>
+      </div>
+    </div>
+  `).join('') : '<p style="font-size:.82rem;color:var(--warm-grey)">Koi order nahi abhi tak</p>';
+
+  // Low stock
+  const lowStock = [];
+  PRODUCTS.forEach(p => {
+    Object.entries(p.stock).forEach(([sz, qty]) => {
+      if (qty <= 2) lowStock.push({ name: p.name, size: sz, qty });
+    });
+  });
+  document.getElementById('low-stock-alert').innerHTML = lowStock.length ? lowStock.map(ls => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0F0F2;font-size:.82rem">
+      <div style="font-weight:700">${ls.name} <span style="color:var(--warm-grey)">EU ${ls.size}</span></div>
+      <div style="font-weight:900;color:${ls.qty === 0 ? 'var(--danger)' : 'var(--warning)'}">
+        ${ls.qty === 0 ? 'OUT' : ls.qty + ' left'}
+      </div>
+    </div>
+  `).join('') : '<p style="font-size:.82rem;color:var(--success)">✓ All sizes well stocked</p>';
+
+  setTimeout(animateChartBars, 200);
+}
+
+// ---- ORDERS TABLE ----
+async function renderOrders() {
+  const filterEl = document.querySelector('[data-order-filter].on');
+  const filter = filterEl?.dataset.orderFilter || 'all';
+  const search = document.getElementById('order-srch')?.value.toLowerCase() || '';
+
+  let serverOrders = await RawanAPI.getOrders(filter, search);
+    let orders = serverOrders && serverOrders.length ? serverOrders : [...Store.orders].reverse();
+  if (filter !== 'all') orders = orders.filter(o => o.status === filter);
+  if (search) orders = orders.filter(o =>
+    o.id.toLowerCase().includes(search) ||
+    o.customer.name.toLowerCase().includes(search) ||
+    o.customer.phone.includes(search) ||
+    o.customer.city.toLowerCase().includes(search)
+  );
+
+  const tbody = document.getElementById('orders-tbody');
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi order nahi mila</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = orders.map(order => {
+    const risk = RTO.getRiskLevel(order.customer.phone);
+    const isRTO = risk === 'high';
+    return `
+      <tr class="${isRTO ? 'rto' : ''}">
+        <td><span style="font-family:monospace;font-weight:700">${order.id}</span>${isRTO ? '<br><span class="rto-badge">⚠ HIGH RISK</span>' : ''}</td>
+        <td>
+          <div style="font-weight:700">${order.customer.name}</div>
+          <div style="font-size:.72rem;color:var(--warm-grey)">${order.customer.phone}</div>
+        </td>
+        <td>${order.customer.city}</td>
+        <td style="font-size:.78rem">${order.items.map(i => `${i.name} (${i.size})`).join(', ')}</td>
+        <td style="font-weight:800">Rs. ${order.total.toLocaleString()}</td>
+        <td><span style="font-size:.78rem;font-weight:700;text-transform:uppercase">${order.paymentMethod === 'cod' ? '💵 COD' : '🏦 Bank'}</span></td>
+        <td><span class="status s-${order.status}">${order.status}</span></td>
+        <td>
+          <div class="ord-actions">
+            <button class="act-btn act-wa" onclick="sendWAVerification('${order.id}')">📱 Verify</button>
+            <button class="act-btn act-status" onclick="changeStatus('${order.id}')">Update Status</button>
+            ${isRTO ? `<button class="act-btn act-danger" onclick="clearRTO('${order.customer.phone}')">Clear RTO</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function sendWAVerification(orderId) {
+  const order = Store.orders.find(o => o.id === orderId);
+  if (!order) return;
+  const url = Checkout.generateWhatsAppVerification(order);
+  window.open(url, '_blank');
+  Toast.show(`WhatsApp verification sent for ${orderId}`, 'success');
+}
+
+function changeStatus(orderId) {
+  const order = Store.orders.find(o => o.id === orderId);
+  if (!order) return;
+  const statuses = ['pending','confirmed','packed','dispatched','delivered','cancelled'];
+  const current = statuses.indexOf(order.status);
+  const next = statuses[(current + 1) % statuses.length];
+  const confirm = window.confirm(`Status change: ${order.status} → ${next}?`);
+  if (confirm) {
+    order.status = next;
+      RawanAPI.updateOrderStatus(orderId, next);
+    Store.save();
+    renderOrders();
+    renderDashboard();
+    Toast.show(`Order ${orderId} → ${next}`, 'success');
+  }
+}
+
+function clearRTO(phone) {
+  if (window.confirm(`RTO record clear karein: ${phone}?`)) {
+    delete Store.rtoLedger[phone.replace(/\D/g, '')];
+    Store.save();
+    renderRTO();
+    renderOrders();
+    Toast.show('RTO record cleared', 'success');
+  }
+}
+
+// ---- INVENTORY ----
+function renderInventory() {
+  const grid = document.getElementById('inv-grid');
+  grid.innerHTML = PRODUCTS.map(p => `
+    <div class="inv-card">
+      <div class="inv-card-hd">
+        <div class="inv-card-img" style="font-size:1.5rem">👟</div>
+        <div>
+          <div class="inv-card-name">${p.name}</div>
+          <div class="inv-card-cat">${p.category.join(' · ')}</div>
+        </div>
+      </div>
+      <div class="inv-sizes">
+        ${Object.entries(p.stock).map(([sz, qty]) => `
+          <div class="inv-sz">
+            <span class="inv-sz-lbl">${sz}</span>
+            <input class="inv-sz-inp ${qty === 0 ? 'zero' : qty <= 2 ? 'low' : ''}" 
+                   type="number" min="0" max="999" value="${qty}"
+                   data-product="${p.id}" data-size="${sz}"
+                   onchange="updateStockUI(this)">
+          </div>
+        `).join('')}
+      </div>
+      <div class="inv-save-row">
+        <button class="btn btn-primary btn-sm" style="flex:1" onclick="saveProductInventory('${p.id}')">Save ${p.name.split(' ')[1]}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStockUI(inp) {
+  const val = parseInt(inp.value) || 0;
+  inp.className = 'inv-sz-inp ' + (val === 0 ? 'zero' : val <= 2 ? 'low' : '');
+}
+
+function saveProductInventory(productId) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+  document.querySelectorAll(`[data-product="${productId}"]`).forEach(inp => {
+    product.stock[inp.dataset.size] = parseInt(inp.value) || 0;
+  });
+  Toast.show(`${product.name} stock updated`, 'success');
+}
+
+function saveAllInventory() {
+  PRODUCTS.forEach(p => saveProductInventory(p.id));
+  Toast.show('All inventory saved', 'success');
+}
+
+// ---- COUPONS ----
+function renderCoupons() {
+  const list = document.getElementById('coupon-list');
+  const coupons = Object.entries(Store.coupons);
+  list.innerHTML = coupons.length ? coupons.map(([code, c]) => `
+    <div class="coupon-row-adm">
+      <div>
+        <div class="coupon-code">${code}</div>
+        <div class="coupon-det">${c.type === 'percent' ? c.value + '% off' : 'Rs. ' + c.value + ' off'} · ${c.label}</div>
+      </div>
+      <button class="act-btn act-danger" onclick="deleteCoupon('${code}')">Delete</button>
+    </div>
+  `).join('') : '<p style="font-size:.82rem;color:var(--warm-grey)">No coupons yet</p>';
+}
+
+function createCoupon() {
+  const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
+  const type = document.getElementById('new-coupon-type').value;
+  const value = parseFloat(document.getElementById('new-coupon-value').value);
+  const label = document.getElementById('new-coupon-label').value.trim();
+  if (!code || !value || !label) { Toast.show('Fill all fields', 'error'); return; }
+  Store.coupons[code] = { type, value, label };
+  renderCoupons();
+  Toast.show(`Coupon ${code} created`, 'success');
+  document.getElementById('new-coupon-code').value = '';
+  document.getElementById('new-coupon-value').value = '';
+  document.getElementById('new-coupon-label').value = '';
+}
+
+function deleteCoupon(code) {
+  if (window.confirm(`Delete coupon "${code}"?`)) {
+    delete Store.coupons[code];
+    renderCoupons();
+    Toast.show(`Coupon ${code} deleted`, 'error');
+  }
+}
+
+// ---- COUNTDOWN ----
+function saveCountdown() {
+  const active = document.getElementById('cd-active').checked;
+  const label = document.getElementById('cd-label').value;
+  const date = document.getElementById('cd-end-date').value;
+  const time = document.getElementById('cd-end-time').value;
+  if (!date) { Toast.show('End date select karein', 'error'); return; }
+  const endTime = new Date(`${date}T${time || '23:59'}:00`);
+  const config = { active, label, endTime: endTime.toISOString() };
+  localStorage.setItem('RAWAN_countdown', JSON.stringify(config));
+  Store.countdownConfig = config;
+  if (active) Countdown.start(endTime, label);
+  else Countdown.clear();
+  Toast.show('Countdown saved & activated', 'success');
+}
+
+function saveDropSettings() {
+  Toast.show('Drop settings saved', 'success');
+}
+
+// ---- RTO ----
+function markRTO() {
+  const phone = document.getElementById('rto-phone-inp').value.trim();
+  if (!phone) { Toast.show('Phone number dalein', 'error'); return; }
+  RTO.logRefusal(phone);
+  document.getElementById('rto-phone-inp').value = '';
+  renderRTO();
+  Toast.show(`${phone} marked as RTO`, 'error');
+}
+
+function renderRTO() {
+  const tbody = document.getElementById('rto-tbody');
+  const entries = Object.entries(Store.rtoLedger);
+  if (!entries.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi RTO record nahi</td></tr>';
+    return;
+  }
+  tbody.innerHTML = entries.map(([phone, record]) => {
+    const risk = record.count >= 3 ? 'HIGH' : record.count >= 1 ? 'MEDIUM' : 'LOW';
+    const riskColor = risk === 'HIGH' ? 'var(--danger)' : risk === 'MEDIUM' ? 'var(--warning)' : 'var(--success)';
+    const lastDate = record.dates.length ? new Date(record.dates[record.dates.length - 1]).toLocaleDateString('en-PK') : '—';
+    return `
+      <tr>
+        <td style="font-family:monospace;font-weight:700">${phone}</td>
+        <td style="font-weight:900">${record.count}</td>
+        <td><span style="font-weight:900;color:${riskColor}">${risk}</span></td>
+        <td style="color:var(--warm-grey)">${lastDate}</td>
+        <td><button class="act-btn act-danger" onclick="clearRTO('${phone}')">Clear</button></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// ---- DISPATCH ----
+function renderDispatch() {
+  const tbody = document.getElementById('dispatch-tbody');
+  const orders = Store.orders.filter(o => ['confirmed','packed'].includes(o.status));
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi order dispatch ke liye ready nahi</td></tr>';
+    return;
+  }
+  tbody.innerHTML = orders.map(order => `
+    <tr>
+      <td style="font-family:monospace;font-weight:700">${order.id}</td>
+      <td>${order.customer.name}<br><span style="font-size:.72rem;color:var(--warm-grey)">${order.customer.phone}</span></td>
+      <td>${order.customer.city}</td>
+      <td>
+        <select class="sort-sel" style="width:100%" onchange="updateCourier('${order.id}', this.value)">
+          <option value="">Select Courier</option>
+          <option value="TCS" ${order.courier==='TCS'?'selected':''}>TCS</option>
+          <option value="Leopards" ${order.courier==='Leopards'?'selected':''}>Leopards</option>
+          <option value="M&P" ${order.courier==='M&P'?'selected':''}>M&P</option>
+          <option value="PostEx" ${order.courier==='PostEx'?'selected':''}>PostEx</option>
+          <option value="Trax" ${order.courier==='Trax'?'selected':''}>Trax</option>
+        </select>
+      </td>
+      <td><input class="admin-srch" style="width:100%" placeholder="Tracking #" value="${order.trackingId||''}" onchange="updateTracking('${order.id}', this.value)"></td>
+      <td><span class="status s-${order.status}">${order.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function updateCourier(orderId, courier) {
+  const order = Store.orders.find(o => o.id === orderId);
+  if (order) { order.courier = courier; Store.save(); }
+}
+
+function updateTracking(orderId, trackingId) {
+  const order = Store.orders.find(o => o.id === orderId);
+  if (order) {
+    order.trackingId = trackingId;
+    if (trackingId && order.status === 'packed') {
+      order.status = 'dispatched';
+    }
+    Store.save();
+    Toast.show(`Tracking updated: ${trackingId}`, 'success');
+  }
+}
+
+// ---- ANALYTICS ----
+function renderAnalytics() {
+  const orders = Store.orders;
+  const cityCount = {};
+  const productCount = {};
+  orders.forEach(o => {
+    cityCount[o.customer.city] = (cityCount[o.customer.city] || 0) + 1;
+    o.items.forEach(i => { productCount[i.name] = (productCount[i.name] || 0) + i.qty; });
+  });
+
+  const topCities = Object.entries(cityCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
+  const topProducts = Object.entries(productCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
+
+  document.getElementById('city-analytics').innerHTML = topCities.length
+    ? topCities.map(([city, count]) => `
+        <div style="display:flex;align-items:center;gap:var(--space-md);padding:10px 0;border-bottom:1px solid #F0F0F2">
+          <div style="font-weight:700;min-width:120px">${city}</div>
+          <div style="flex:1;height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden">
+            <div style="height:100%;background:var(--obsidian);border-radius:4px;width:${Math.round(count/topCities[0][1]*100)}%"></div>
+          </div>
+          <div style="font-weight:800;min-width:30px;text-align:right">${count}</div>
+        </div>
+      `).join('')
+    : '<p style="color:var(--warm-grey)">No data yet</p>';
+
+  document.getElementById('product-analytics').innerHTML = topProducts.length
+    ? topProducts.map(([name, count]) => `
+        <div style="display:flex;align-items:center;gap:var(--space-md);padding:10px 0;border-bottom:1px solid #F0F0F2">
+          <div style="font-weight:700;min-width:160px;font-size:.85rem">${name}</div>
+          <div style="flex:1;height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden">
+            <div style="height:100%;background:var(--accent-gold);border-radius:4px;width:${Math.round(count/topProducts[0][1]*100)}%"></div>
+          </div>
+          <div style="font-weight:800;min-width:30px;text-align:right">${count}</div>
+        </div>
+      `).join('')
+    : '<p style="color:var(--warm-grey)">No data yet</p>';
+}
+
+// ---- EXPORT ----
+function exportCSV() {
+  const orders = Store.orders;
+  if (!orders.length) { Toast.show('No orders to export', 'error'); return; }
+  const headers = ['Order ID','Date','Name','Phone','Email','Address','City','Items','Subtotal','Discount','Delivery','Total','Payment','Status','Courier','Tracking'];
+  const rows = orders.map(o => [
+    o.id,
+    new Date(o.date).toLocaleDateString('en-PK'),
+    o.customer.name, o.customer.phone, o.customer.email || '',
+    o.customer.address, o.customer.city,
+    o.items.map(i => `${i.name} x${i.qty}`).join(' | '),
+    o.subtotal, o.discount || 0, o.delivery, o.total,
+    o.paymentMethod, o.status, o.courier || '', o.trackingId || ''
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  downloadFile('RAWAN_orders.csv', csv, 'text/csv');
+  Toast.show('Orders CSV downloaded', 'success');
+}
+
+function exportJSON() {
+  downloadFile('RAWAN_orders.json', JSON.stringify(Store.orders, null, 2), 'application/json');
+  Toast.show('Orders JSON downloaded', 'success');
+}
+
+function exportCustomers() {
+  const customers = Store.orders.map(o => ({
+    name: o.customer.name,
+    phone: o.customer.phone,
+    city: o.customer.city,
+    totalSpend: o.total,
+    orders: 1
+  }));
+  const headers = ['Name','Phone','City','Total Spend'];
+  const rows = customers.map(c => [c.name, c.phone, c.city, c.totalSpend]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  downloadFile('RAWAN_customers.csv', csv, 'text/csv');
+  Toast.show('Customers CSV downloaded', 'success');
+}
+
+function downloadFile(filename, content, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ---- SETTINGS ----
+function saveSettings() {
+  Toast.show('Settings saved', 'success');
+}
+
+function saveBankDetails() {
+  Toast.show('Bank details saved', 'success');
+}
+
+// ---- COLLECTION MANAGER ----
+function renderCollectionManager() {
+  const grid = document.getElementById('collection-manager-grid');
+  if (!grid || typeof PRODUCTS === 'undefined') return;
+
+  grid.innerHTML = PRODUCTS.map(product => {
+    const currentColl = Store.getProductSetting(product.id, 'collection', product.collection);
+    const isExec = currentColl === 'executive';
+    const isRecommended = Store.getProductSetting(product.id, 'recommended', product.recommended);
+    const heelTag = product.heelHeight ? `<span style="background:var(--bone);padding:2px 8px;border-radius:99px;font-size:.65rem;font-weight:600;color:var(--mid-grey)">👠 ${product.heelHeight}</span>` : '';
+
+    return `
+      <div class="collection-toggle-row" id="ctr-${product.id}">
+        <div class="coll-toggle-info">
+          <div class="coll-toggle-name">${product.name} ${heelTag}</div>
+          <div class="coll-toggle-status" id="ctr-status-${product.id}">
+            Currently: <strong style="color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong>
+          </div>
+        </div>
+        <div class="coll-toggle-controls">
+          <div>
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:4px;text-align:center">Collection</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span style="font-size:.72rem;color:var(--terracotta);font-weight:600">Regular</span>
+              <div class="toggle-sw ${isExec ? 'exec-on' : ''}" id="coll-toggle-${product.id}" onclick="toggleCollection('${product.id}', this)"></div>
+              <span style="font-size:.72rem;color:var(--emerald);font-weight:600">Executive</span>
+            </div>
+          </div>
+          <div style="width:1px;height:40px;background:var(--light-grey);margin:0 var(--space-sm)"></div>
+          <div>
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:4px;text-align:center">⭐ Recommended</div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <span style="font-size:.72rem;color:var(--warm-grey);font-weight:600">Off</span>
+              <div class="toggle-sw ${isRecommended ? 'on' : ''}" id="rec-toggle-${product.id}" onclick="toggleRecommended('${product.id}', this)"></div>
+              <span style="font-size:.72rem;color:var(--success);font-weight:600">On</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCollection(productId, toggleEl) {
+  const isNowExec = !toggleEl.classList.contains('exec-on');
+  toggleEl.classList.toggle('exec-on', isNowExec);
+  toggleEl.classList.toggle('on', false);
+  Store.updateProductSetting(productId, 'collection', isNowExec ? 'executive' : 'regular');
+  const statusEl = document.getElementById(`ctr-status-${productId}`);
+  if (statusEl) {
+    statusEl.innerHTML = `Currently: <strong style="color:${isNowExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isNowExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong>`;
+  }
+}
+
+function toggleRecommended(productId, toggleEl) {
+  const isNowOn = !toggleEl.classList.contains('on');
+  toggleEl.classList.toggle('on', isNowOn);
+  Store.updateProductSetting(productId, 'recommended', isNowOn);
+}
+
+function saveAllCollectionSettings() {
+  Store.save();
+  Toast.show('✓ Collection settings saved! Changes will reflect on store.', 'success');
+}
+
+// ---- AUTO LOGIN CHECK ----
+window.addEventListener('load', () => {
+  if (sessionStorage.getItem('RAWAN_admin')) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-wrap').classList.add('on');
+    initAdmin();
+  }
+});
+</script>
+
+</body>
+</html>
+

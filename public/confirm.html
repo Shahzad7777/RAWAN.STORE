@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — RAWAN Footwear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left"></div>
+    <a href="index.html" class="nav-logo">
+      <span class="logo-ar">قدم</span>
+      <span class="logo-en">RAWAN</span>
+      <span class="logo-sub">Footwear</span>
+    </a>
+    <div class="nav-right"></div>
+  </nav>
+</div>
+
+<div class="confirm-wrap">
+  <div class="confirm-icon-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="section-eyebrow" style="text-align:center;margin-bottom:var(--space-sm)">Order Placed Successfully!</div>
+  <h1 class="t-serif" style="font-size:2.5rem;margin-bottom:var(--space-md);line-height:1.1">Shukriya aapka!</h1>
+  <p style="font-size:.95rem;color:var(--warm-grey);line-height:1.75;margin-bottom:var(--space-xl)">
+    Aapka order receive ho gaya hai. Hum jald hi WhatsApp par verification message bhejenge.
+  </p>
+
+  <div class="order-id-badge" id="confirm-order-id">QD-XXXXXX</div>
+
+  <div class="confirm-steps">
+    <div class="c-step">
+      <div class="c-step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <div class="c-step-lbl">Order Placed</div>
+    </div>
+    <div class="c-step">
+      <div class="c-step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <div class="c-step-lbl">WhatsApp Verification</div>
+    </div>
+    <div class="c-step">
+      <div class="c-step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      </div>
+      <div class="c-step-lbl">Packed & Dispatched</div>
+    </div>
+    <div class="c-step">
+      <div class="c-step-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="c-step-lbl">Delivered</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bone-dark);border-radius:var(--radius-md);padding:var(--space-xl);margin-bottom:var(--space-xl);text-align:left" id="order-details-box">
+    <!-- Populated by JS -->
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:var(--space-md);align-items:center">
+    <a href="tracking.html" class="btn btn-outline btn-full">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Track My Order
+    </a>
+    <a href="https://wa.me/923001234567" class="btn btn-wa btn-full" target="_blank">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg>
+      Chat on WhatsApp
+    </a>
+    <a href="shop.html" class="btn btn-ghost">Continue Shopping →</a>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="js/store.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get('order');
+    const order = Store.orders.find(o => o.id === orderId);
+
+    document.getElementById('confirm-order-id').textContent = orderId || 'QD-CONFIRM';
+
+    if (order) {
+      const detailsBox = document.getElementById('order-details-box');
+      detailsBox.innerHTML = `
+        <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:var(--space-md)">Order Details</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;justify-content:space-between;font-size:.84rem">
+            <span style="color:var(--warm-grey)">Order ID</span>
+            <span style="font-weight:800;font-family:monospace">${order.id}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem">
+            <span style="color:var(--warm-grey)">Name</span>
+            <span style="font-weight:700">${order.customer.name}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem">
+            <span style="color:var(--warm-grey)">Phone</span>
+            <span style="font-weight:700">${order.customer.phone}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem">
+            <span style="color:var(--warm-grey)">City</span>
+            <span style="font-weight:700">${order.customer.city}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem">
+            <span style="color:var(--warm-grey)">Payment</span>
+            <span style="font-weight:700">${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.84rem;padding-top:8px;border-top:1px solid var(--sand);margin-top:4px">
+            <span style="font-weight:900;color:var(--obsidian)">Total</span>
+            <span style="font-weight:900;font-size:1rem">Rs. ${order.total.toLocaleString()}</span>
+          </div>
+        </div>
+        ${order.advanceRequired ? `<div style="margin-top:var(--space-md);padding:var(--space-md);background:rgba(201,145,58,.1);border-radius:var(--radius-sm);font-size:.78rem;color:var(--warning);line-height:1.6">⚠️ <strong>Advance Deposit Required:</strong> Rs. 200 EasyPaisa/JazzCash par bhejein.</div>` : ''}
+      `;
+    }
+
+    Toast.show('Order successfully placed! WhatsApp check karein.', 'success', 5000);
+  });
+</script>
+
+</body>
+</html>
+

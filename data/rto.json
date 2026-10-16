@@ -1,0 +1,16 @@
+{
+  "03121234567": {
+    "phone": "03121234567",
+    "reason": "Multiple cancelled orders",
+    "rtoCount": 2,
+    "riskLevel": "High",
+    "date": "2026-10-16T09:52:39.497Z"
+  },
+  "03091234567": {
+    "phone": "03091234567",
+    "reason": "Number not reachable",
+    "rtoCount": 1,
+    "riskLevel": "Medium",
+    "date": "2026-10-16T09:52:39.497Z"
+  }
+}

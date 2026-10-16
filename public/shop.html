@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop All — RAWAN Footwear</title>
+  <meta name="description" content="Shop RAWAN Footwear complete collection — men, women, everyday, occasion. Loafers, runners, slip-ons, sandals, formals. Free delivery on Rs. 4,999+.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ANN BAR -->
+<div class="ann-bar">
+  <span>🚚 Free Delivery Rs. 4,999+</span>
+  <span class="ann-sep">|</span>
+  <span class="ann-countdown" id="ann-countdown">⏳ Loading...</span>
+  <span class="ann-sep">|</span>
+  <a href="exchange.html">7-Day Exchange →</a>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div class="nav-links">
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=men">Men</a>
+        <a href="shop.html?filter=women">Women</a>
+        <a href="shop.html?filter=bestseller">Bestsellers</a>
+        <a href="journal.html">Journal</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <a href="index.html" class="nav-logo">
+      <span class="logo-ar">قدم</span>
+      <span class="logo-en">RAWAN</span>
+      <span class="logo-sub">Footwear</span>
+    </a>
+    <div class="nav-right">
+      <button class="nav-icon cart-trigger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cart-badge-nav">0</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-nav-close" id="mob-nav-close">✕</button>
+  <div class="mob-nav-links">
+    <a href="shop.html?filter=new">New Arrivals</a>
+    <a href="shop.html?filter=men">Men</a>
+    <a href="shop.html?filter=women">Women</a>
+    <a href="shop.html?filter=bestseller">Bestsellers</a>
+    <a href="journal.html">Journal</a>
+    <a href="about.html">About</a>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero-bar">
+  <h1 id="shop-page-title">The Rawan Collection</h1>
+  <p>Luxury heels, sandals & party wear — two collections, one destination.</p>
+</div>
+
+<!-- SHOP LAYOUT -->
+<div class="shop-layout">
+  <!-- FILTER SIDEBAR -->
+  <aside class="filter-sidebar">
+    <div class="filter-group">
+      <div class="filter-group-title" style="color:var(--emerald)">✦ Collection</div>
+      <label class="filter-opt"><input type="checkbox" name="coll" value="executive" id="f-exec"> <label for="f-exec" style="color:var(--emerald);font-weight:600">Rawan Executive</label></label>
+      <label class="filter-opt"><input type="checkbox" name="coll" value="regular" id="f-regular"> <label for="f-regular">Regular Collection</label></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">👠 Heel Height</div>
+      <label class="filter-opt"><input type="checkbox" name="heel" value="stiletto" id="f-stiletto"> <label for="f-stiletto">Stilettos 4+ inch</label></label>
+      <label class="filter-opt"><input type="checkbox" name="heel" value="block" id="f-block"> <label for="f-block">Block Heels</label></label>
+      <label class="filter-opt"><input type="checkbox" name="heel" value="kitten" id="f-kitten"> <label for="f-kitten">Kitten Heels 2 inch</label></label>
+      <label class="filter-opt"><input type="checkbox" name="heel" value="flat" id="f-flat"> <label for="f-flat">Flat</label></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">✨ Occasion</div>
+      <label class="filter-opt"><input type="checkbox" name="occasion" value="Wedding Guest Look" id="f-wedding"> <label for="f-wedding">💍 Wedding Guest Look</label></label>
+      <label class="filter-opt"><input type="checkbox" name="occasion" value="Night Party Glam" id="f-party"> <label for="f-party">✨ Night Party Glam</label></label>
+      <label class="filter-opt"><input type="checkbox" name="occasion" value="Elegant Day Wear" id="f-elegant"> <label for="f-elegant">🌸 Elegant Day Wear</label></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Badge</div>
+      <label class="filter-opt"><input type="checkbox" name="badge" value="new" id="f-new"> <label for="f-new">New Arrivals</label></label>
+      <label class="filter-opt"><input type="checkbox" name="badge" value="bestseller" id="f-best"> <label for="f-best">Bestsellers</label></label>
+    </div>
+    <div class="filter-group">
+      <div class="filter-group-title">Size Availability</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <label class="filter-opt"><input type="checkbox" name="size" value="35" id="f-35"><label for="f-35">EU 35</label></label>
+        <label class="filter-opt"><input type="checkbox" name="size" value="36" id="f-36"><label for="f-36">EU 36</label></label>
+        <label class="filter-opt"><input type="checkbox" name="size" value="37" id="f-37"><label for="f-37">EU 37</label></label>
+        <label class="filter-opt"><input type="checkbox" name="size" value="38" id="f-38"><label for="f-38">EU 38</label></label>
+        <label class="filter-opt"><input type="checkbox" name="size" value="39" id="f-39"><label for="f-39">EU 39</label></label>
+        <label class="filter-opt"><input type="checkbox" name="size" value="40" id="f-40"><label for="f-40">EU 40</label></label>
+      </div>
+    </div>
+    <button class="btn btn-outline btn-sm btn-full" id="clear-filters">Clear All Filters</button>
+  </aside>
+
+  <!-- PRODUCTS AREA -->
+  <div>
+    <div class="sort-bar">
+      <div class="results-count" id="results-count">6 products</div>
+      <select class="sort-sel" id="sort-select">
+        <option value="default">Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="new">Newest First</option>
+        <option value="name">Name A-Z</option>
+      </select>
+    </div>
+    <div id="active-filters" class="active-filters" style="margin-bottom:var(--space-md)"></div>
+    <div class="products-grid" id="shop-products-grid"></div>
+    <div id="empty-state" style="display:none;text-align:center;padding:var(--space-4xl) 0">
+      <div style="font-size:3rem;margin-bottom:var(--space-lg)">🔍</div>
+      <h3 class="t-serif" style="font-size:1.5rem;margin-bottom:8px">No products found</h3>
+      <p style="color:var(--warm-grey);font-size:.9rem;margin-bottom:var(--space-xl)">Try adjusting filters</p>
+      <button class="btn btn-outline" id="reset-btn">Clear Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo-ar">روان</div>
+      <div class="footer-logo-en">RAWAN</div>
+      <div class="footer-tagline">Ultra-premium ladies footwear — luxury heels, sandals & party wear. Direct from factory.</div>
+      <div class="future-site"><strong>Coming Soon</strong> Editorial website at www.rawan.pk</div>
+    </div>
+    <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html?filter=new">New Arrivals</a><a href="shop.html?filter=men">Men</a><a href="shop.html?filter=women">Women</a></div></div>
+    <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
+    <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
+  </div>
+  <div class="footer-bot"><span>© 2026 RAWAN Footwear.</span><div class="footer-bot-links"><a href="admin.html">Admin</a></div></div>
+</footer>
+
+<!-- CART DRAWER (shared) -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hd">
+    <div><div class="cart-hd-title">Your Bag</div><div class="cart-hd-count" id="cart-count-drawer">0 items</div></div>
+    <button class="cart-close" id="cart-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="cart-del-bar"><div class="cart-del-txt"></div><div class="del-prog"><div class="del-prog-fill" style="width:0%"></div></div></div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-empty-state" id="cart-empty-state" style="display:flex">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg>
+    <h3>Your bag is empty</h3><p>Add some shoes to get started</p>
+  </div>
+  <div class="coupon-row"><input class="coupon-inp" id="coupon-inp" placeholder="Coupon Code"><button class="btn btn-outline btn-sm" id="apply-coupon">Apply</button></div>
+  <div id="coupon-msg" class="coupon-msg"></div>
+  <div id="cart-totals" class="cart-foot"><div class="cart-totals"></div></div>
+  <div style="padding:0 var(--space-xl) var(--space-lg);background:#fff;border-top:1px solid var(--sand)">
+    <button class="btn btn-primary btn-full" id="cart-checkout-btn" style="margin-bottom:8px">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/923001234567" target="_blank">
+  <span class="wa-label">Chat on WhatsApp</span>
+  <div class="wa-circle"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z"/></svg></div>
+</a>
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="js/store.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  let activeFilters = { colls: [], heels: [], occasions: [], badges: [], sizes: [] };
+  let sortMode = 'default';
+
+  function getFilteredProducts() {
+    let prods = [...PRODUCTS];
+    const { colls, heels, occasions, badges, sizes } = activeFilters;
+
+    // Apply admin-level collection overrides
+    prods = prods.map(p => {
+      const overrideColl = Store.getProductSetting(p.id, 'collection', p.collection);
+      return { ...p, collection: overrideColl };
+    });
+
+    if (colls.length) prods = prods.filter(p => colls.includes(p.collection));
+    if (heels.length) prods = prods.filter(p => heels.includes(p.heelType));
+    if (occasions.length) prods = prods.filter(p => occasions.some(occ => (p.occasions || []).includes(occ)));
+    if (badges.length) prods = prods.filter(p => badges.includes(p.badge));
+    if (sizes.length) prods = prods.filter(p => sizes.some(sz => (p.stock[sz] || 0) > 0));
+
+    switch (sortMode) {
+      case 'price-asc': prods.sort((a, b) => a.price - b.price); break;
+      case 'price-desc': prods.sort((a, b) => b.price - a.price); break;
+      case 'new': prods = prods.filter(p => p.badge === 'new').concat(prods.filter(p => p.badge !== 'new')); break;
+      case 'name': prods.sort((a, b) => a.name.localeCompare(b.name)); break;
+    }
+    return prods;
+  }
+
+  function renderShop() {
+    const prods = getFilteredProducts();
+    const grid = document.getElementById('shop-products-grid');
+    const empty = document.getElementById('empty-state');
+    const count = document.getElementById('results-count');
+
+    count.textContent = `${prods.length} product${prods.length !== 1 ? 's' : ''}`;
+
+    if (!prods.length) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+      grid.innerHTML = prods.map((p, i) => renderProductCard(p, i)).join('');
+      document.querySelectorAll('.reveal:not(.in)').forEach(el => setTimeout(() => el.classList.add('in'), 50));
+    }
+    renderActiveFilterTags();
+  }
+
+  function renderActiveFilterTags() {
+    const container = document.getElementById('active-filters');
+    const all = [
+      ...activeFilters.colls.map(v => ({ label: v === 'executive' ? '✦ Executive' : '◈ Regular', remove: () => { activeFilters.colls = activeFilters.colls.filter(x => x !== v); } })),
+      ...activeFilters.heels.map(v => ({ label: '👠 ' + v, remove: () => { activeFilters.heels = activeFilters.heels.filter(x => x !== v); } })),
+      ...activeFilters.occasions.map(v => ({ label: v, remove: () => { activeFilters.occasions = activeFilters.occasions.filter(x => x !== v); } })),
+      ...activeFilters.badges.map(v => ({ label: v, remove: () => { activeFilters.badges = activeFilters.badges.filter(x => x !== v); } })),
+      ...activeFilters.sizes.map(v => ({ label: 'EU ' + v, remove: () => { activeFilters.sizes = activeFilters.sizes.filter(x => x !== v); } }))
+    ];
+    container.innerHTML = all.map((tag, i) => `<div class="filter-tag">${tag.label} <button onclick="removeFilter(${i})">×</button></div>`).join('');
+    window._filterRemoveMap = all;
+  }
+
+  window.removeFilter = function(i) {
+    window._filterRemoveMap[i]?.remove();
+    syncCheckboxes();
+    renderShop();
+  };
+
+  function syncCheckboxes() {
+    document.querySelectorAll('[name=coll]').forEach(cb => { cb.checked = activeFilters.colls.includes(cb.value); });
+    document.querySelectorAll('[name=heel]').forEach(cb => { cb.checked = activeFilters.heels.includes(cb.value); });
+    document.querySelectorAll('[name=occasion]').forEach(cb => { cb.checked = activeFilters.occasions.includes(cb.value); });
+    document.querySelectorAll('[name=badge]').forEach(cb => { cb.checked = activeFilters.badges.includes(cb.value); });
+    document.querySelectorAll('[name=size]').forEach(cb => { cb.checked = activeFilters.sizes.includes(cb.value); });
+  }
+
+  document.querySelectorAll('[name=coll]').forEach(cb => cb.addEventListener('change', () => {
+    activeFilters.colls = [...document.querySelectorAll('[name=coll]:checked')].map(c => c.value);
+    renderShop();
+  }));
+  document.querySelectorAll('[name=heel]').forEach(cb => cb.addEventListener('change', () => {
+    activeFilters.heels = [...document.querySelectorAll('[name=heel]:checked')].map(c => c.value);
+    renderShop();
+  }));
+  document.querySelectorAll('[name=occasion]').forEach(cb => cb.addEventListener('change', () => {
+    activeFilters.occasions = [...document.querySelectorAll('[name=occasion]:checked')].map(c => c.value);
+    renderShop();
+  }));
+  document.querySelectorAll('[name=badge]').forEach(cb => cb.addEventListener('change', () => {
+    activeFilters.badges = [...document.querySelectorAll('[name=badge]:checked')].map(c => c.value);
+    renderShop();
+  }));
+  document.querySelectorAll('[name=size]').forEach(cb => cb.addEventListener('change', () => {
+    activeFilters.sizes = [...document.querySelectorAll('[name=size]:checked')].map(c => c.value);
+    renderShop();
+  }));
+
+  document.getElementById('sort-select').addEventListener('change', (e) => {
+    sortMode = e.target.value;
+    renderShop();
+  });
+  document.getElementById('clear-filters').addEventListener('click', () => {
+    activeFilters = { colls: [], heels: [], occasions: [], badges: [], sizes: [] };
+    document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
+    renderShop();
+  });
+  document.getElementById('reset-btn')?.addEventListener('click', () => {
+    document.getElementById('clear-filters').click();
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const filter = params.get('filter');
+    const collection = params.get('collection');
+
+    if (collection) {
+      activeFilters.colls = [collection];
+      const titleMap = { executive: '✦ Rawan Executive Collection', regular: 'Regular Collection' };
+      if (titleMap[collection]) document.getElementById('shop-page-title').textContent = titleMap[collection];
+      const collCb = document.getElementById(`f-${collection}`);
+      if (collCb) collCb.checked = true;
+    }
+
+    if (filter) {
+      if (filter === 'heels') { activeFilters.heels = ['stiletto','block','kitten']; document.getElementById('shop-page-title').textContent = 'Heels'; }
+      if (filter === 'sandals') { activeFilters.heels = []; activeFilters.badges = []; document.getElementById('shop-page-title').textContent = 'Sandals'; }
+      if (filter === 'party') { activeFilters.occasions = ['Night Party Glam']; document.getElementById('shop-page-title').textContent = 'Party Wear'; }
+      if (filter === 'new') { activeFilters.badges = ['new']; document.getElementById('shop-page-title').textContent = 'New Arrivals'; }
+      if (filter === 'bestseller') { activeFilters.badges = ['bestseller']; document.getElementById('shop-page-title').textContent = 'Bestsellers'; }
+      syncCheckboxes();
+    }
+
+    renderShop();
+    Countdown.init();
+  });
+</script>
+
+
+</script>
+
+</body>
+</html>
+

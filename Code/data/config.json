@@ -1,0 +1,23 @@
+{
+  "freeDeliveryThreshold": 4999,
+  "standardDeliveryFee": 250,
+  "advanceDepositAmount": 200,
+  "foundingMembersLimit": 20,
+  "currentFoundingCount": 0,
+  "autoVipActive": true,
+  "countdownActive": true,
+  "countdownLabel": "Limited Drop Ends In",
+  "countdownEndTime": "2026-10-19T09:47:04.999Z",
+  "showDropSection": true,
+  "dropTitle": "Only 15 Executive Pairs Available.",
+  "pairsRemaining": 15,
+  "bankDetails": {
+    "bankName": "HBL",
+    "accountName": "RAWAN Footwear",
+    "accountNumber": "0012345678901",
+    "iban": "PK36HABB0012345678901",
+    "easyPaisaNumber": "03001234567",
+    "jazzCashNumber": "03001234567"
+  },
+  "whatsappNumber": "923001234567"
+}

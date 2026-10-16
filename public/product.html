@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Product — RAWAN Luxury Footwear</title>
+  <meta name="description" id="page-desc" content="View product details at RAWAN Luxury Footwear. Premium heels, sandals & party wear.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .pdp-collection-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 14px; border-radius: 99px; font-size: .68rem;
+      font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: var(--space-sm);
+    }
+    .pdp-collection-badge.exec { background: var(--emerald); color: var(--rose-gold-light); }
+    .pdp-collection-badge.regular { background: var(--terracotta-pale); color: var(--terracotta); }
+    .btn-wa {
+      background: #25D366; color: white; border-color: #25D366;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-wa:hover { background: #1DA851; transform: translateY(-2px); }
+    .oos-module {
+      background: var(--bone); border-radius: var(--radius-md); padding: var(--space-md);
+      margin: var(--space-md) 0; display: none;
+    }
+    .oos-module.on { display: block; }
+    .oos-module p { font-size: .85rem; color: var(--warm-grey); margin-bottom: var(--space-sm); }
+    .c-swatch {
+      width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+      border: 3px solid transparent; outline: 2px solid transparent;
+      transition: outline .2s, transform .2s;
+    }
+    .c-swatch:hover { transform: scale(1.15); }
+    .c-swatch.on { outline: 2px solid var(--off-black); outline-offset: 3px; }
+    .sz-btn {
+      min-width: 52px; height: 44px; padding: 0 12px; border-radius: var(--radius-md);
+      border: 1.5px solid var(--light-grey); background: var(--pearl); font-family: var(--font-body);
+      font-size: .85rem; font-weight: 600; color: var(--off-black); cursor: pointer; transition: all .2s;
+    }
+    .sz-btn:hover:not(:disabled) { border-color: var(--off-black); background: var(--bone); }
+    .sz-btn.on { background: var(--off-black); color: var(--pearl); border-color: var(--off-black); }
+    .sz-btn.oos { opacity: .3; cursor: not-allowed; text-decoration: line-through; }
+    .sz-btn.low { border-color: var(--terracotta); color: var(--terracotta); }
+    .size-grid { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-bottom: var(--space-xl); }
+    .tab-heads { display: flex; gap: 0; border-bottom: 1px solid var(--light-grey); margin-bottom: var(--space-xl); }
+    .tab-head {
+      padding: 12px 20px; font-size: .8rem; font-weight: 600; color: var(--warm-grey);
+      border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
+      transition: color .2s, border-color .2s; font-family: var(--font-body);
+    }
+    .tab-head.on { color: var(--off-black); border-bottom-color: var(--off-black); }
+    .tab-pane { display: none; font-size: .88rem; color: var(--warm-grey); line-height: 1.75; }
+    .tab-pane.on { display: block; }
+    .tab-pane ul { padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 6px; }
+    .pdp-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: var(--space-xl); }
+    .tabs-wrap { margin-top: var(--space-xl); }
+  </style>
+</head>
+<body>
+
+<!-- ANN BAR -->
+<div class="ann-bar">
+  <span>🚚 Free Delivery Rs. 4,999+</span>
+  <span class="ann-sep">|</span>
+  <span class="ann-countdown">⏳ Loading...</span>
+  <span class="ann-sep">|</span>
+  <a href="exchange.html">7-Day Exchange →</a>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left">
+      <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      <div class="nav-links">
+        <a href="shop.html?filter=new">New Arrivals</a>
+        <a href="shop.html?filter=men">Men</a>
+        <a href="shop.html?filter=women">Women</a>
+        <a href="shop.html?filter=bestseller">Bestsellers</a>
+        <a href="journal.html">Journal</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <a href="index.html" class="nav-logo">
+      <span class="logo-ar">قدم</span>
+      <span class="logo-en">RAWAN</span>
+      <span class="logo-sub">Footwear</span>
+    </a>
+    <div class="nav-right">
+      <button class="nav-icon cart-trigger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cart-badge-nav">0</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-nav-close" id="mob-nav-close">✕</button>
+  <div class="mob-nav-links">
+    <a href="shop.html?filter=new">New Arrivals</a>
+    <a href="shop.html?filter=men">Men</a>
+    <a href="shop.html?filter=women">Women</a>
+    <a href="shop.html?filter=bestseller">Bestsellers</a>
+    <a href="journal.html">Journal</a>
+  </div>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="bc-sep">›</span>
+  <a href="shop.html">Shop</a>
+  <span class="bc-sep">›</span>
+  <span class="bc-cur" id="breadcrumb-name">Loading...</span>
+</div>
+
+<!-- PDP LAYOUT -->
+<div class="pdp" id="pdp-layout">
+  <!-- GALLERY -->
+  <div class="pdp-gallery" id="pdp-gallery">
+    <img class="pdp-main-img" id="pdp-main-img" src="" alt="Product image">
+    <div class="pdp-thumbs" id="pdp-thumbs"></div>
+    <!-- 5-Second Walking Video/GIF Preview Slot -->
+    <div class="pdp-video-slot" id="pdp-video-slot" title="Walking video preview — click to play">
+      <div class="pdp-video-icon">▶</div>
+      <div>
+        <div style="font-size:.82rem;font-weight:600;color:rgba(255,255,255,.7)">5s Walking Preview</div>
+        <div style="font-size:.68rem;color:rgba(255,255,255,.35);margin-top:2px">Watch her walk — upload GIF/video in admin</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="pdp-info" id="pdp-info">
+    <!-- Collection badge (dynamically set by JS) -->
+    <div id="pdp-collection-badge"></div>
+    <div class="pdp-brand" id="pdp-brand-label">RAWAN Luxury Footwear</div>
+    <h1 class="pdp-name" id="pdp-name">Loading...</h1>
+    <p class="pdp-promise" id="pdp-promise"></p>
+
+    <!-- Heel height + occasion tags -->
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--space-md)" id="pdp-tags-row"></div>
+
+    <div class="pdp-price-row">
+      <span class="pdp-price" id="pdp-price"></span>
+      <span class="pdp-price-orig" id="pdp-price-orig" style="display:none"></span>
+      <span class="fit-ind fit-tts" id="pdp-fit">True to Size</span>
+    </div>
+
+    <!-- Stock counter -->
+    <div class="stock-ctr" id="stock-counter" style="display:none">
+      <span class="stock-dot"></span> <span id="stock-text"></span>
+    </div>
+
+    <!-- ★ 3 PRODUCT HIGHLIGHT BULLETS ★ -->
+    <div class="product-highlights" id="pdp-highlights">
+      <div class="product-highlights-title">Why You'll Love These</div>
+      <div class="highlight-item">
+        <div class="highlight-icon">👑</div>
+        <div class="highlight-text">
+          <strong>Tall & Slim Posture</strong>
+          <span>Engineered arch and sleek heel structure to instantly give you perfect elegant height and a slim frame.</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">☁️</div>
+        <div class="highlight-text">
+          <strong>Zero-Pain Comfort</strong>
+          <span>Extra-cushioned premium sole designed to keep your feet completely pain-free even during long party wear.</span>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">💎</div>
+        <div class="highlight-text">
+          <strong>Spotlight Beauty</strong>
+          <span>Premium crystals and royal finish to make your overall look 10x more radiant.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Color Selector -->
+    <div id="color-selector-wrap">
+      <div class="sel-label">Color: <span id="selected-color-label">—</span></div>
+      <div class="color-opts" id="color-opts"></div>
+    </div>
+
+    <!-- Size Selector -->
+    <div>
+      <div class="sel-label">
+        Size (EU): <span id="selected-size-label">—</span>
+        <div style="display:flex;gap:var(--space-lg)">
+          <button style="font-size:.7rem;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-family:var(--font-body)" onclick="openModal('modal-size-guide')">Size Guide</button>
+          <button style="font-size:.7rem;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-family:var(--font-body)" onclick="openModal('modal-measure')">How to Measure</button>
+        </div>
+      </div>
+      <div class="size-grid" id="size-grid"></div>
+    </div>
+
+    <!-- OOS Waitlist -->
+    <div class="oos-module" id="oos-module">
+      <p>Yeh size filhal available nahi — stock jaldi aaega!</p>
+      <button class="btn btn-wa btn-sm" onclick="oosNotify()">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg>
+        Notify Me via WhatsApp
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <div class="pdp-actions">
+      <button class="btn btn-primary btn-full btn-lg" id="atc-btn" data-product-id="">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Add to Bag
+      </button>
+      <button class="btn btn-wa btn-full" id="buynow-btn">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg>
+        Order via WhatsApp
+      </button>
+    </div>
+
+
+    <!-- Trust badges -->
+    <div style="display:flex;gap:var(--space-md);padding:var(--space-md) 0;border-top:1px solid var(--sand);border-bottom:1px solid var(--sand);flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--warm-grey);font-weight:600">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Genuine Material
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--warm-grey);font-weight:600">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        7-Day Exchange
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--warm-grey);font-weight:600">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        COD Available
+      </div>
+    </div>
+
+    <!-- Product Tabs -->
+    <div class="tabs-wrap">
+      <div class="tab-heads">
+        <button class="tab-head on" data-tab="0">Details</button>
+        <button class="tab-head" data-tab="1">Care Guide</button>
+        <button class="tab-head" data-tab="2">Reviews</button>
+        <button class="tab-head" data-tab="3">Shipping</button>
+      </div>
+      <div class="tab-pane on" id="tab-details"></div>
+      <div class="tab-pane" id="tab-care"></div>
+      <div class="tab-pane" id="tab-reviews"></div>
+      <div class="tab-pane" id="tab-shipping">
+        <p><strong>Delivery Timeframe:</strong> 3–5 business days across Pakistan.</p>
+        <p><strong>Same-Day Dispatch:</strong> Orders placed before 2 PM are dispatched same day.</p>
+        <p><strong>Free Delivery:</strong> On orders of Rs. 4,999 or above.</p>
+        <p><strong>COD Available:</strong> Cash on Delivery available Pakistan-wide.</p>
+        <p><strong>Remote Areas:</strong> Balochistan, KPK remote, and Gilgit-Baltistan may require a refundable advance deposit of Rs. 200.</p>
+        <p><strong>Couriers Used:</strong> TCS, Leopards, M&P — tracking number provided on dispatch via WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MORE PRODUCTS -->
+<section class="section" id="more-products-section" style="border-top:1px solid var(--sand)">
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">You May Also Like</div>
+      <h2 class="section-title">Complete The Look</h2>
+    </div>
+    <a href="shop.html" class="btn btn-outline btn-sm">View All</a>
+  </div>
+  <div class="products-grid" id="more-products"></div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" style="border-top:1px solid var(--sand)">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo-ar">قدم</div>
+      <div class="footer-logo-en">RAWAN</div>
+      <div class="footer-tagline">Thoughtfully made footwear for Luxury Footwear.</div>
+      <div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk</div>
+    </div>
+    <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html?filter=men">Men</a><a href="shop.html?filter=women">Women</a><a href="shop.html?filter=new">New</a></div></div>
+    <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange</a><a href="tracking.html">Track</a><a href="faqs.html">FAQs</a></div></div>
+    <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
+  </div>
+  <div class="footer-bot"><span>© 2026 RAWAN Footwear.</span></div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hd">
+    <div><div class="cart-hd-title">Your Bag</div><div class="cart-hd-count" id="cart-count-drawer">0 items</div></div>
+    <button class="cart-close" id="cart-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="cart-del-bar"><div class="cart-del-txt"></div><div class="del-prog"><div class="del-prog-fill" style="width:0%"></div></div></div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-empty-state" id="cart-empty-state" style="display:flex">
+    <h3>Your bag is empty</h3><p>Add some shoes to get started</p>
+  </div>
+  <div class="coupon-row"><input class="coupon-inp" id="coupon-inp" placeholder="Coupon Code"><button class="btn btn-outline btn-sm" id="apply-coupon">Apply</button></div>
+  <div id="coupon-msg" class="coupon-msg"></div>
+  <div id="cart-totals" class="cart-foot"><div class="cart-totals"></div></div>
+  <div style="padding:0 var(--space-xl) var(--space-lg);background:#fff;border-top:1px solid var(--sand)">
+    <button class="btn btn-primary btn-full" id="cart-checkout-btn">Proceed to Checkout</button>
+  </div>
+</div>
+
+<!-- WA FLOAT -->
+<a class="wa-float" href="https://wa.me/923001234567" target="_blank">
+  <span class="wa-label">Order via WhatsApp</span>
+  <div class="wa-circle"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg></div>
+</a>
+<div class="toast-wrap" id="toast-container"></div>
+
+<!-- MODALS -->
+<div class="modal-wrap" id="modal-size-guide">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">Size Guide</div><button class="modal-close">✕</button></div>
+    <table class="sz-table">
+      <thead><tr><th>EU</th><th>UK</th><th>US</th><th>CM</th><th>Inches</th></tr></thead>
+      <tbody>
+        <tr><td>40</td><td>6.5</td><td>7</td><td>25.5</td><td>10.0"</td></tr>
+        <tr><td>41</td><td>7</td><td>7.5</td><td>26.0</td><td>10.2"</td></tr>
+        <tr><td>42</td><td>8</td><td>8.5</td><td>27.0</td><td>10.6"</td></tr>
+        <tr><td>43</td><td>9</td><td>9.5</td><td>27.5</td><td>10.8"</td></tr>
+        <tr><td>44</td><td>9.5</td><td>10</td><td>28.0</td><td>11.0"</td></tr>
+        <tr><td>45</td><td>10.5</td><td>11</td><td>29.0</td><td>11.4"</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.78rem;color:var(--warm-grey);margin-top:var(--space-md)">Apne paon ko measuring tape se naapein. Agar do sizes ke beech hain, toh bada size lein.</p>
+  </div>
+</div>
+
+<div class="modal-wrap" id="modal-measure">
+  <div class="modal">
+    <div class="modal-hd"><div class="modal-title">How to Measure</div><button class="modal-close">✕</button></div>
+    <ol style="padding-left:var(--space-lg);display:flex;flex-direction:column;gap:var(--space-md)">
+      <li style="font-size:.9rem;color:var(--warm-grey);line-height:1.65">Shaam ke waqt apna paon naapein — din bhar mein paon thoda barhta hai.</li>
+      <li style="font-size:.9rem;color:var(--warm-grey);line-height:1.65">Ek saaf kagaz par apna paon rakhein aur pencil se outline draw karein.</li>
+      <li style="font-size:.9rem;color:var(--warm-grey);line-height:1.65">Sabse lambay point se heal tak measuring tape se measure karein (CM mein).</li>
+      <li style="font-size:.9rem;color:var(--warm-grey);line-height:1.65">Is measurement ko upar wali table mein match karein.</li>
+    </ol>
+    <p style="font-size:.78rem;color:var(--accent-gold);margin-top:var(--space-lg);font-weight:700">💡 Dono paon measure karein aur bada size use karein.</p>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  let currentProduct = null;
+  let selectedSize = null;
+  let selectedColor = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('id') || PRODUCTS[0].id;
+    currentProduct = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
+
+    loadProduct(currentProduct);
+    loadMoreProducts(currentProduct);
+    Countdown.init();
+
+    // Tab switching
+    document.querySelectorAll('.tab-head').forEach((head, i) => {
+      head.addEventListener('click', () => {
+        document.querySelectorAll('.tab-head').forEach(h => h.classList.remove('on'));
+        document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('on'));
+        head.classList.add('on');
+        document.querySelectorAll('.tab-pane')[i]?.classList.add('on');
+      });
+    });
+  });
+
+  function loadProduct(p) {
+    const isExec = p.collection === 'executive';
+    document.title = `${p.name} — RAWAN ${isExec ? 'Executive' : ''} Luxury Footwear`;
+    document.getElementById('page-desc').content = p.promise;
+    document.getElementById('pdp-name').textContent = p.name;
+    document.getElementById('pdp-promise').textContent = p.promise;
+    document.getElementById('pdp-price').textContent = `Rs. ${p.price.toLocaleString()}`;
+    document.getElementById('breadcrumb-name').textContent = p.name;
+
+    // Collection badge
+    const badgeEl = document.getElementById('pdp-collection-badge');
+    if (badgeEl) {
+      badgeEl.innerHTML = isExec
+        ? `<span class="pdp-collection-badge exec">✦ Rawan Executive</span>`
+        : `<span class="pdp-collection-badge regular">◈ Regular Collection</span>`;
+    }
+
+    // Heel height + occasion tags
+    const tagsRow = document.getElementById('pdp-tags-row');
+    if (tagsRow) {
+      const heelTag = p.heelHeight ? `<span class="heel-tag ${p.heelType || 'flat'}">👠 ${p.heelHeight}</span>` : '';
+      const occTags = (p.occasions || []).map(occ => {
+        let cls = 'elegant';
+        if (occ.includes('Wedding')) cls = 'wedding';
+        if (occ.includes('Party')) cls = 'party';
+        return `<span class="occ-tag ${cls}">${occ}</span>`;
+      }).join('');
+      tagsRow.innerHTML = heelTag + occTags;
+    }
+
+    // Apply executive styling if needed
+    if (isExec) {
+      document.getElementById('atc-btn')?.style && (document.getElementById('atc-btn').style.background = 'var(--emerald)');
+    }
+
+    if (p.originalPrice) {
+      const orig = document.getElementById('pdp-price-orig');
+      orig.style.display = '';
+      orig.textContent = `Rs. ${p.originalPrice.toLocaleString()}`;
+    }
+
+    const fitEl = document.getElementById('pdp-fit');
+    fitEl.className = `fit-ind fit-${p.fitIndicator}`;
+    fitEl.textContent = p.fitLabel;
+
+    // Gallery
+    const mainImg = document.getElementById('pdp-main-img');
+    mainImg.src = p.images[0];
+    mainImg.alt = p.name;
+    const thumbsContainer = document.getElementById('pdp-thumbs');
+    thumbsContainer.innerHTML = p.images.map((img, i) => `
+      <div class="pdp-thumb ${i === 0 ? 'on' : ''}" data-src="${img}">
+        <img src="${img}" alt="${p.name} view ${i+1}" onerror="this.parentElement.remove()">
+      </div>
+    `).join('');
+
+    // Colors
+    const colorOpts = document.getElementById('color-opts');
+    colorOpts.innerHTML = p.colors.map((c, i) => `
+      <div class="c-swatch ${i === 0 ? 'on' : ''}" 
+           style="background:${c.hex};border-color:${c.hex === '#F0EBE3' || c.hex === '#F5F5F0' ? 'var(--sand)' : c.hex};"
+           data-color="${c.name}" data-color-label="${c.label}"
+           title="${c.label}"></div>
+    `).join('');
+    selectedColor = p.colors[0]?.name;
+    document.getElementById('selected-color-label').textContent = p.colors[0]?.label || '—';
+
+    // Sizes
+    const sizeGrid = document.getElementById('size-grid');
+    sizeGrid.innerHTML = Object.entries(p.stock).map(([sz, qty]) => `
+      <button class="sz-btn ${qty === 0 ? 'oos' : qty <= 2 ? 'low' : ''}" 
+              data-size="${sz}" ${qty === 0 ? 'disabled' : ''}>
+        ${sz}
+      </button>
+    `).join('');
+
+    // ATC button
+    document.getElementById('atc-btn').dataset.productId = p.id;
+
+    // Tabs content
+    document.getElementById('tab-details').innerHTML = `<ul>${p.material.split('.').filter(s => s.trim()).map(s => `<li>${s.trim()}</li>`).join('')}</ul>`;
+    document.getElementById('tab-care').innerHTML = `<ul>${p.care.split('.').filter(s => s.trim()).map(s => `<li>${s.trim()}</li>`).join('')}</ul>`;
+    document.getElementById('tab-reviews').innerHTML = p.reviews.map(r => `
+      <div class="review-card">
+        <div class="rev-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5 - r.stars)}</div>
+        <div class="rev-text">"${r.text}"</div>
+        <div class="rev-author">${r.author}, ${r.city} ${r.verified ? '<span class="rev-verified">✓ Verified Purchase</span>' : ''}</div>
+      </div>
+    `).join('') + `<button class="btn btn-outline btn-sm" onclick="openModal('modal-write-review')">Write a Review</button>`;
+
+    // Size selector logic
+    initSizeSelector(p.stock, (sz, qty) => {
+      selectedSize = sz;
+      document.getElementById('selected-size-label').textContent = `EU ${sz}`;
+    });
+
+    // Color selector
+    initColorSelector();
+
+    // Photo gallery
+    document.querySelectorAll('.pdp-thumb').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        document.querySelectorAll('.pdp-thumb').forEach(t => t.classList.remove('on'));
+        thumb.classList.add('on');
+        mainImg.style.opacity = '0';
+        setTimeout(() => { mainImg.src = thumb.dataset.src; mainImg.style.opacity = '1'; }, 180);
+      });
+    });
+
+    // Buy now via WA
+    document.getElementById('buynow-btn').onclick = () => {
+      const sz = selectedSize || 'not selected';
+      const col = selectedColor || 'not selected';
+      const msg = `Assalam-o-Alaikum! ${p.name} order karna hai.\nSize: EU ${sz}\nColor: ${col}\nPrice: Rs. ${p.price.toLocaleString()}`;
+      window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
+    };
+  }
+
+  function loadMoreProducts(currentP) {
+    const others = PRODUCTS.filter(p => p.id !== currentP.id).slice(0, 4);
+    document.getElementById('more-products').innerHTML = others.map((p, i) => renderProductCard(p, i)).join('');
+    setTimeout(() => document.querySelectorAll('#more-products .reveal').forEach(el => el.classList.add('in')), 100);
+  }
+
+  function oosNotify() {
+    const sz = selectedSize || 'unselected';
+    const msg = `Hi RAWAN! ${currentProduct?.name} Size EU ${sz} stock mein aaye toh notify karo please.`;
+    window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+</script>
+
+</body>
+</html>
+

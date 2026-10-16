@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAWAN — Luxury Ladies Footwear | Heels, Sandals & Party Wear Pakistan</title>
+  <meta name="description" content="Rawan Footwear — Pakistan's ultra-premium ladies footwear brand. Luxury heels, sandals, party wear. Two collections: Rawan Executive (elite luxury) & Regular (factory-direct pricing). Free delivery. Easy exchange.">
+  <meta property="og:title" content="RAWAN — Luxury Ladies Footwear">
+  <meta property="og:description" content="Humne rawan kar diya hai, aapki special moments ki haseen rawangi ke liye.">
+  <meta property="og:image" content="images/banners/og-image.jpg">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Hero gradient overlay for luxury feel ── */
+    .hero { background: linear-gradient(135deg, #FAF9F7 0%, #F0EDE8 100%); }
+    .hero-img { background: linear-gradient(135deg, #0A3A2F 0%, #1A6B56 100%); }
+    .hero-img::before {
+      content: '👠';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 12rem;
+      opacity: .08;
+      z-index: 0;
+    }
+    /* Executive glow chip */
+    .exec-intro-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--emerald);
+      color: var(--rose-gold-light);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-xl);
+      animation: execGlow 3s ease-in-out infinite;
+    }
+    @keyframes execGlow {
+      0%,100% { box-shadow: 0 0 0 0 rgba(10,58,47,.3); }
+      50% { box-shadow: 0 0 20px 4px rgba(10,58,47,.2); }
+    }
+
+    /* Regular factory CTA chip */
+    .factory-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--terracotta-pale);
+      color: var(--terracotta);
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(192,92,70,.3);
+    }
+
+    /* Heel filter active state colors */
+    #heel-filter-bar .heel-filter-btn[data-heel="stiletto"].active { background: var(--emerald); border-color: var(--emerald); }
+    #heel-filter-bar .heel-filter-btn[data-heel="block"].active { background: var(--terracotta); border-color: var(--terracotta); }
+    #heel-filter-bar .heel-filter-btn[data-heel="kitten"].active { background: var(--rose-gold); border-color: var(--rose-gold); }
+
+    /* Occasion filter */
+    .occ-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: var(--space-xl);
+    }
+    .occ-filter-btn {
+      padding: 6px 16px;
+      border-radius: 99px;
+      font-size: .7rem;
+      font-weight: 600;
+      border: 1.5px solid var(--light-grey);
+      cursor: pointer;
+      transition: all .25s;
+      background: var(--pearl);
+      color: var(--mid-grey);
+    }
+    .occ-filter-btn:hover, .occ-filter-btn.active { background: var(--off-black); color: white; border-color: var(--off-black); }
+
+    /* Hero floating shoe silhouette */
+    .hero-float-el {
+      position: absolute;
+      bottom: var(--space-xl);
+      left: var(--space-xl);
+      z-index: 10;
+    }
+    .hero-float-card {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md) var(--space-lg);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      min-width: 220px;
+      border: 1px solid rgba(255,255,255,.6);
+      animation: floatCard 4s ease-in-out infinite;
+    }
+    @keyframes floatCard {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-float-icon { font-size: 2rem; }
+    .hero-float-title { font-weight: 700; font-size: .88rem; color: var(--off-black); }
+    .hero-float-sub { font-size: .72rem; color: var(--warm-grey); }
+
+    /* Collection toggle bar */
+    .coll-toggle-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      margin: var(--space-xl) auto;
+      background: var(--bone);
+      border-radius: 99px;
+      padding: 4px;
+      width: fit-content;
+    }
+    .coll-tab {
+      padding: 10px 32px;
+      border-radius: 99px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      cursor: pointer;
+      transition: all .3s;
+      color: var(--warm-grey);
+      border: none;
+      background: transparent;
+      font-family: var(--font-body);
+    }
+    .coll-tab.active-exec {
+      background: var(--emerald);
+      color: var(--rose-gold-light);
+      box-shadow: var(--shadow-md);
+    }
+    .coll-tab.active-reg {
+      background: var(--terracotta);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="ann-bar">
+  <span>🚚 Free Delivery on orders above Rs. 4,999</span>
+  <span class="ann-sep">|</span>
+  <span class="ann-countdown" id="ann-countdown">⏳ Limited Drop Closes In: Loading...</span>
+  <span class="ann-sep">|</span>
+  <a href="exchange.html">7-Day Easy Exchange →</a>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left">
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links">
+        <a href="shop.html?collection=executive" class="exec-link">✦ Executive</a>
+        <a href="shop.html?collection=regular">Regular</a>
+        <a href="shop.html?filter=heels">Heels</a>
+        <a href="shop.html?filter=sandals">Sandals</a>
+        <a href="shop.html?filter=party">Party Wear</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+    <a href="index.html" class="nav-logo">
+      <span class="logo-ar">روان</span>
+      <span class="logo-en">RAWAN</span>
+      <span class="logo-sub">Luxury Footwear</span>
+    </a>
+    <div class="nav-right">
+      <a href="shop.html" class="nav-icon" title="Search" id="nav-search-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </a>
+      <a href="#" class="nav-icon" title="Wishlist" id="nav-wish-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </a>
+      <button class="nav-icon cart-trigger" title="Shopping Bag" id="nav-cart-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cart-badge-nav">0</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mob-nav">
+  <button class="mob-nav-close" id="mob-nav-close">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="mob-nav-links">
+    <a href="shop.html?collection=executive" class="exec-mob">✦ Executive Collection</a>
+    <a href="shop.html?collection=regular">Regular Collection</a>
+    <a href="shop.html?filter=heels">Heels</a>
+    <a href="shop.html?filter=sandals">Sandals</a>
+    <a href="shop.html?filter=party">Party Wear</a>
+    <a href="about.html">About Rawan</a>
+    <a href="tracking.html">Track Order</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badges">
+      <span class="hero-badge exec">✦ Executive Collection</span>
+      <span class="hero-badge regular">Regular Collection</span>
+    </div>
+
+    <h1 class="hero-title">
+      Walk Into Your<br><em>Most Beautiful</em><br>Moments.
+    </h1>
+
+    <p class="hero-meaning">
+      "Humne rawan kar diya hai, aapki special moments ki haseen rawangi ke liye."
+    </p>
+    <p class="hero-meaning-en">
+      "We have set you in motion — for the beautiful journey of your special moments."
+    </p>
+
+    <div class="hero-cta">
+      <a href="shop.html?collection=executive" class="btn btn-emerald btn-lg">✦ Shop Executive</a>
+      <a href="shop.html?collection=regular" class="btn btn-terracotta">Shop Regular</a>
+      <a href="about.html" class="btn btn-ghost">Our Story →</a>
+    </div>
+  </div>
+
+  <div class="hero-img" style="position:relative;">
+    <img src="images/banners/hero.jpg" alt="RAWAN Luxury Ladies Footwear" onerror="this.style.background='linear-gradient(135deg,#0A3A2F,#1A6B56)';this.style.display='block';this.style.height='100%';this.removeAttribute('src')">
+    <div class="hero-img-overlay"></div>
+    <!-- Floating info card -->
+    <div class="hero-float-el">
+      <div class="hero-float-card">
+        <div class="hero-float-icon">👠</div>
+        <div>
+          <div class="hero-float-title">Two Collections</div>
+          <div class="hero-float-sub">Executive · Regular</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item">Luxury Heels<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Crystal Sandals<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Party Wear<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Zero Pain Comfort<span class="marquee-dot"></span></div>
+    <div class="marquee-item">7-Day Easy Exchange<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Free Delivery Rs. 4,999+<span class="marquee-dot"></span></div>
+    <div class="marquee-item">12+ Years Manufacturing<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Spotlight Beauty<span class="marquee-dot"></span></div>
+    <!-- duplicate for loop -->
+    <div class="marquee-item">Luxury Heels<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Crystal Sandals<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Party Wear<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Zero Pain Comfort<span class="marquee-dot"></span></div>
+    <div class="marquee-item">7-Day Easy Exchange<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Free Delivery Rs. 4,999+<span class="marquee-dot"></span></div>
+    <div class="marquee-item">12+ Years Manufacturing<span class="marquee-dot"></span></div>
+    <div class="marquee-item">Spotlight Beauty<span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ═══════════ COLLECTION TABS ═══════════ -->
+<section class="section" style="padding-bottom:0;">
+  <div class="text-center reveal">
+    <div class="section-eyebrow" style="justify-content:center">Our Collections</div>
+    <h2 class="section-title" style="margin-bottom:var(--space-md)">Choose Your World</h2>
+    <p style="color:var(--warm-grey);font-size:.9rem;max-width:500px;margin:0 auto;">Two distinctly different experiences. One brand you can trust.</p>
+  </div>
+  <div class="coll-toggle-bar" id="coll-toggle-bar">
+    <button class="coll-tab active-exec" id="tab-exec" onclick="showCollection('executive')">✦ Rawan Executive</button>
+    <button class="coll-tab" id="tab-reg" onclick="showCollection('regular')">Regular Collection</button>
+  </div>
+</section>
+
+<!-- ═══════════ RAWAN EXECUTIVE SECTION ═══════════ -->
+<div class="exec-section-wrap" id="exec-section">
+  <section class="section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow emerald">✦ Rawan Executive Collection</div>
+        <h2 class="section-title" style="color:var(--emerald)">Elite Luxury. Pure Exclusivity.</h2>
+        <p style="color:var(--warm-grey);font-size:.9rem;margin-top:8px;">Stiletto craftsmanship for women who command every room.</p>
+      </div>
+      <a href="shop.html?collection=executive" class="btn btn-emerald btn-sm">View Executive →</a>
+    </div>
+
+    <!-- Heel height filters -->
+    <div class="heel-filters" id="heel-filter-exec">
+      <button class="heel-filter-btn active" data-filter="all" onclick="filterHeels('exec','all',this)">All</button>
+      <button class="heel-filter-btn" data-filter="stiletto" onclick="filterHeels('exec','stiletto',this)" style="color:var(--emerald);border-color:rgba(10,58,47,.2)">
+        👠 Stilettos 4+ inch
+      </button>
+      <button class="heel-filter-btn" data-filter="block" onclick="filterHeels('exec','block',this)">
+        Block Heels
+      </button>
+    </div>
+
+    <!-- Occasion filters -->
+    <div class="occ-filter-row" id="occ-filter-exec">
+      <button class="occ-filter-btn active" data-occ="all" onclick="filterOccasion('exec','all',this)">All Occasions</button>
+      <button class="occ-filter-btn" data-occ="Wedding Guest Look" onclick="filterOccasion('exec','Wedding Guest Look',this)">💍 Wedding Guest Look</button>
+      <button class="occ-filter-btn" data-occ="Night Party Glam" onclick="filterOccasion('exec','Night Party Glam',this)">✨ Night Party Glam</button>
+      <button class="occ-filter-btn" data-occ="Elegant Day Wear" onclick="filterOccasion('exec','Elegant Day Wear',this)">🌸 Elegant Day Wear</button>
+    </div>
+
+    <div class="products-grid" id="exec-products"></div>
+  </section>
+</div>
+
+<!-- ═══════════ RAWAN REGULAR SECTION ═══════════ -->
+<div class="regular-section-wrap" id="regular-section" style="display:none;">
+
+  <!-- FACTORY BLUEPRINT BANNER -->
+  <section class="section" style="padding-bottom:0;">
+    <div class="factory-banner reveal">
+      <div class="factory-banner-eyebrow">🏭 The Rawan Factory Promise</div>
+      <h2 class="factory-banner-title">
+        <span>12+ Years</span> of Manufacturing Premium Footwear —<br>
+        Now Direct to <span>You</span>.
+      </h2>
+      <p class="factory-banner-sub">
+        We manufactured for the biggest premium footwear brands for over 12 years.<br>
+        Now we've cut out everything in between — so you get exact original quality at manufacturer cost.
+      </p>
+      <div class="factory-skips">
+        <div class="factory-skip-item">
+          <div class="factory-skip-icon">🏪</div>
+          <div class="factory-skip-label">Showroom Payments</div>
+          <div class="factory-skip-desc">Expensive retail spaces, premium location rents</div>
+          <span class="factory-skip-x">SKIPPED ❌</span>
+        </div>
+        <div class="factory-skip-item">
+          <div class="factory-skip-icon">🤝</div>
+          <div class="factory-skip-label">Middlemen & Brand Profits</div>
+          <div class="factory-skip-desc">Distributor margins, agent commissions, brand markup</div>
+          <span class="factory-skip-x">SKIPPED ❌</span>
+        </div>
+        <div class="factory-skip-item">
+          <div class="factory-skip-icon">🏛️</div>
+          <div class="factory-skip-label">Heavy Retail Taxes</div>
+          <div class="factory-skip-desc">Multi-tier taxation on high-street retail products</div>
+          <span class="factory-skip-x">SKIPPED ❌</span>
+        </div>
+        <div class="factory-skip-item">
+          <div class="factory-skip-icon">✅</div>
+          <div class="factory-skip-label">What You Get</div>
+          <div class="factory-skip-desc">Same material, same stitching, same construction — at cost price</div>
+          <span class="factory-skip-x" style="background:rgba(27,107,71,.2);color:#1B6B47;">DIRECT SAVINGS 💸</span>
+        </div>
+      </div>
+      <div class="factory-years-badge">
+        <div class="factory-years-num">12+</div>
+        <div class="factory-years-txt">
+          Years manufacturing for<br>
+          <strong style="color:rgba(255,255,255,.8)">Pakistan's biggest footwear brands</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow terracotta">Regular Collection</div>
+        <h2 class="section-title">Trendy. Affordable. Real Quality.</h2>
+        <p style="color:var(--warm-grey);font-size:.9rem;margin-top:8px;">Exact brand quality at factory price — because you deserve both.</p>
+      </div>
+      <a href="shop.html?collection=regular" class="btn btn-terracotta btn-sm">View All Regular →</a>
+    </div>
+
+    <!-- Heel height filters -->
+    <div class="heel-filters" id="heel-filter-reg">
+      <button class="heel-filter-btn active" data-filter="all" onclick="filterHeels('reg','all',this)">All</button>
+      <button class="heel-filter-btn" data-filter="kitten" onclick="filterHeels('reg','kitten',this)" style="color:var(--rose-gold)">
+        👠 Kitten Heels 2 inch
+      </button>
+      <button class="heel-filter-btn" data-filter="block" onclick="filterHeels('reg','block',this)">
+        Block Heels
+      </button>
+      <button class="heel-filter-btn" data-filter="stiletto" onclick="filterHeels('reg','stiletto',this)">
+        Stilettos
+      </button>
+      <button class="heel-filter-btn" data-filter="flat" onclick="filterHeels('reg','flat',this)">
+        Flat
+      </button>
+    </div>
+
+    <!-- Occasion filters -->
+    <div class="occ-filter-row" id="occ-filter-reg">
+      <button class="occ-filter-btn active" data-occ="all" onclick="filterOccasion('reg','all',this)">All Occasions</button>
+      <button class="occ-filter-btn" data-occ="Wedding Guest Look" onclick="filterOccasion('reg','Wedding Guest Look',this)">💍 Wedding Guest Look</button>
+      <button class="occ-filter-btn" data-occ="Night Party Glam" onclick="filterOccasion('reg','Night Party Glam',this)">✨ Night Party Glam</button>
+      <button class="occ-filter-btn" data-occ="Elegant Day Wear" onclick="filterOccasion('reg','Elegant Day Wear',this)">🌸 Elegant Day Wear</button>
+    </div>
+
+    <div class="products-grid" id="reg-products"></div>
+  </section>
+</div>
+
+<!-- ═══════════ PRODUCT HIGHLIGHTS ═══════════ -->
+<section style="background:linear-gradient(135deg,var(--bone) 0%,var(--pearl) 100%);padding:var(--space-4xl) var(--space-xl);">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="text-center reveal" style="margin-bottom:var(--space-3xl)">
+      <div class="section-eyebrow" style="justify-content:center;">Why Every Rawan Shoe</div>
+      <h2 class="section-title">Engineered For Her</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-xl);">
+      <div class="why-card reveal d1">
+        <div class="why-icon" style="background:rgba(10,58,47,.08);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="why-title">Tall & Slim Posture</div>
+        <div class="why-desc">Engineered arch and sleek heel structure to instantly give you perfect elegant height and a slim frame — every time you step out.</div>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-icon" style="background:rgba(192,92,70,.08);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="why-title">Zero-Pain Comfort</div>
+        <div class="why-desc">Extra-cushioned premium sole designed to keep your feet completely pain-free even during long party wear. Dance all night, no regrets.</div>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="why-icon" style="background:rgba(200,149,108,.12);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--rose-gold)" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="why-title">Spotlight Beauty</div>
+        <div class="why-desc">Premium crystals and royal finish to make your overall look 10x more radiant. You won't just enter the room — you'll own it.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WHY CHOOSE RAWAN ═══════════ -->
+<section style="background:var(--bone-dark);padding:var(--space-4xl) var(--space-xl)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div class="text-center" style="margin-bottom:var(--space-2xl)">
+      <div class="section-eyebrow reveal" style="justify-content:center">Why Rawan</div>
+      <h2 class="section-title reveal d1">Real Quality. Real Honesty.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal d1">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="why-title">Genuine Premium Materials</div>
+        <div class="why-desc">Italian-grade suede, genuine leather, Swarovski crystals — koi shortcuts nahi. Quality jo aap mehsoos kar sakti hain.</div>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="why-title">Pain-Free Party Wear</div>
+        <div class="why-desc">Har heel mein memory foam cushioning aur arch support hai. Raat bhar dance karein bina kisi takleef ke.</div>
+      </div>
+      <div class="why-card reveal d3">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <div class="why-title">7-Day Easy Exchange</div>
+        <div class="why-desc">Size fit nahi hua? Koi masla nahi. 7 din ke andar hassle-free size exchange — no questions asked.</div>
+      </div>
+      <div class="why-card reveal d4">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="why-title">Cash on Delivery</div>
+        <div class="why-desc">Pakistan bhar mein COD available. Pehle dekho, pehno, phir bharo. Zero risk shopping.</div>
+      </div>
+      <div class="why-card reveal d1">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="why-title">Factory-Direct Pricing</div>
+        <div class="why-desc">12+ saal ki manufacturing expertise — brand markup ke baghair. Aap ke haath mein asli savings.</div>
+      </div>
+      <div class="why-card reveal d2">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="why-title">WhatsApp Support</div>
+        <div class="why-desc">Koi bhi sawaal — directly WhatsApp par poochein. Real log, real jawab, real time mein.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ SOCIAL PROOF ═══════════ -->
+<div class="proof-strip">
+  <div class="proof-item reveal">
+    <div class="proof-num">1,200+</div>
+    <div class="proof-lbl">Happy Ladies</div>
+  </div>
+  <div class="proof-item reveal d1">
+    <div class="proof-num">98%</div>
+    <div class="proof-lbl">Delivery Success Rate</div>
+  </div>
+  <div class="proof-item reveal d2">
+    <div class="proof-num">4.9★</div>
+    <div class="proof-lbl">Average Rating</div>
+  </div>
+  <div class="proof-item reveal d3">
+    <div class="proof-num">12+</div>
+    <div class="proof-lbl">Years Manufacturing</div>
+  </div>
+</div>
+
+<!-- ═══════════ LIMITED DROP COUNTDOWN ═══════════ -->
+<section class="drop-section" id="drop-section">
+  <div style="position:relative;z-index:1">
+    <div class="section-eyebrow reveal" style="justify-content:center;color:var(--rose-gold-light)">✦ Executive Drop · Season 01</div>
+    <h2 class="section-title reveal d1" style="color:white;margin-bottom:var(--space-md)">Only 15 Executive Pairs Available.</h2>
+    <p class="reveal d2" style="color:rgba(249,246,242,.5);font-size:.9rem;margin-bottom:0">Jab stock khatam — drop band. No restock.</p>
+    <div class="drop-cd" id="drop-countdown">
+      <div class="drop-cd-unit">
+        <div class="drop-cd-num" id="drop-cd-d">00</div>
+        <div class="drop-cd-lbl">Days</div>
+      </div>
+      <div class="drop-sep">:</div>
+      <div class="drop-cd-unit">
+        <div class="drop-cd-num" id="drop-cd-h">00</div>
+        <div class="drop-cd-lbl">Hours</div>
+      </div>
+      <div class="drop-sep">:</div>
+      <div class="drop-cd-unit">
+        <div class="drop-cd-num" id="drop-cd-m">00</div>
+        <div class="drop-cd-lbl">Mins</div>
+      </div>
+      <div class="drop-sep">:</div>
+      <div class="drop-cd-unit">
+        <div class="drop-cd-num" id="drop-cd-s">00</div>
+        <div class="drop-cd-lbl">Secs</div>
+      </div>
+    </div>
+    <a href="shop.html?collection=executive" class="btn btn-gold btn-lg reveal d3">Shop Executive Collection</a>
+  </div>
+</section>
+
+<!-- ═══════════ CUSTOMER REVIEWS ═══════════ -->
+<section class="section">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-eyebrow">Verified Reviews</div>
+      <h2 class="section-title">What Our Ladies Say</h2>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--space-xl);margin-bottom:var(--space-2xl)">
+    <div class="review-card reveal d1">
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"Noor Stiletto ne mere bridal look ko 100% complete kar diya. Crystal detailing itni real lagti hai — sab ne poochha kahan se liye!"</div>
+      <div class="rev-author">Ayesha R., Lahore <span class="rev-verified">✓ Verified Purchase</span></div>
+    </div>
+    <div class="review-card reveal d2">
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"Regular collection ke heels itni comfortable hain — raat bhar party mein pehni, zero pain. Aur price ne toh shocked kar diya!"</div>
+      <div class="rev-author">Sadia H., Karachi <span class="rev-verified">✓ Verified Purchase</span></div>
+    </div>
+    <div class="review-card reveal d3">
+      <div class="rev-stars">★★★★★</div>
+      <div class="rev-text">"12 saal manufacturing experience wali quality real mein feel hoti hai. Same brand quality at half the price. Main Rawan ki permanent customer hoon!"</div>
+      <div class="rev-author">Fatima N., Islamabad <span class="rev-verified">✓ Verified Purchase</span></div>
+    </div>
+  </div>
+
+  <!-- Customer Photo Reviews -->
+  <div style="margin-top:var(--space-xl)">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:var(--space-md)">📸 Customer Photo Reviews</div>
+    <div class="photo-review-grid">
+      <div class="photo-review-item" title="Add your photo — Coming soon">
+        <div style="width:100%;height:100%;background:var(--bone);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--warm-grey);font-size:.7rem;text-align:center;padding:var(--space-sm)">
+          <span style="font-size:1.5rem">📷</span>Share Your Look
+        </div>
+      </div>
+      <div class="photo-review-item" title="Customer photo slot">
+        <div style="width:100%;height:100%;background:var(--bone-dark);display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.3">👠</div>
+      </div>
+      <div class="photo-review-item">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#E8F0EC,#D4EAE0);display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.3">✨</div>
+      </div>
+      <div class="photo-review-item">
+        <div style="width:100%;height:100%;background:linear-gradient(135deg,#F0E8E5,#EDD4CE);display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.3">💫</div>
+      </div>
+      <div class="photo-review-item">
+        <div style="width:100%;height:100%;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:2rem;opacity:.3">💎</div>
+      </div>
+      <div class="photo-review-item">
+        <div style="width:100%;height:100%;background:var(--bone);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;color:var(--warm-grey);font-size:.7rem">+ Share<br>Your Photo</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.78rem;color:var(--warm-grey);margin-top:var(--space-md)">📲 WhatsApp par apni photo bhejein: <a href="https://wa.me/923001234567" style="color:var(--terracotta);font-weight:600">+92 300 1234567</a> — hum feature karein ge!</p>
+  </div>
+</section>
+
+<!-- ═══════════ JOURNAL ═══════════ -->
+<section class="section" style="background:white;max-width:100%;padding:var(--space-4xl) var(--space-xl)">
+  <div style="max-width:1440px;margin:0 auto">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">The Journal</div>
+        <h2 class="section-title">Style & Craft Stories</h2>
+      </div>
+      <a href="journal.html" class="btn btn-outline btn-sm">All Articles</a>
+    </div>
+    <div class="journal-grid">
+      <div class="j-card reveal d1">
+        <div class="j-card-img" style="background:linear-gradient(135deg,#0A3A2F,#1A6B56);display:flex;align-items:center;justify-content:center;font-size:4rem">👠</div>
+        <div class="j-card-body">
+          <div class="j-cat">Style Guide</div>
+          <div class="j-title">5 Ways to Style Stilettos for a Wedding as a Guest</div>
+          <div class="j-excerpt">Mehndi se baraat tak — har function ke liye perfect heel styling guide jo aapko always camera-ready rakhegi.</div>
+          <div class="j-meta">5 min read · September 2026</div>
+        </div>
+      </div>
+      <div class="j-card reveal d2">
+        <div class="j-card-img" style="background:linear-gradient(135deg,#C05C46,#D4705A);display:flex;align-items:center;justify-content:center;font-size:4rem">✨</div>
+        <div class="j-card-body">
+          <div class="j-cat">Comfort Guide</div>
+          <div class="j-title">How to Wear Heels Pain-Free at Night Parties</div>
+          <div class="j-excerpt">Party mein pehli baar heels pehan rahi hain? Ya purani problem se thak gayi hain? Yeh tips try karein.</div>
+          <div class="j-meta">4 min read · September 2026</div>
+        </div>
+      </div>
+      <div class="j-card reveal d3">
+        <div class="j-card-img" style="background:linear-gradient(135deg,#C8956C,#DBA98A);display:flex;align-items:center;justify-content:center;font-size:4rem">💎</div>
+        <div class="j-card-body">
+          <div class="j-cat">Behind the Brand</div>
+          <div class="j-title">12 Years of Manufacturing — The Rawan Story</div>
+          <div class="j-excerpt">Kaise ek factory ki beti ne decide kiya ke Pakistan ki khawatin ko woh quality milni chahiye jo sirf ameer aurten afford kar sakti thin.</div>
+          <div class="j-meta">6 min read · August 2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FINAL CTA ═══════════ -->
+<section style="text-align:center;padding:var(--space-4xl) var(--space-xl);background:var(--off-black);">
+  <div class="section-eyebrow reveal" style="justify-content:center;color:var(--rose-gold)">Your Moment Awaits</div>
+  <h2 class="section-title reveal d1" style="margin-bottom:var(--space-lg);color:white;">
+    Rawan kar dijiye — <em style="font-style:italic;color:var(--rose-gold-bright)">aapka safar</em>.
+  </h2>
+  <p class="reveal d2" style="font-size:.95rem;color:rgba(255,255,255,.5);max-width:460px;margin:0 auto var(--space-xl);line-height:1.7">
+    Limited stock. Honest pricing. Easy exchange. Zero risk. Aapki special moments deserve the best.
+  </p>
+  <div class="reveal d3" style="display:flex;justify-content:center;gap:var(--space-md);flex-wrap:wrap;">
+    <a href="shop.html?collection=executive" class="btn btn-emerald btn-lg">✦ Shop Executive</a>
+    <a href="shop.html?collection=regular" class="btn btn-terracotta btn-lg">Shop Regular</a>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo-ar">روان</div>
+      <div class="footer-logo-en">RAWAN</div>
+      <div class="footer-tagline">Ultra-premium ladies footwear — where every step is a statement of grace, power, and beauty.</div>
+      <div class="footer-meaning">
+        "Humne rawan kar diya hai, aapki special moments ki haseen rawangi ke liye."
+      </div>
+      <div class="future-site">
+        <strong>Coming Soon</strong>
+        Our brand editorial website — lookbooks, style guides & craft stories at<br>
+        <span style="color:rgba(249,246,242,.45)">www.rawan.pk</span>
+        <br><small style="opacity:.5;font-size:.62rem">(Website link will be added here)</small>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Collections</div>
+      <div class="footer-links">
+        <a href="shop.html?collection=executive">✦ Rawan Executive</a>
+        <a href="shop.html?collection=regular">Regular Collection</a>
+        <a href="shop.html?filter=heels">Luxury Heels</a>
+        <a href="shop.html?filter=sandals">Designer Sandals</a>
+        <a href="shop.html?filter=party">Party Wear</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <div class="footer-links">
+        <a href="exchange.html">Exchange Policy</a>
+        <a href="tracking.html">Track Order</a>
+        <a href="faqs.html">FAQs</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Brand</div>
+      <div class="footer-links">
+        <a href="about.html">Our Story</a>
+        <a href="journal.html">Journal</a>
+        <a href="https://wa.me/923001234567" target="_blank">WhatsApp</a>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bot">
+    <span>© 2026 RAWAN Luxury Footwear. All rights reserved.</span>
+    <div class="footer-bot-links">
+      <a href="exchange.html">Exchange Policy</a>
+      <a href="faqs.html">Privacy</a>
+      <a href="admin.html">Admin</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hd">
+    <div>
+      <div class="cart-hd-title">Your Bag</div>
+      <div class="cart-hd-count" id="cart-count-drawer">0 items</div>
+    </div>
+    <button class="cart-close" id="cart-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-del-bar">
+    <div class="cart-del-txt">Add more for Free Delivery</div>
+    <div class="del-prog"><div class="del-prog-fill" style="width:0%"></div></div>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-empty-state" id="cart-empty-state" style="display:flex">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <h3>Your bag is empty</h3>
+    <p>Discover our beautiful heels & sandals</p>
+    <a href="shop.html" class="btn btn-primary" onclick="Cart.close()">Explore Collection</a>
+  </div>
+  <div class="coupon-row">
+    <input class="coupon-inp" id="coupon-inp" placeholder="Coupon Code (e.g. RAWAN10)" maxlength="20">
+    <button class="btn btn-outline btn-sm" id="apply-coupon">Apply</button>
+  </div>
+  <div id="coupon-msg" class="coupon-msg"></div>
+  <div id="cart-totals" class="cart-foot"><div class="cart-totals"></div></div>
+  <div style="padding:0 var(--space-xl) var(--space-lg);background:#fff;display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--sand)">
+    <button class="btn btn-primary btn-full" id="cart-checkout-btn">Proceed to Checkout</button>
+    <div class="express-checkout-divider">or</div>
+    <a href="cart.html" class="btn btn-outline btn-full">Express Checkout →</a>
+  </div>
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a class="wa-float" href="https://wa.me/923001234567?text=Assalam-o-Alaikum!%20Rawan%20Footwear%20ke%20baare%20mein%20poochna%20tha." target="_blank" id="wa-float-btn">
+  <span class="wa-label">Chat on WhatsApp</span>
+  <div class="wa-circle">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z"/></svg>
+  </div>
+</a>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-wrap" id="toast-container"></div>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="modal-wrap" id="modal-size-guide">
+  <div class="modal">
+    <div class="modal-hd">
+      <div class="modal-title">Size Guide — Ladies Footwear</div>
+      <button class="modal-close" onclick="document.getElementById('modal-size-guide').classList.remove('on')">✕</button>
+    </div>
+    <table class="sz-table">
+      <thead><tr><th>EU Size</th><th>UK Size</th><th>US Size</th><th>Foot Length (CM)</th></tr></thead>
+      <tbody>
+        <tr><td>35</td><td>2.5</td><td>5</td><td>22.5</td></tr>
+        <tr><td>36</td><td>3.5</td><td>6</td><td>23.5</td></tr>
+        <tr><td>37</td><td>4</td><td>6.5</td><td>24.0</td></tr>
+        <tr><td>38</td><td>5</td><td>7.5</td><td>24.5</td></tr>
+        <tr><td>39</td><td>6</td><td>8.5</td><td>25.5</td></tr>
+        <tr><td>40</td><td>6.5</td><td>9</td><td>26.0</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:.78rem;color:var(--warm-grey);margin-top:var(--space-md);line-height:1.6">
+      💡 Tip: Apne pao ko measuring tape se naapein. Agar do sizes ke beech mein hain, toh bada size choose karein. Heels ke liye aapka normal size recommend hai.
+    </p>
+  </div>
+</div>
+
+<script src="js/store.js"></script>
+<script src="js/seed.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  /* ── Collection State ── */
+  let activeCollection = 'executive';
+  let execHeelFilter = 'all';
+  let execOccFilter = 'all';
+  let regHeelFilter = 'all';
+  let regOccFilter = 'all';
+
+  function showCollection(coll) {
+    activeCollection = coll;
+    const execSec = document.getElementById('exec-section');
+    const regSec = document.getElementById('regular-section');
+    const tabExec = document.getElementById('tab-exec');
+    const tabReg = document.getElementById('tab-reg');
+
+    if (coll === 'executive') {
+      execSec.style.display = '';
+      regSec.style.display = 'none';
+      tabExec.className = 'coll-tab active-exec';
+      tabReg.className = 'coll-tab';
+    } else {
+      execSec.style.display = 'none';
+      regSec.style.display = '';
+      tabExec.className = 'coll-tab';
+      tabReg.className = 'coll-tab active-reg';
+    }
+    renderProducts();
+    // re-observe new elements
+    document.querySelectorAll('.reveal:not(.in)').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  function filterHeels(section, type, btn) {
+    if (section === 'exec') {
+      execHeelFilter = type;
+      document.querySelectorAll('#heel-filter-exec .heel-filter-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      regHeelFilter = type;
+      document.querySelectorAll('#heel-filter-reg .heel-filter-btn').forEach(b => b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function filterOccasion(section, occ, btn) {
+    if (section === 'exec') {
+      execOccFilter = occ;
+      document.querySelectorAll('#occ-filter-exec .occ-filter-btn').forEach(b => b.classList.remove('active'));
+    } else {
+      regOccFilter = occ;
+      document.querySelectorAll('#occ-filter-reg .occ-filter-btn').forEach(b => b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    renderProducts();
+  }
+
+  function getFilteredProducts(collection, heelFilter, occFilter) {
+    return PRODUCTS.filter(p => {
+      if (p.collection !== collection) return false;
+      if (heelFilter !== 'all' && p.heelType !== heelFilter) return false;
+      if (occFilter !== 'all' && !(p.occasions || []).includes(occFilter)) return false;
+      return true;
+    });
+  }
+
+  function renderProducts() {
+    const execContainer = document.getElementById('exec-products');
+    const regContainer = document.getElementById('reg-products');
+
+    if (execContainer) {
+      const filtered = getFilteredProducts('executive', execHeelFilter, execOccFilter);
+      execContainer.innerHTML = filtered.length
+        ? filtered.map((p, i) => renderProductCard(p, i)).join('')
+        : '<div style="padding:var(--space-2xl);text-align:center;color:var(--warm-grey);grid-column:1/-1;">No products match this filter.</div>';
+    }
+    if (regContainer) {
+      const filtered = getFilteredProducts('regular', regHeelFilter, regOccFilter);
+      regContainer.innerHTML = filtered.length
+        ? filtered.map((p, i) => renderProductCard(p, i)).join('')
+        : '<div style="padding:var(--space-2xl);text-align:center;color:var(--warm-grey);grid-column:1/-1;">No products match this filter.</div>';
+    }
+  }
+
+  /* ── Scroll observer ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Countdown
+    const savedConfig = JSON.parse(localStorage.getItem('rawan_countdown') || 'null');
+    if (!savedConfig) {
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 3);
+      Countdown.start(endDate, 'Executive Drop Ends In');
+    } else {
+      Countdown.init();
+    }
+
+    // Check URL params for pre-selected collection
+    const urlParams = new URLSearchParams(window.location.search);
+    const collParam = urlParams.get('collection');
+    if (collParam === 'regular') showCollection('regular');
+  });
+
+  function oosNotify(productName, size) {
+    const msg = `Hi Rawan! ${productName} Size ${size} back in stock par notify karo please.`;
+    window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+</script>
+
+</body>
+</html>

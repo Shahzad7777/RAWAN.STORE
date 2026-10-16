@@ -1,0 +1,150 @@
+[
+  {
+    "id": "QD-001",
+    "date": "2026-10-08T09:52:39.498Z",
+    "customer": {
+      "name": "Hamza Raza",
+      "phone": "03211234567",
+      "address": "House 12 Block C Johar Town",
+      "city": "Lahore",
+      "email": "hamza@example.com"
+    },
+    "items": [
+      {
+        "id": "saba-loafer",
+        "title": "The Saba Loafer",
+        "size": 42,
+        "color": "Espresso",
+        "quantity": 1,
+        "price": 8999,
+        "image": "images/products/saba-1.jpg"
+      }
+    ],
+    "subtotal": 8999,
+    "deliveryCharges": 0,
+    "discountAmount": 0,
+    "totalAmount": 8999,
+    "paymentMethod": "cod",
+    "advanceDepositRequired": false,
+    "advanceDepositAmount": 0,
+    "status": "Delivered",
+    "courier": "TCS",
+    "trackingId": "TCS-3849201",
+    "timeline": {
+      "pending": "2026-10-08T09:52:39.498Z",
+      "confirmed": "2026-10-09T09:52:39.498Z",
+      "packed": "2026-10-10T09:52:39.498Z",
+      "dispatched": "2026-10-11T09:52:39.498Z",
+      "delivered": "2026-10-14T09:52:39.498Z"
+    }
+  },
+  {
+    "id": "QD-002",
+    "date": "2026-10-13T09:52:39.498Z",
+    "customer": {
+      "name": "Sana Malik",
+      "phone": "03451234567",
+      "address": "Flat 4B Clifton Block 5",
+      "city": "Karachi",
+      "email": "sana@example.com"
+    },
+    "items": [
+      {
+        "id": "zara-ballet",
+        "title": "The Zara Ballet Flat",
+        "size": 38,
+        "color": "Dusty Rose",
+        "quantity": 1,
+        "price": 7299,
+        "image": "images/products/zara-1.jpg"
+      }
+    ],
+    "subtotal": 7299,
+    "deliveryCharges": 0,
+    "discountAmount": 365,
+    "totalAmount": 6934,
+    "paymentMethod": "bank",
+    "advanceDepositRequired": false,
+    "advanceDepositAmount": 0,
+    "status": "Dispatched",
+    "courier": "Leopards",
+    "trackingId": "LEP-928471",
+    "timeline": {
+      "pending": "2026-10-13T09:52:39.498Z",
+      "confirmed": "2026-10-14T09:52:39.498Z",
+      "packed": "2026-10-14T21:52:39.498Z",
+      "dispatched": "2026-10-15T21:52:39.498Z"
+    }
+  },
+  {
+    "id": "QD-003",
+    "date": "2026-10-15T09:52:39.498Z",
+    "customer": {
+      "name": "Usman Arif",
+      "phone": "03001234567",
+      "address": "Street 9 F-7/2",
+      "city": "Islamabad",
+      "email": "usman@example.com"
+    },
+    "items": [
+      {
+        "id": "dastoor-formal",
+        "title": "The Hayat Chelsea Boot",
+        "size": 42,
+        "color": "Cognac Tan",
+        "quantity": 1,
+        "price": 13999,
+        "image": "images/products/dastoor-1.jpg"
+      }
+    ],
+    "subtotal": 13999,
+    "deliveryCharges": 0,
+    "discountAmount": 700,
+    "totalAmount": 13299,
+    "paymentMethod": "bank",
+    "advanceDepositRequired": false,
+    "advanceDepositAmount": 0,
+    "status": "Confirmed",
+    "courier": null,
+    "trackingId": null,
+    "timeline": {
+      "pending": "2026-10-15T09:52:39.499Z",
+      "confirmed": "2026-10-15T21:52:39.499Z"
+    }
+  },
+  {
+    "id": "QD-004",
+    "date": "2026-10-16T07:52:39.499Z",
+    "customer": {
+      "name": "Fatima Noor",
+      "phone": "03331234567",
+      "address": "Model Town Block E",
+      "city": "Multan",
+      "email": "fatima@example.com"
+    },
+    "items": [
+      {
+        "id": "mehr-slip-on",
+        "title": "The Mehr Slip-On",
+        "size": 40,
+        "color": "Ivory",
+        "quantity": 1,
+        "price": 7499,
+        "image": "images/products/mehr-1.jpg"
+      }
+    ],
+    "subtotal": 7499,
+    "deliveryCharges": 0,
+    "discountAmount": 0,
+    "totalAmount": 7499,
+    "paymentMethod": "cod",
+    "advanceDepositRequired": false,
+    "advanceDepositAmount": 0,
+    "status": "Pending",
+    "courier": null,
+    "trackingId": null,
+    "timeline": {
+      "pending": "2026-10-16T07:52:39.499Z"
+    }
+  }
+]

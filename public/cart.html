@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — RAWAN Footwear</title>
+  <meta name="description" content="Secure checkout at RAWAN Footwear. COD available Pakistan-wide. Easy exchange.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="ann-bar">
+  <span>🔒 Secure Checkout — Your data is safe</span>
+  <span class="ann-sep">|</span>
+  <span>COD Available Across Pakistan</span>
+  <span class="ann-sep">|</span>
+  <a href="exchange.html">7-Day Exchange →</a>
+</div>
+
+<div class="nav-wrap">
+  <nav class="nav">
+    <div class="nav-left"></div>
+    <a href="index.html" class="nav-logo">
+      <span class="logo-ar">قدم</span>
+      <span class="logo-en">RAWAN</span>
+      <span class="logo-sub">Footwear</span>
+    </a>
+    <div class="nav-right">
+      <button class="nav-icon cart-trigger">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-badge" id="cart-badge-nav">0</span>
+      </button>
+    </div>
+  </nav>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span class="bc-sep">›</span>
+  <a href="#" onclick="Cart.open();return false">Cart</a>
+  <span class="bc-sep">›</span>
+  <span class="bc-cur">Checkout</span>
+</div>
+
+<!-- CHECKOUT -->
+<div class="checkout-wrap" id="checkout-wrap">
+  <!-- LEFT: FORM -->
+  <div>
+    <!-- STEP 1: CONTACT -->
+    <div class="ck-step">
+      <h2 class="ck-title"><span class="ck-step-num">1</span> Contact Information</h2>
+      <div class="form-grid">
+        <div class="form-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md)">
+          <div class="f-group">
+            <label class="f-label" for="ck-fname">First Name *</label>
+            <input class="f-inp" id="ck-fname" placeholder="Muhammad" required>
+            <span class="f-err" id="err-fname"></span>
+          </div>
+          <div class="f-group">
+            <label class="f-label" for="ck-lname">Last Name</label>
+            <input class="f-inp" id="ck-lname" placeholder="Ali">
+          </div>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="ck-phone">WhatsApp / Phone Number *</label>
+          <input class="f-inp" id="ck-phone" type="tel" placeholder="03xx-xxxxxxx" required>
+          <span class="f-err" id="err-phone"></span>
+          <span id="rto-warning" style="display:none;font-size:.72rem;color:var(--danger);font-weight:700;margin-top:4px;display:none">
+            ⚠️ Is number pe delivery issue record hai — advance deposit required.
+          </span>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="ck-email">Email (Optional — for order confirmation)</label>
+          <input class="f-inp" id="ck-email" type="email" placeholder="you@email.com">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: DELIVERY -->
+    <div class="ck-step">
+      <h2 class="ck-title"><span class="ck-step-num">2</span> Delivery Address</h2>
+      <div class="form-grid">
+        <div class="f-group">
+          <label class="f-label" for="ck-address">Full Address *</label>
+          <input class="f-inp" id="ck-address" placeholder="House #, Street, Area" required>
+          <span class="f-err" id="err-address"></span>
+        </div>
+        <div class="form-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md)">
+          <div class="f-group">
+            <label class="f-label" for="checkout-city">City *</label>
+            <select class="f-sel" id="checkout-city" required>
+              <option value="">-- Select City --</option>
+            </select>
+            <span class="f-err" id="err-city"></span>
+          </div>
+          <div class="f-group">
+            <label class="f-label" for="ck-province">Province</label>
+            <select class="f-sel" id="ck-province">
+              <option value="">Auto (based on city)</option>
+              <option>Punjab</option>
+              <option>Sindh</option>
+              <option>Khyber Pakhtunkhwa</option>
+              <option>Balochistan</option>
+              <option>AJK</option>
+              <option>Gilgit-Baltistan</option>
+              <option>ICT Islamabad</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-group">
+          <label class="f-label" for="ck-notes">Order Notes (Optional)</label>
+          <input class="f-inp" id="ck-notes" placeholder="Any special delivery instructions...">
+        </div>
+
+        <!-- Advance Deposit Notice -->
+        <div class="advance-note" id="advance-shipping-notice"></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: PAYMENT -->
+    <div class="ck-step">
+      <h2 class="ck-title"><span class="ck-step-num">3</span> Payment Method</h2>
+      <div class="pay-opts">
+        <label class="pay-opt on" id="pay-opt-cod">
+          <input type="radio" name="payment" value="cod" checked>
+          <div>
+            <div class="pay-opt-label">💵 Cash on Delivery (COD)</div>
+            <div class="pay-opt-desc">Delivery ke waqt payment — sab se safe option.</div>
+          </div>
+        </label>
+        <label class="pay-opt" id="pay-opt-bank">
+          <input type="radio" name="payment" value="bank">
+          <div>
+            <div class="pay-opt-label">🏦 Bank Transfer / EasyPaisa / JazzCash</div>
+            <div class="pay-opt-desc">Advance payment — 5% discount milega aapko!</div>
+          </div>
+        </label>
+      </div>
+
+      <!-- Bank Details Panel -->
+      <div class="bank-panel" id="bank-panel">
+        <p style="font-size:.78rem;font-weight:800;color:var(--obsidian);margin-bottom:var(--space-md)">Payment Details:</p>
+        <div class="bank-row"><span class="bank-k">Bank</span><span class="bank-v">HBL</span></div>
+        <div class="bank-row"><span class="bank-k">Account Name</span><span class="bank-v">RAWAN Footwear</span></div>
+        <div class="bank-row"><span class="bank-k">Account #</span><span class="bank-v">0012345678901</span></div>
+        <div class="bank-row"><span class="bank-k">IBAN</span><span class="bank-v">PK36HABB0012345678901</span></div>
+        <div class="bank-row" style="border-top:2px solid var(--sand);margin-top:8px;padding-top:8px">
+          <span class="bank-k">EasyPaisa</span><span class="bank-v">03xx-xxxxxxx</span>
+        </div>
+        <div class="bank-row">
+          <span class="bank-k">JazzCash</span><span class="bank-v">03xx-xxxxxxx</span>
+        </div>
+        <p style="font-size:.72rem;color:var(--warning);margin-top:var(--space-md);line-height:1.6">
+          ⚠️ Payment ke baad screenshot WhatsApp par zaroor bhejein: <strong>03xx-xxxxxxx</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- STEP 4: REVIEW & PLACE -->
+    <div class="ck-step">
+      <h2 class="ck-title"><span class="ck-step-num">4</span> Review & Place Order</h2>
+      <div style="margin-bottom:var(--space-lg)">
+        <label style="display:flex;align-items:flex-start;gap:var(--space-md);cursor:pointer">
+          <input type="checkbox" id="agree-terms" style="margin-top:4px;accent-color:var(--obsidian)">
+          <span style="font-size:.82rem;color:var(--warm-grey);line-height:1.65">
+            Main RAWAN Footwear ki <a href="exchange.html" style="color:var(--obsidian);font-weight:700">Exchange Policy</a> se mutafiq hoon aur order dene ki confirmation de raha/rahi hoon.
+          </span>
+        </label>
+        <span class="f-err" id="err-terms"></span>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" id="place-order-btn">
+        🛍️ Place Order — Confirm karein
+      </button>
+      <p style="font-size:.72rem;color:var(--warm-grey);margin-top:var(--space-md);text-align:center;line-height:1.6">
+        Order place hone ke baad WhatsApp par verification message ayega. COD orders ka payment delivery par dena hoga.
+      </p>
+    </div>
+  </div>
+
+  <!-- RIGHT: ORDER SUMMARY -->
+  <div class="order-summary-card" id="order-summary">
+    <h3 style="font-family:var(--font-serif);font-size:1.2rem;margin-bottom:var(--space-lg)">Order Summary</h3>
+    <div id="summary-items" style="display:flex;flex-direction:column;gap:var(--space-md);margin-bottom:var(--space-lg)">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- Coupon -->
+    <div style="display:flex;gap:8px;margin-bottom:var(--space-md)">
+      <input class="coupon-inp" id="summary-coupon" placeholder="Coupon Code">
+      <button class="btn btn-outline btn-sm" id="summary-apply-coupon">Apply</button>
+    </div>
+    <div id="summary-coupon-msg" class="coupon-msg"></div>
+
+    <hr class="divider">
+    <div id="summary-totals" style="display:flex;flex-direction:column;gap:8px">
+      <!-- Populated by JS -->
+    </div>
+
+    <div style="margin-top:var(--space-lg);padding:var(--space-md);background:var(--bone-dark);border-radius:var(--radius-sm);font-size:.78rem;color:var(--warm-grey);line-height:1.6">
+      <strong style="color:var(--obsidian);">✅ Safe Shopping</strong><br>
+      Agar size fit nahi toh 7 din mein free exchange. Koi sawaal ho toh WhatsApp karein.
+    </div>
+  </div>
+</div>
+
+<!-- EMPTY CART STATE -->
+<div id="empty-checkout" style="display:none;text-align:center;padding:var(--space-4xl) var(--space-xl)">
+  <div style="font-size:4rem;margin-bottom:var(--space-lg)">🛍️</div>
+  <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:var(--space-md)">Your bag is empty</h2>
+  <p style="color:var(--warm-grey);margin-bottom:var(--space-xl)">Kuch add karein aur wapis ayein!</p>
+  <a href="shop.html" class="btn btn-primary btn-lg">Shop Now</a>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="cart-hd">
+    <div><div class="cart-hd-title">Your Bag</div><div class="cart-hd-count" id="cart-count-drawer">0 items</div></div>
+    <button class="cart-close" id="cart-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="cart-del-bar"><div class="cart-del-txt"></div><div class="del-prog"><div class="del-prog-fill" style="width:0%"></div></div></div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-empty-state" id="cart-empty-state" style="display:flex"><h3>Your bag is empty</h3></div>
+  <div class="coupon-row"><input class="coupon-inp" id="coupon-inp" placeholder="Coupon Code"><button class="btn btn-outline btn-sm" id="apply-coupon">Apply</button></div>
+  <div id="coupon-msg" class="coupon-msg"></div>
+  <div id="cart-totals" class="cart-foot"><div class="cart-totals"></div></div>
+</div>
+
+<div class="toast-wrap" id="toast-container"></div>
+
+<script src="js/store.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    populateCities('checkout-city');
+    checkAdvanceDeposit();
+    renderSummary();
+
+    if (Store.cart.length === 0) {
+      document.getElementById('checkout-wrap').style.display = 'none';
+      document.getElementById('empty-checkout').style.display = 'block';
+    }
+
+    // Payment toggles
+    document.querySelectorAll('[name=payment]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('.pay-opt').forEach(opt => opt.classList.remove('on'));
+        radio.closest('.pay-opt')?.classList.add('on');
+        const bankPanel = document.getElementById('bank-panel');
+        bankPanel.classList.toggle('on', radio.value === 'bank');
+      });
+    });
+
+    // RTO check on phone blur
+    document.getElementById('ck-phone').addEventListener('blur', (e) => {
+      const phone = e.target.value;
+      const risk = RTO.getRiskLevel(phone);
+      const warning = document.getElementById('rto-warning');
+      if (risk === 'high') { warning.style.display = 'block'; }
+      else { warning.style.display = 'none'; }
+    });
+
+    // Summary coupon
+    document.getElementById('summary-apply-coupon').addEventListener('click', () => {
+      const code = document.getElementById('summary-coupon').value;
+      const result = Cart.applyCoupon(code);
+      const msg = document.getElementById('summary-coupon-msg');
+      msg.textContent = result.ok ? `✓ ${result.label}` : 'Invalid coupon code';
+      msg.className = 'coupon-msg ' + (result.ok ? 'ok' : 'err');
+      renderSummary();
+    });
+
+    // Place order
+    document.getElementById('place-order-btn').addEventListener('click', placeOrder);
+
+      // Live Backend Validation Hook
+      async function triggerLiveValidation() {
+        const phone = document.getElementById('ck-phone')?.value.trim();
+        const city = document.getElementById('checkout-city')?.value;
+        const payment = document.querySelector('[name=payment]:checked')?.value || 'cod';
+        if (!city && (!phone || phone.length < 10)) return;
+
+        const res = await RawanAPI.validateCheckout({
+          phone: phone || '',
+          city: city || '',
+          paymentMethod: payment,
+          items: Store.cart
+        });
+
+        if (res && res.success) {
+          const rtoWarn = document.getElementById('rto-warning');
+          if (rtoWarn) {
+            if (res.isRTOFlagged) {
+              rtoWarn.style.display = 'block';
+              rtoWarn.innerHTML = '⚠️ Is number pe delivery issue record hai (' + (res.rtoReason || 'High Risk') + ') - Rs. ' + res.advanceDepositAmount + ' advance deposit required.';
+            } else {
+              rtoWarn.style.display = 'none';
+            }
+          }
+
+          const advNotice = document.getElementById('advance-shipping-notice');
+          if (advNotice) {
+            if (res.advanceDepositRequired) {
+              advNotice.classList.add('on');
+              advNotice.style.display = 'block';
+              advNotice.innerHTML = '🛡️ <strong>Security Advance Deposit Required:</strong> Rs. ' + res.advanceDepositAmount + ' via EasyPaisa/JazzCash ke zariye bhejein. Baaqi payment COD par delivery par hogi.';
+            } else {
+              advNotice.classList.remove('on');
+              advNotice.style.display = 'none';
+            }
+          }
+        }
+      }
+
+      document.getElementById('checkout-city')?.addEventListener('change', triggerLiveValidation);
+      document.getElementById('ck-phone')?.addEventListener('input', triggerLiveValidation);
+      document.querySelectorAll('[name=payment]').forEach(r => r.addEventListener('change', triggerLiveValidation));
+
+  });
+
+  function renderSummary() {
+    const itemsEl = document.getElementById('summary-items');
+    const totalsEl = document.getElementById('summary-totals');
+    if (!itemsEl) return;
+
+    itemsEl.innerHTML = Store.cart.map(item => `
+      <div style="display:flex;gap:var(--space-md);align-items:flex-start">
+        <div style="width:56px;height:56px;background:var(--sand);border-radius:var(--radius-sm);flex-shrink:0;overflow:hidden">
+          <img src="${item.image}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.88rem;font-weight:700;color:var(--obsidian)">${item.name}</div>
+          <div style="font-size:.72rem;color:var(--warm-grey)">EU ${item.size} · ${item.color} · Qty ${item.qty}</div>
+        </div>
+        <div style="font-size:.88rem;font-weight:800;flex-shrink:0">Rs. ${(item.price * item.qty).toLocaleString()}</div>
+      </div>
+    `).join('');
+
+    const sub = Cart.getSubtotal();
+    const disc = Cart.getDiscount();
+    const del = Cart.getDelivery();
+    const total = Cart.getTotal();
+
+    totalsEl.innerHTML = `
+      <div class="cart-tot-row"><span>Subtotal</span><span>Rs. ${sub.toLocaleString()}</span></div>
+      ${disc > 0 ? `<div class="cart-tot-row save"><span>Discount</span><span>− Rs. ${disc.toLocaleString()}</span></div>` : ''}
+      <div class="cart-tot-row"><span>Delivery</span><span>${del === 0 ? '🎉 Free' : 'Rs. ' + del.toLocaleString()}</span></div>
+      <div class="cart-tot-row grand"><span>Total</span><span>Rs. ${total.toLocaleString()}</span></div>
+    `;
+  }
+
+  function validate() {
+    const errors = {};
+    const name = document.getElementById('ck-fname').value.trim();
+    const phone = document.getElementById('ck-phone').value.trim();
+    const address = document.getElementById('ck-address').value.trim();
+    const city = document.getElementById('checkout-city').value;
+    const terms = document.getElementById('agree-terms').checked;
+
+    if (!name) errors.fname = 'Naam zaroori hai';
+    if (!Checkout.validatePhone(phone)) errors.phone = 'Valid phone number dalein (03xx-xxxxxxx)';
+    if (!address) errors.address = 'Address zaroori hai';
+    if (!city) errors.city = 'City select karein';
+    if (!terms) errors.terms = 'Terms agree karein';
+
+    Object.entries(errors).forEach(([field, msg]) => {
+      const el = document.getElementById(`err-${field}`);
+      if (el) el.textContent = msg;
+      const inp = document.getElementById(`ck-${field}`) || document.getElementById('agree-terms');
+      inp?.classList.add('err');
+    });
+
+    if (Object.keys(errors).length > 0) {
+      Object.keys(errors)[0] && document.getElementById(`ck-${Object.keys(errors)[0]}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    }
+
+    // Clear errors
+    document.querySelectorAll('.f-err').forEach(el => el.textContent = '');
+    document.querySelectorAll('.f-inp.err').forEach(el => el.classList.remove('err'));
+    return true;
+  }
+
+  async function placeOrder() {
+    if (Store.cart.length === 0) { Toast.show('Cart empty hai', 'error'); return; }
+    if (!validate()) return;
+
+    const btn = document.getElementById('place-order-btn');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+
+    const formData = {
+      name: `${document.getElementById('ck-fname').value} ${document.getElementById('ck-lname').value}`.trim(),
+      phone: document.getElementById('ck-phone').value.trim(),
+      email: document.getElementById('ck-email').value.trim(),
+      address: document.getElementById('ck-address').value.trim(),
+      city: document.getElementById('checkout-city').value,
+      province: document.getElementById('ck-province').value,
+      notes: document.getElementById('ck-notes').value.trim(),
+      payment: document.querySelector('[name=payment]:checked')?.value || 'cod'
+    };
+
+    // Direct async place order
+      (async () => {
+      const order = await Checkout.placeOrderAsync(formData);
+      const waUrl = Checkout.generateWhatsAppVerification(order);
+      // Open WhatsApp verification
+      window.open(waUrl, '_blank');
+      // Redirect to confirm page
+      window.location.href = `confirm.html?order=${order.id}`;
+    })();
+  }
+</script>
+
+</body>
+</html>
+
