@@ -1,5 +1,11 @@
-﻿node_modules/
+node_modules/
+Code/node_modules/
 .env
 *.log
+*.tmp
 .DS_Store
 Thumbs.db
+# local data (production uses MongoDB Atlas)
+data/
+Code/data/
+Code/old-extras/data-old/

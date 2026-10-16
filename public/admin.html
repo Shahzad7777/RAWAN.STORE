@@ -12,6 +12,21 @@
     body { background: #F1F1F3; }
     .admin-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
     @media(max-width:768px){ .admin-panel-grid { grid-template-columns: 1fr; } }
+    .prod-adm-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:var(--space-lg); }
+    .prod-adm-card { background:#fff; border-radius:var(--radius-lg); overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.06); transition:transform .2s, box-shadow .2s; display:flex; flex-direction:column; }
+    .prod-adm-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
+    .prod-adm-card.is-hidden { opacity:.55; }
+    .prod-adm-img { aspect-ratio:1/1; background:#f6f3ee; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .prod-adm-img img { width:100%; height:100%; object-fit:cover; }
+    .prod-adm-body { padding:var(--space-md); display:flex; flex-direction:column; gap:6px; flex:1; }
+    .prod-adm-name { font-weight:800; font-size:.95rem; }
+    .pf-modal-box { max-width:760px; width:94vw; max-height:90vh; overflow-y:auto; }
+    .pf-images { display:flex; flex-wrap:wrap; gap:10px; margin:8px 0; }
+    .pf-img { position:relative; width:92px; height:92px; border-radius:var(--radius-md); overflow:hidden; background:#f6f3ee; border:1px solid rgba(0,0,0,.08); }
+    .pf-img img { width:100%; height:100%; object-fit:cover; }
+    .pf-img button { position:absolute; top:4px; left:4px; width:24px; height:24px; border-radius:50%; border:none; background:rgba(0,0,0,.6); color:#fff; cursor:pointer; font-size:.75rem; line-height:24px; padding:0; }
+    .pf-img .pf-img-del { left:auto; right:4px; background:rgba(180,40,40,.85); }
+    .pf-img-main { position:absolute; bottom:4px; left:4px; background:#C9A96E; color:#fff; font-size:.62rem; font-weight:800; padding:2px 6px; border-radius:var(--radius-full); }
   </style>
 </head>
 <body class="admin-body">
@@ -34,7 +49,6 @@
       <span id="login-err" style="color:var(--danger);font-size:.78rem;font-weight:700;display:none">Invalid credentials</span>
     </div>
     <button class="btn btn-primary btn-full" onclick="doLogin()">Login</button>
-    <p style="font-size:.7rem;color:var(--warm-grey);margin-top:var(--space-md)">Default: admin / RAWAN2026</p>
   </div>
 </div>
 
@@ -59,6 +73,14 @@
     <button class="admin-nav-item" data-panel="inventory">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
       Inventory
+    </button>
+    <button class="admin-nav-item" data-panel="products">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      Products
+    </button>
+    <button class="admin-nav-item" data-panel="elite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 .9-4.5 4.4 1 6.7L12 17l-5.5 3 1-6.7L3 8.9 9 8z"/></svg>
+      Elite Members
     </button>
 
     <div class="admin-nav-sec">Collections</div>
@@ -174,6 +196,70 @@
                 </tr>
               </thead>
               <tbody id="orders-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= PRODUCTS ======= -->
+      <div class="admin-panel" id="panel-products">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-xl);gap:var(--space-md);flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:var(--font-serif);font-size:1.6rem">Products</h2>
+            <p style="font-size:.82rem;color:var(--warm-grey);margin-top:4px">Naye items add karein, photos upload karein, price aur stock set karein. Save karte hi website par live.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" id="btn-add-product" onclick="openProductForm()">+ Add Product</button>
+        </div>
+        <div class="prod-adm-grid" id="prod-list"><!-- Populated by JS --></div>
+      </div>
+
+      <!-- ======= ELITE MEMBERS ======= -->
+      <div class="admin-panel" id="panel-elite">
+        <h2 style="font-family:var(--font-serif);font-size:1.6rem;margin-bottom:var(--space-sm)">Elite Membership</h2>
+        <p style="font-size:.85rem;color:var(--warm-grey);margin-bottom:var(--space-xl)">Pehle customers ko FREE Founding Elite membership. Baad mein non-members ko har Executive item par Elite charge lagta hai. Elite members ko kabhi nahi.</p>
+
+        <div class="stats-grid" id="elite-stats"><!-- Populated by JS --></div>
+
+        <div class="admin-card">
+          <h3>Elite Settings</h3>
+          <div class="form-grid">
+            <div class="toggle-row">
+              <input type="checkbox" class="toggle-inp" id="el-founding-active">
+              <label for="el-founding-active" class="toggle-track"></label>
+              <span class="toggle-lbl">Free Founding membership naye customers ko automatic do</span>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label" for="el-founding-limit">Founding Members Limit</label><input class="f-inp" id="el-founding-limit" type="number" min="0"></div>
+              <div class="f-group"><label class="f-label">Founding Spots Used</label><input class="f-inp" id="el-founding-used" disabled></div>
+            </div>
+            <div class="toggle-row">
+              <input type="checkbox" class="toggle-inp" id="el-charge-enabled">
+              <label for="el-charge-enabled" class="toggle-track"></label>
+              <span class="toggle-lbl">Non-members se Executive items par Elite charge lo</span>
+            </div>
+            <div class="admin-form-row">
+              <div class="f-group"><label class="f-label" for="el-charge">Elite Charge per Executive Pair (Rs.)</label><input class="f-inp" id="el-charge" type="number" min="0"></div>
+              <div class="f-group"><label class="f-label" for="el-label">Charge ka naam (customer ko dikhega)</label><input class="f-inp" id="el-label" maxlength="40"></div>
+            </div>
+            <p style="font-size:.74rem;color:var(--warm-grey)">Kisi product ka alag charge rakhna ho to Products mein us product ke "Elite Charge" field mein likhein.</p>
+          </div>
+          <button class="btn btn-emerald btn-sm" style="margin-top:var(--space-lg)" id="btn-save-elite" onclick="saveEliteSettings()">Save Elite Settings</button>
+        </div>
+
+        <div class="admin-tbl-wrap">
+          <div class="admin-tbl-hd">
+            <div class="admin-tbl-title">Customers &amp; Members</div>
+            <div class="admin-tbl-ctrl">
+              <button class="filter-chip on" data-cust-filter="all">All</button>
+              <button class="filter-chip" data-cust-filter="elite">Elite</button>
+              <button class="filter-chip" data-cust-filter="Standard">Standard</button>
+              <input class="admin-srch" id="cust-srch" placeholder="Search name, phone, city...">
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="admin-tbl">
+              <thead><tr><th>Customer</th><th>City</th><th>Orders</th><th>Total Spend</th><th>Membership</th><th>Since</th></tr></thead>
+              <tbody id="cust-tbody"></tbody>
             </table>
           </div>
         </div>
@@ -403,7 +489,7 @@
           <div class="form-grid">
             <div class="admin-form-row">
               <div class="f-group"><label class="f-label">WhatsApp Number</label><input class="f-inp" id="set-wa" value="923001234567"></div>
-              <div class="f-group"><label class="f-label">Admin Password</label><input class="f-inp" id="set-pass" type="password" placeholder="New password"></div>
+              <div class="f-group"><label class="f-label">New Admin Password (khali = no change)</label><input class="f-inp" id="set-pass" type="password" placeholder="New password"></div>
             </div>
             <div class="admin-form-row">
               <div class="f-group"><label class="f-label">Free Delivery Threshold (Rs.)</label><input class="f-inp" id="set-free-del" type="number" value="4999"></div>
@@ -442,9 +528,8 @@
         </div>
 
         <div class="admin-card">
-          <h3 style="color:var(--danger)">Danger Zone</h3>
-          <p style="font-size:.82rem;color:var(--warm-grey);margin-bottom:var(--space-md)">Sare orders aur data delete ho jayega — irreversible action.</p>
-          <button class="btn btn-sm" style="border-color:var(--danger);color:var(--danger)" onclick="if(confirm('Sab kuch delete hoga — sure hain?')){localStorage.clear();Toast.show('All data cleared','error');location.reload()}">⚠️ Clear All Data</button>
+          <h3>Server Data</h3>
+          <p style="font-size:.82rem;color:var(--warm-grey);margin-bottom:var(--space-md)">Sab products, orders aur settings server par save hote hain. Backup ke liye "Export" panel se CSV download karein.</p>
         </div>
       </div>
 
@@ -455,67 +540,142 @@
 <div class="toast-wrap" id="toast-container"></div>
 
 <script src="js/store.js"></script>
-<script src="js/seed.js"></script>
 <script>
 /* ============================================================
-   ADMIN LOGIC
+   ADMIN LOGIC - everything is saved on the server
    ============================================================ */
+const ADMIN = {
+  token: sessionStorage.getItem('rawan_admin_token') || '',
+  async call(method, url, body) {
+    let res;
+    try {
+      res = await fetch(rawanApiBase() + url, {
+        method,
+        headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), Authorization: 'Bearer ' + this.token },
+        body: body ? JSON.stringify(body) : undefined
+      });
+    } catch (e) {
+      throw new Error('Server se connection nahi hua');
+    }
+    if (res.status === 401 && url !== '/api/admin/login') {
+      showLogin('Session khatam ho gaya, dobara login karein');
+      throw new Error('Login required');
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.success === false) throw new Error(data.error || (data.errors || []).join(', ') || 'Kuch ghalat ho gaya');
+    return data;
+  }
+};
 
-const ADMIN_CREDS = { user: 'admin', pass: 'RAWAN2026' };
+const A = { products: [], orders: [], customers: [], rto: {}, settings: {}, storage: '' };
+
+function esc(v) {
+  return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+const rs = n => 'Rs. ' + Number(n || 0).toLocaleString();
+const fmtDate = d => d ? new Date(d).toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+const isEliteType = t => t === 'Founding' || t === 'ManualVIP';
+
+async function withBusy(btn, fn) {
+  const el = typeof btn === 'string' ? document.getElementById(btn) : btn;
+  const old = el ? el.innerHTML : '';
+  if (el) { el.disabled = true; el.textContent = 'Saving...'; }
+  try { return await fn(); }
+  catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error', 5000); }
+  finally { if (el) { el.disabled = false; el.innerHTML = old; } }
+}
 
 // ---- AUTH ----
-function doLogin() {
+function showLogin(msg) {
+  ADMIN.token = '';
+  sessionStorage.removeItem('rawan_admin_token');
+  document.getElementById('admin-wrap').classList.remove('on');
+  document.getElementById('admin-login').style.display = '';
+  if (msg) {
+    const err = document.getElementById('login-err');
+    err.textContent = msg;
+    err.style.display = 'block';
+  }
+}
+
+async function doLogin() {
   const user = document.getElementById('admin-user').value.trim();
   const pass = document.getElementById('admin-pass').value;
-  if (user === ADMIN_CREDS.user && pass === ADMIN_CREDS.pass) {
-    sessionStorage.setItem('RAWAN_admin', '1');
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-wrap').classList.add('on');
-    initAdmin();
-  } else {
-    document.getElementById('login-err').style.display = 'block';
+  const err = document.getElementById('login-err');
+  err.style.display = 'none';
+  try {
+    const res = await fetch(rawanApiBase() + '/api/admin/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user, pass })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) throw new Error(data.error || 'Invalid credentials');
+    ADMIN.token = data.token;
+    sessionStorage.setItem('rawan_admin_token', data.token);
+    document.getElementById('admin-pass').value = '';
+    await enterAdmin();
+    if (data.usingDefaultPassword) {
+      Toast.show('Default password abhi bhi laga hai — Store Settings se foran badlein!', 'error', 8000);
+    }
+  } catch (e) {
+    err.textContent = e.message;
+    err.style.display = 'block';
   }
 }
 
 function doLogout() {
-  sessionStorage.removeItem('RAWAN_admin');
+  showLogin();
   location.reload();
 }
 
+async function enterAdmin() {
+  await loadData();
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-wrap').classList.add('on');
+  initAdmin();
+}
+
+async function loadData() {
+  const d = await ADMIN.call('GET', '/api/admin/data');
+  Object.assign(A, d);
+}
+
 // ---- PANEL NAVIGATION ----
+const PANEL_RENDER = {
+  dashboard: () => renderDashboard(),
+  orders: () => renderOrders(),
+  products: () => renderProducts(),
+  elite: () => renderElite(),
+  inventory: () => renderInventory(),
+  coupons: () => renderCoupons(),
+  rto: () => renderRTO(),
+  dispatch: () => renderDispatch(),
+  analytics: () => renderAnalytics(),
+  collections: () => renderCollectionManager(),
+  countdown: () => fillCountdownForms(),
+  settings: () => fillSettingsForms()
+};
+
 document.querySelectorAll('.admin-nav-item').forEach(item => {
-  item.addEventListener('click', () => {
+  item.addEventListener('click', async () => {
     const panel = item.dataset.panel;
     document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('on'));
     document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('on'));
     item.classList.add('on');
     document.getElementById('panel-' + panel)?.classList.add('on');
     document.getElementById('panel-title').textContent = item.textContent.trim();
-    if (panel === 'orders') renderOrders();
-    if (panel === 'inventory') renderInventory();
-    if (panel === 'coupons') renderCoupons();
-    if (panel === 'rto') renderRTO();
-    if (panel === 'dispatch') renderDispatch();
-    if (panel === 'analytics') renderAnalytics();
-    if (panel === 'collections') renderCollectionManager();
+    // Fresh data each time a panel opens (new orders appear without reload)
+    try { await loadData(); } catch (e) { return; }
+    PANEL_RENDER[panel]?.();
   });
 });
 
+let adminInitDone = false;
 function initAdmin() {
-  renderDashboard();
-  renderOrders();
-  renderInventory();
-  renderCoupons();
-  renderRTO();
-  renderDispatch();
-  renderCollectionManager();
+  renderStorageBanner();
+  Object.values(PANEL_RENDER).forEach(fn => { try { fn(); } catch (e) { console.error(e); } });
+  if (adminInitDone) return;
+  adminInitDone = true;
 
-  // Set default countdown date
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 3);
-  document.getElementById('cd-end-date').value = tomorrow.toISOString().split('T')[0];
-
-  // Order search
   document.getElementById('order-srch').addEventListener('input', renderOrders);
   document.querySelectorAll('[data-order-filter]').forEach(chip => {
     chip.addEventListener('click', () => {
@@ -524,512 +684,825 @@ function initAdmin() {
       renderOrders();
     });
   });
+  document.getElementById('cust-srch').addEventListener('input', renderCustomers);
+  document.querySelectorAll('[data-cust-filter]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('[data-cust-filter]').forEach(c => c.classList.remove('on'));
+      chip.classList.add('on');
+      renderCustomers();
+    });
+  });
+}
+
+function renderStorageBanner() {
+  document.getElementById('storage-banner')?.remove();
+  if (A.storage === 'mongodb') return;
+  document.querySelector('.admin-content').insertAdjacentHTML('afterbegin', `
+    <div id="storage-banner" style="margin-bottom:var(--space-lg);padding:14px 16px;border-radius:12px;background:#FFF4E5;border:1px solid #F0C27B;color:#8A5300;font-size:.82rem;line-height:1.6">
+      ⚠️ <strong>Local storage mode:</strong> MongoDB connect nahi hai. Computer par testing ke liye theek hai, lekin internet (Render) par har restart par sara data mit jayega.
+      Live karne se pehle <strong>MONGODB_URI</strong> set karein (DEPLOYMENT_GUIDE.md dekhein).
+    </div>`);
 }
 
 // ---- DASHBOARD ----
 function renderDashboard() {
-  const orders = Store.orders;
-  const totalRev = orders.filter(o => o.status !== 'cancelled').reduce((s, o) => s + o.total, 0);
+  const orders = A.orders;
+  const live = orders.filter(o => o.status !== 'cancelled');
+  const totalRev = live.reduce((s, o) => s + o.total, 0);
   const pending = orders.filter(o => o.status === 'pending').length;
   const delivered = orders.filter(o => o.status === 'delivered').length;
   const cancelled = orders.filter(o => o.status === 'cancelled').length;
+  const eliteMembers = A.customers.filter(c => isEliteType(c.membershipType)).length;
+  const eliteRevenue = live.reduce((s, o) => s + (o.eliteCharge || 0), 0);
 
-  document.getElementById('stats-grid').innerHTML = `
+  const card = (lbl, val, note, cls = 'up') => `
     <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">Total Revenue</div>
-          <div class="stat-val">Rs. ${(totalRev/1000).toFixed(0)}K</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-      </div>
-      <div class="stat-change up">↑ All Time</div>
-    </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">Total Orders</div>
-          <div class="stat-val">${orders.length}</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div>
-      </div>
-      <div class="stat-change up">Live data</div>
-    </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">Pending COD</div>
-          <div class="stat-val">${pending}</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-      </div>
-      <div class="stat-change ${pending > 0 ? 'dn' : 'up'}">${pending > 0 ? 'Needs verification' : 'All clear!'}</div>
-    </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">Delivered</div>
-          <div class="stat-val">${delivered}</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
-      </div>
-      <div class="stat-change up">✓ Successful</div>
-    </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">Cancelled / RTO</div>
-          <div class="stat-val">${cancelled}</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
-      </div>
-      <div class="stat-change ${cancelled > 0 ? 'dn' : 'up'}">${cancelled > 0 ? 'Review RTO ledger' : 'No cancellations'}</div>
-    </div>
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start">
-        <div>
-          <div class="stat-lbl">RTO Ledger</div>
-          <div class="stat-val">${Object.keys(Store.rtoLedger).length}</div>
-        </div>
-        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
-      </div>
-      <div class="stat-change ${Object.keys(Store.rtoLedger).length > 0 ? 'dn' : 'up'}">High risk numbers</div>
-    </div>
-  `;
+      <div class="stat-lbl">${lbl}</div>
+      <div class="stat-val">${val}</div>
+      <div class="stat-change ${cls}">${note}</div>
+    </div>`;
+  document.getElementById('stats-grid').innerHTML = [
+    card('Total Revenue', rs(totalRev), 'Cancelled ke ilawa'),
+    card('Total Orders', orders.length, 'Live data'),
+    card('Pending COD', pending, pending ? 'Verification baqi' : 'All clear!', pending ? 'dn' : 'up'),
+    card('Delivered', delivered, '✓ Successful'),
+    card('Cancelled / RTO', cancelled, cancelled ? 'RTO ledger dekhein' : 'No cancellations', cancelled ? 'dn' : 'up'),
+    card('Elite Members', eliteMembers, `Elite charge income: ${rs(eliteRevenue)}`)
+  ].join('');
 
-  // Chart (demo data)
-  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-  const vals = [12000,28000,18000,35000,22000,45000,31000];
-  const max = Math.max(...vals);
+  // Real revenue for the last 7 days
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - i);
+    days.push(d);
+  }
+  const vals = days.map(d => {
+    const next = new Date(d); next.setDate(next.getDate() + 1);
+    return live.filter(o => { const t = new Date(o.date); return t >= d && t < next; }).reduce((s, o) => s + o.total, 0);
+  });
+  const max = Math.max(1, ...vals);
   document.getElementById('chart-bars').innerHTML = days.map((d, i) => `
     <div class="chart-bar-grp">
-      <div class="chart-bar" style="height:${Math.round((vals[i]/max)*140)}px" data-v="Rs. ${(vals[i]/1000).toFixed(0)}K"></div>
-      <div class="chart-lbl">${d}</div>
-    </div>
-  `).join('');
+      <div class="chart-bar" style="height:${Math.max(4, Math.round((vals[i] / max) * 140))}px" data-v="${rs(vals[i])}"></div>
+      <div class="chart-lbl">${d.toLocaleDateString('en-PK', { weekday: 'short' })}</div>
+    </div>`).join('');
+  const demoTag = document.querySelector('#revenue-chart span');
+  if (demoTag) demoTag.textContent = 'Live Data';
 
-  // Recent orders mini
-  const recent = [...Store.orders].reverse().slice(0, 5);
-  document.getElementById('recent-orders-mini').innerHTML = recent.length ? recent.map(o => `
+  document.getElementById('recent-orders-mini').innerHTML = orders.slice(0, 5).map(o => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0F0F2;font-size:.82rem">
-      <div>
-        <div style="font-weight:700">${o.customer.name}</div>
-        <div style="font-size:.72rem;color:var(--warm-grey)">${o.id}</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:800">Rs. ${o.total.toLocaleString()}</div>
-        <div class="status s-${o.status}" style="margin-top:2px">${o.status}</div>
-      </div>
-    </div>
-  `).join('') : '<p style="font-size:.82rem;color:var(--warm-grey)">Koi order nahi abhi tak</p>';
+      <div><div style="font-weight:700">${esc(o.customer.name)}</div><div style="font-size:.72rem;color:var(--warm-grey)">${esc(o.id)}</div></div>
+      <div style="text-align:right"><div style="font-weight:800">${rs(o.total)}</div><div class="status s-${esc(o.status)}" style="margin-top:2px">${esc(o.status)}</div></div>
+    </div>`).join('') || '<p style="font-size:.82rem;color:var(--warm-grey)">Koi order nahi abhi tak</p>';
 
-  // Low stock
   const lowStock = [];
-  PRODUCTS.forEach(p => {
-    Object.entries(p.stock).forEach(([sz, qty]) => {
-      if (qty <= 2) lowStock.push({ name: p.name, size: sz, qty });
-    });
-  });
-  document.getElementById('low-stock-alert').innerHTML = lowStock.length ? lowStock.map(ls => `
+  A.products.forEach(p => Object.entries(p.stock || {}).forEach(([sz, qty]) => { if (qty <= 2) lowStock.push({ name: p.name, size: sz, qty }); }));
+  document.getElementById('low-stock-alert').innerHTML = lowStock.map(ls => `
     <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F0F0F2;font-size:.82rem">
-      <div style="font-weight:700">${ls.name} <span style="color:var(--warm-grey)">EU ${ls.size}</span></div>
-      <div style="font-weight:900;color:${ls.qty === 0 ? 'var(--danger)' : 'var(--warning)'}">
-        ${ls.qty === 0 ? 'OUT' : ls.qty + ' left'}
-      </div>
-    </div>
-  `).join('') : '<p style="font-size:.82rem;color:var(--success)">✓ All sizes well stocked</p>';
+      <div style="font-weight:700">${esc(ls.name)} <span style="color:var(--warm-grey)">EU ${esc(ls.size)}</span></div>
+      <div style="font-weight:900;color:${ls.qty === 0 ? 'var(--danger)' : 'var(--warning)'}">${ls.qty === 0 ? 'OUT' : ls.qty + ' left'}</div>
+    </div>`).join('') || '<p style="font-size:.82rem;color:var(--success)">✓ All sizes well stocked</p>';
 
-  setTimeout(animateChartBars, 200);
+  if (typeof animateChartBars === 'function') setTimeout(animateChartBars, 200);
 }
 
-// ---- ORDERS TABLE ----
-async function renderOrders() {
-  const filterEl = document.querySelector('[data-order-filter].on');
-  const filter = filterEl?.dataset.orderFilter || 'all';
-  const search = document.getElementById('order-srch')?.value.toLowerCase() || '';
+// ---- ORDERS ----
+const STATUSES = ['pending', 'confirmed', 'packed', 'dispatched', 'delivered', 'cancelled'];
 
-  let serverOrders = await RawanAPI.getOrders(filter, search);
-    let orders = serverOrders && serverOrders.length ? serverOrders : [...Store.orders].reverse();
+function renderOrders() {
+  const filter = document.querySelector('[data-order-filter].on')?.dataset.orderFilter || 'all';
+  const search = (document.getElementById('order-srch')?.value || '').toLowerCase().trim();
+  let orders = A.orders;
   if (filter !== 'all') orders = orders.filter(o => o.status === filter);
   if (search) orders = orders.filter(o =>
-    o.id.toLowerCase().includes(search) ||
-    o.customer.name.toLowerCase().includes(search) ||
-    o.customer.phone.includes(search) ||
-    o.customer.city.toLowerCase().includes(search)
-  );
+    o.id.toLowerCase().includes(search) || o.customer.name.toLowerCase().includes(search) ||
+    o.customer.phone.includes(search) || o.customer.city.toLowerCase().includes(search));
 
   const tbody = document.getElementById('orders-tbody');
   if (!orders.length) {
     tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi order nahi mila</td></tr>';
     return;
   }
-
-  tbody.innerHTML = orders.map(order => {
-    const risk = RTO.getRiskLevel(order.customer.phone);
-    const isRTO = risk === 'high';
+  tbody.innerHTML = orders.map(o => {
+    const rto = A.rto[o.customer.phone];
+    const elite = isEliteType(o.membershipAtOrder);
     return `
-      <tr class="${isRTO ? 'rto' : ''}">
-        <td><span style="font-family:monospace;font-weight:700">${order.id}</span>${isRTO ? '<br><span class="rto-badge">⚠ HIGH RISK</span>' : ''}</td>
+      <tr class="${rto ? 'rto' : ''}">
         <td>
-          <div style="font-weight:700">${order.customer.name}</div>
-          <div style="font-size:.72rem;color:var(--warm-grey)">${order.customer.phone}</div>
+          <span style="font-family:monospace;font-weight:700">${esc(o.id)}</span>
+          <div style="font-size:.68rem;color:var(--warm-grey)">${fmtDate(o.date)}</div>
+          ${rto ? `<span class="rto-badge">⚠ RTO x${rto.count}</span>` : ''}
+          ${o.advanceRequired ? `<div style="font-size:.66rem;color:var(--warning);font-weight:700">Advance ${rs(o.advanceAmount)}</div>` : ''}
         </td>
-        <td>${order.customer.city}</td>
-        <td style="font-size:.78rem">${order.items.map(i => `${i.name} (${i.size})`).join(', ')}</td>
-        <td style="font-weight:800">Rs. ${order.total.toLocaleString()}</td>
-        <td><span style="font-size:.78rem;font-weight:700;text-transform:uppercase">${order.paymentMethod === 'cod' ? '💵 COD' : '🏦 Bank'}</span></td>
-        <td><span class="status s-${order.status}">${order.status}</span></td>
+        <td>
+          <div style="font-weight:700">${esc(o.customer.name)} ${elite ? '<span title="Elite Member" style="color:var(--emerald)">✦</span>' : ''}</div>
+          <div style="font-size:.72rem;color:var(--warm-grey)">${esc(o.customer.phone)}</div>
+          <div style="font-size:.68rem;color:var(--warm-grey);max-width:200px">${esc(o.customer.address)}</div>
+          ${o.customer.notes ? `<div style="font-size:.68rem;color:var(--accent-gold)">📝 ${esc(o.customer.notes)}</div>` : ''}
+        </td>
+        <td>${esc(o.customer.city)}</td>
+        <td style="font-size:.78rem">${o.items.map(i => `${esc(i.name)} (EU ${esc(i.size)}${i.color ? ', ' + esc(i.color) : ''}) x${i.qty}`).join('<br>')}</td>
+        <td style="font-weight:800">${rs(o.total)}
+          ${o.eliteCharge ? `<div style="font-size:.66rem;color:var(--emerald)">incl. Elite ${rs(o.eliteCharge)}</div>` : ''}
+          ${o.becameFounding ? '<div style="font-size:.66rem;color:var(--emerald);font-weight:700">New Founding Member</div>' : ''}
+        </td>
+        <td><span style="font-size:.78rem;font-weight:700;text-transform:uppercase">${o.paymentMethod === 'cod' ? '💵 COD' : '🏦 Bank'}</span></td>
+        <td>
+          <select class="sort-sel" onchange="changeStatus('${esc(o.id)}', this.value, this)">
+            ${STATUSES.map(s => `<option value="${s}" ${s === o.status ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+        </td>
         <td>
           <div class="ord-actions">
-            <button class="act-btn act-wa" onclick="sendWAVerification('${order.id}')">📱 Verify</button>
-            <button class="act-btn act-status" onclick="changeStatus('${order.id}')">Update Status</button>
-            ${isRTO ? `<button class="act-btn act-danger" onclick="clearRTO('${order.customer.phone}')">Clear RTO</button>` : ''}
+            <button class="act-btn act-wa" onclick="sendWAVerification('${esc(o.id)}')">📱 Verify</button>
+            ${rto ? '' : `<button class="act-btn act-danger" onclick="markRTOPhone('${esc(o.customer.phone)}')">Mark RTO</button>`}
           </div>
         </td>
-      </tr>
-    `;
+      </tr>`;
   }).join('');
 }
 
+function customerWA(phone, text) {
+  const intl = '92' + String(phone).replace(/\D/g, '').replace(/^0/, '');
+  window.open(`https://wa.me/${intl}?text=${encodeURIComponent(text)}`, '_blank');
+}
+
 function sendWAVerification(orderId) {
-  const order = Store.orders.find(o => o.id === orderId);
-  if (!order) return;
-  const url = Checkout.generateWhatsAppVerification(order);
-  window.open(url, '_blank');
-  Toast.show(`WhatsApp verification sent for ${orderId}`, 'success');
+  const o = A.orders.find(x => x.id === orderId);
+  if (!o) return;
+  const items = o.items.map(i => `• ${i.name} (Size ${i.size}) x${i.qty}`).join('\n');
+  const msg = `Assalam-o-Alaikum ${o.customer.name}! 🌹\nRAWAN Footwear se raabta kar rahe hain.\n\n*Order ID:* ${o.id}\n${items}\n\n*Address:* ${o.customer.address}, ${o.customer.city}\n*Total:* Rs. ${o.total.toLocaleString()} (${o.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'})` +
+    (o.advanceRequired ? `\n\n⚠️ Advance deposit Rs. ${o.advanceAmount} EasyPaisa/JazzCash par bhej dein.` : '') +
+    `\n\nKya hum yeh order confirm kar dein? ✅`;
+  customerWA(o.customer.phone, msg);
 }
 
-function changeStatus(orderId) {
-  const order = Store.orders.find(o => o.id === orderId);
-  if (!order) return;
-  const statuses = ['pending','confirmed','packed','dispatched','delivered','cancelled'];
-  const current = statuses.indexOf(order.status);
-  const next = statuses[(current + 1) % statuses.length];
-  const confirm = window.confirm(`Status change: ${order.status} → ${next}?`);
-  if (confirm) {
-    order.status = next;
-      RawanAPI.updateOrderStatus(orderId, next);
-    Store.save();
-    renderOrders();
-    renderDashboard();
-    Toast.show(`Order ${orderId} → ${next}`, 'success');
+async function changeStatus(orderId, status, selectEl) {
+  const o = A.orders.find(x => x.id === orderId);
+  if (!o || o.status === status) return;
+  if (status === 'cancelled' && !confirm(`Order ${orderId} cancel karein? Stock wapis add ho jayega.`)) {
+    selectEl.value = o.status; return;
+  }
+  try {
+    const res = await ADMIN.call('PATCH', '/api/admin/orders/' + encodeURIComponent(orderId), { status });
+    Object.assign(o, res.order);
+    if (status === 'cancelled') await loadData();
+    renderOrders(); renderDashboard(); renderDispatch(); renderInventory();
+    Toast.show(`Order ${orderId} → ${status}`, 'success');
+  } catch (e) {
+    selectEl.value = o.status;
+    if (e.message !== 'Login required') Toast.show(e.message, 'error');
   }
 }
 
-function clearRTO(phone) {
-  if (window.confirm(`RTO record clear karein: ${phone}?`)) {
-    delete Store.rtoLedger[phone.replace(/\D/g, '')];
-    Store.save();
-    renderRTO();
-    renderOrders();
-    Toast.show('RTO record cleared', 'success');
+// ---- PRODUCTS ----
+function productThumb(p) {
+  const img = (p.images || [])[0];
+  return img ? `<img src="${esc(img)}" alt="" style="width:100%;height:100%;object-fit:cover">` : '<div style="font-size:1.6rem">👠</div>';
+}
+
+function renderProducts() {
+  const list = document.getElementById('prod-list');
+  if (!A.products.length) {
+    list.innerHTML = '<div class="admin-card" style="text-align:center;color:var(--warm-grey)">Abhi koi product nahi. "+ Add Product" dabayein.</div>';
+    return;
   }
+  list.innerHTML = A.products.map(p => {
+    const totalStock = Object.values(p.stock || {}).reduce((a, b) => a + b, 0);
+    const isExec = p.collection === 'executive';
+    return `
+      <div class="prod-adm-card ${p.active === false ? 'is-hidden' : ''}">
+        <div class="prod-adm-img">${productThumb(p)}</div>
+        <div class="prod-adm-body">
+          <div class="prod-adm-name">${esc(p.name)}</div>
+          <div style="font-size:.72rem;font-weight:700;color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Executive' : '◈ Regular'}${p.active === false ? ' · <span style="color:var(--danger)">Hidden</span>' : ''}</div>
+          <div style="font-weight:800;margin-top:4px">${rs(p.price)} ${p.originalPrice ? `<s style="color:var(--warm-grey);font-weight:500;font-size:.78rem">${rs(p.originalPrice)}</s>` : ''}</div>
+          <div style="font-size:.72rem;color:var(--warm-grey)">Stock: ${totalStock} pairs${isExec && A.settings.elite.chargeEnabled ? ` · Elite charge: ${rs(p.eliteCharge ?? A.settings.elite.chargePerItem)}` : ''}</div>
+          <div style="display:flex;gap:6px;margin-top:10px">
+            <button class="act-btn act-status" onclick="openProductForm('${esc(p.id)}')">Edit</button>
+            <a class="act-btn" href="product.html?id=${encodeURIComponent(p.id)}" target="_blank">View</a>
+            <button class="act-btn act-danger" onclick="deleteProduct('${esc(p.id)}')">Delete</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+let pfImages = [];
+let pfEditingId = null;
+
+function openProductForm(id) {
+  const p = id ? A.products.find(x => x.id === id) : null;
+  pfEditingId = p ? p.id : null;
+  pfImages = p ? [...(p.images || [])] : [];
+  const v = (x, d = '') => esc(x ?? d);
+  const stock = p ? p.stock : { 35: 0, 36: 0, 37: 0, 38: 0, 39: 0, 40: 0 };
+  document.getElementById('pf-title').textContent = p ? 'Edit Product' : 'Add New Product';
+  document.getElementById('pf-body').innerHTML = `
+    <div class="form-grid">
+      <div class="f-group"><label class="f-label" for="pf-name">Product Name *</label><input class="f-inp" id="pf-name" value="${v(p?.name)}" placeholder="e.g. Noor Stiletto Heel"></div>
+      <div class="admin-form-row">
+        <div class="f-group"><label class="f-label" for="pf-collection">Collection</label>
+          <select class="f-sel" id="pf-collection">
+            <option value="regular" ${p?.collection !== 'executive' ? 'selected' : ''}>◈ Regular</option>
+            <option value="executive" ${p?.collection === 'executive' ? 'selected' : ''}>✦ Executive (Elite charge lagega)</option>
+          </select></div>
+        <div class="f-group"><label class="f-label" for="pf-badge">Badge</label>
+          <select class="f-sel" id="pf-badge">
+            ${[['', 'None'], ['exec', '✦ Executive'], ['bestseller', 'Bestseller'], ['new', 'New'], ['limited', 'Limited']].map(([val, lbl]) => `<option value="${val}" ${(p?.badge || '') === val ? 'selected' : ''}>${lbl}</option>`).join('')}
+          </select></div>
+      </div>
+      <div class="admin-form-row">
+        <div class="f-group"><label class="f-label" for="pf-price">Price (Rs.) *</label><input class="f-inp" id="pf-price" type="number" min="0" value="${v(p?.price)}"></div>
+        <div class="f-group"><label class="f-label" for="pf-orig">Original Price (sale ke liye, optional)</label><input class="f-inp" id="pf-orig" type="number" min="0" value="${v(p?.originalPrice)}"></div>
+      </div>
+      <div class="f-group" id="pf-elite-row"><label class="f-label" for="pf-elite">Elite Charge (Rs.) — khali chhorein to default ${rs(A.settings.elite.chargePerItem)}</label><input class="f-inp" id="pf-elite" type="number" min="0" value="${v(p?.eliteCharge)}" placeholder="Default"></div>
+      <div class="admin-form-row">
+        <div class="f-group"><label class="f-label" for="pf-heeltype">Heel Type</label>
+          <select class="f-sel" id="pf-heeltype">${['stiletto', 'block', 'kitten', 'flat'].map(h => `<option value="${h}" ${p?.heelType === h ? 'selected' : ''}>${h}</option>`).join('')}</select></div>
+        <div class="f-group"><label class="f-label" for="pf-heelheight">Heel Height</label><input class="f-inp" id="pf-heelheight" value="${v(p?.heelHeight)}" placeholder="e.g. 3 inch"></div>
+      </div>
+      <div class="admin-form-row">
+        <div class="f-group"><label class="f-label" for="pf-category">Categories (comma se)</label><input class="f-inp" id="pf-category" value="${v((p?.category || ['women']).join(', '))}" placeholder="women, heels, party"></div>
+        <div class="f-group"><label class="f-label" for="pf-occasions">Occasions (comma se)</label><input class="f-inp" id="pf-occasions" value="${v((p?.occasions || []).join(', '))}" placeholder="Wedding Guest Look, Night Party Glam"></div>
+      </div>
+      <div class="f-group"><label class="f-label" for="pf-promise">Short Tagline</label><input class="f-inp" id="pf-promise" value="${v(p?.promise)}" maxlength="200"></div>
+      <div class="admin-form-row">
+        <div class="f-group"><label class="f-label" for="pf-fit">Fit</label>
+          <select class="f-sel" id="pf-fit">${[['tts', 'True to Size'], ['small', 'Runs Small'], ['large', 'Runs Large']].map(([val, lbl]) => `<option value="${val}" ${p?.fitIndicator === val ? 'selected' : ''}>${lbl}</option>`).join('')}</select></div>
+        <div class="f-group"><label class="f-label">Options</label>
+          <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;margin-top:6px"><input type="checkbox" id="pf-active" ${p?.active === false ? '' : 'checked'}> Website par dikhayein</label>
+          <label style="display:flex;gap:8px;align-items:center;font-size:.82rem;margin-top:4px"><input type="checkbox" id="pf-rec" ${p?.recommended ? 'checked' : ''}> ⭐ Highly Recommended</label>
+        </div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label">Photos (pehli photo main hogi)</label>
+        <div id="pf-images" class="pf-images"></div>
+        <label class="btn btn-outline btn-sm" style="margin-top:8px;display:inline-block;cursor:pointer">
+          📷 Photos Upload <input type="file" id="pf-file" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="uploadProductImages(this)">
+        </label>
+        <span id="pf-upload-status" style="font-size:.75rem;color:var(--warm-grey);margin-left:8px"></span>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" for="pf-sizes">Sizes (comma se)</label>
+        <input class="f-inp" id="pf-sizes" value="${Object.keys(stock).join(', ')}" onchange="renderStockInputs()">
+        <div id="pf-stock" class="inv-sizes" style="margin-top:8px" data-initial='${esc(JSON.stringify(stock))}'></div>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label" for="pf-colors">Colors — har line: Naam | #hexcode</label>
+        <textarea class="f-inp" id="pf-colors" rows="3" placeholder="Midnight Black | #1A1A1A">${esc((p?.colors || [{ name: 'Black', hex: '#1A1A1A' }]).map(c => `${c.name} | ${c.hex}`).join('\n'))}</textarea>
+      </div>
+      <div class="f-group"><label class="f-label" for="pf-material">Material / Details (har point ke baad full stop)</label><textarea class="f-inp" id="pf-material" rows="3">${v(p?.material)}</textarea></div>
+      <div class="f-group"><label class="f-label" for="pf-care">Care Instructions</label><textarea class="f-inp" id="pf-care" rows="2">${v(p?.care)}</textarea></div>
+    </div>`;
+  renderStockInputs();
+  renderPfImages();
+  const toggleElite = () => { document.getElementById('pf-elite-row').style.display = document.getElementById('pf-collection').value === 'executive' ? '' : 'none'; };
+  document.getElementById('pf-collection').addEventListener('change', toggleElite);
+  toggleElite();
+  document.getElementById('pf-modal').classList.add('on');
+}
+
+function closeProductForm() {
+  document.getElementById('pf-modal').classList.remove('on');
+}
+
+function renderStockInputs() {
+  const wrap = document.getElementById('pf-stock');
+  const current = {};
+  wrap.querySelectorAll('input').forEach(i => { current[i.dataset.size] = i.value; });
+  const initial = JSON.parse(wrap.dataset.initial || '{}');
+  const sizes = document.getElementById('pf-sizes').value.split(',').map(s => s.trim()).filter(s => /^\d+(\.\d)?$/.test(s));
+  wrap.innerHTML = sizes.map(sz => `
+    <div class="inv-sz"><span class="inv-sz-lbl">${esc(sz)}</span>
+      <input class="inv-sz-inp" type="number" min="0" data-size="${esc(sz)}" value="${esc(current[sz] ?? initial[sz] ?? 0)}"></div>`).join('');
+}
+
+function renderPfImages() {
+  document.getElementById('pf-images').innerHTML = pfImages.map((src, i) => `
+    <div class="pf-img">
+      <img src="${esc(src)}" alt="">
+      ${i === 0 ? '<span class="pf-img-main">Main</span>' : `<button type="button" title="Main banayein" onclick="pfMakeMain(${i})">★</button>`}
+      <button type="button" class="pf-img-del" title="Remove" onclick="pfRemoveImg(${i})">✕</button>
+    </div>`).join('') || '<div style="font-size:.78rem;color:var(--warm-grey)">Koi photo nahi</div>';
+}
+function pfMakeMain(i) { pfImages.unshift(pfImages.splice(i, 1)[0]); renderPfImages(); }
+function pfRemoveImg(i) { pfImages.splice(i, 1); renderPfImages(); }
+
+function compressImage(file, maxDim = 1400, quality = 0.84) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * scale);
+      c.height = Math.round(img.height * scale);
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error(file.name + ' read nahi hui')); };
+    img.src = url;
+  });
+}
+
+async function uploadProductImages(input) {
+  const files = [...input.files].slice(0, 8);
+  const status = document.getElementById('pf-upload-status');
+  for (let i = 0; i < files.length; i++) {
+    status.textContent = `Uploading ${i + 1}/${files.length}...`;
+    try {
+      const dataUrl = await compressImage(files[i]);
+      const res = await ADMIN.call('POST', '/api/admin/images', { dataUrl });
+      pfImages.push(res.url);
+      renderPfImages();
+    } catch (e) {
+      Toast.show(e.message, 'error');
+    }
+  }
+  status.textContent = '';
+  input.value = '';
+}
+
+async function saveProduct() {
+  const name = document.getElementById('pf-name').value.trim();
+  const price = parseInt(document.getElementById('pf-price').value, 10);
+  if (!name) { Toast.show('Product name zaroori hai', 'error'); return; }
+  if (!price || price < 0) { Toast.show('Price zaroori hai', 'error'); return; }
+  if (!pfImages.length) { Toast.show('Kam az kam ek photo upload karein', 'error'); return; }
+  const stock = {};
+  document.querySelectorAll('#pf-stock input').forEach(i => { stock[i.dataset.size] = parseInt(i.value, 10) || 0; });
+  const colors = document.getElementById('pf-colors').value.split('\n').map(line => {
+    const [n, hex] = line.split('|').map(s => (s || '').trim());
+    return n ? { name: n, label: n, hex: hex || '#1A1A1A' } : null;
+  }).filter(Boolean);
+  const eliteVal = document.getElementById('pf-elite').value.trim();
+  const payload = {
+    name,
+    collection: document.getElementById('pf-collection').value,
+    badge: document.getElementById('pf-badge').value,
+    price,
+    originalPrice: parseInt(document.getElementById('pf-orig').value, 10) || null,
+    eliteCharge: eliteVal === '' ? null : parseInt(eliteVal, 10),
+    heelType: document.getElementById('pf-heeltype').value,
+    heelHeight: document.getElementById('pf-heelheight').value,
+    category: document.getElementById('pf-category').value.split(','),
+    occasions: document.getElementById('pf-occasions').value.split(','),
+    promise: document.getElementById('pf-promise').value,
+    fitIndicator: document.getElementById('pf-fit').value,
+    fitLabel: document.getElementById('pf-fit').selectedOptions[0].textContent,
+    active: document.getElementById('pf-active').checked,
+    recommended: document.getElementById('pf-rec').checked,
+    images: pfImages,
+    stock,
+    colors,
+    material: document.getElementById('pf-material').value,
+    care: document.getElementById('pf-care').value
+  };
+  await withBusy('pf-save', async () => {
+    if (pfEditingId) await ADMIN.call('PUT', '/api/admin/products/' + encodeURIComponent(pfEditingId), payload);
+    else await ADMIN.call('POST', '/api/admin/products', payload);
+    await loadData();
+    renderProducts(); renderInventory(); renderCollectionManager(); renderDashboard();
+    closeProductForm();
+    Toast.show(`${name} saved — website par live`, 'success');
+  });
+}
+
+async function deleteProduct(id) {
+  const p = A.products.find(x => x.id === id);
+  if (!p || !confirm(`"${p.name}" hamesha ke liye delete karein? (Sirf chhupana ho to Edit > "Website par dikhayein" off karein)`)) return;
+  try {
+    await ADMIN.call('DELETE', '/api/admin/products/' + encodeURIComponent(id));
+    await loadData();
+    renderProducts(); renderInventory(); renderCollectionManager();
+    Toast.show('Product deleted', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
+}
+
+// ---- ELITE MEMBERS ----
+function renderElite() {
+  const e = A.settings.elite;
+  const members = A.customers.filter(c => isEliteType(c.membershipType));
+  const live = A.orders.filter(o => o.status !== 'cancelled');
+  const eliteIncome = live.reduce((s, o) => s + (o.eliteCharge || 0), 0);
+  const waived = live.reduce((s, o) => s + (o.eliteSaved || 0), 0);
+  document.getElementById('elite-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-lbl">Founding Members</div><div class="stat-val">${A.settings.foundingTaken} / ${e.foundingLimit}</div><div class="stat-change ${e.foundingActive ? 'up' : 'dn'}">${e.foundingActive ? 'Auto-membership ON' : 'Auto-membership OFF'}</div></div>
+    <div class="stat-card"><div class="stat-lbl">Total Elite Members</div><div class="stat-val">${members.length}</div><div class="stat-change up">Founding + VIP</div></div>
+    <div class="stat-card"><div class="stat-lbl">Elite Charge Income</div><div class="stat-val">${rs(eliteIncome)}</div><div class="stat-change up">Non-members se</div></div>
+    <div class="stat-card"><div class="stat-lbl">Members ko Bachat</div><div class="stat-val">${rs(waived)}</div><div class="stat-change up">Waived charges</div></div>`;
+  document.getElementById('el-founding-active').checked = !!e.foundingActive;
+  document.getElementById('el-founding-limit').value = e.foundingLimit;
+  document.getElementById('el-founding-used').value = `${A.settings.foundingTaken} used`;
+  document.getElementById('el-charge-enabled').checked = !!e.chargeEnabled;
+  document.getElementById('el-charge').value = e.chargePerItem;
+  document.getElementById('el-label').value = e.label;
+  renderCustomers();
+}
+
+function renderCustomers() {
+  const filter = document.querySelector('[data-cust-filter].on')?.dataset.custFilter || 'all';
+  const q = (document.getElementById('cust-srch')?.value || '').toLowerCase().trim();
+  let list = A.customers;
+  if (filter === 'elite') list = list.filter(c => isEliteType(c.membershipType));
+  else if (filter !== 'all') list = list.filter(c => c.membershipType === filter);
+  if (q) list = list.filter(c => (c.name || '').toLowerCase().includes(q) || c.phone.includes(q) || (c.city || '').toLowerCase().includes(q));
+  const tbody = document.getElementById('cust-tbody');
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi customer nahi</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(c => `
+    <tr>
+      <td><div style="font-weight:700">${esc(c.name)} ${isEliteType(c.membershipType) ? '<span style="color:var(--emerald)">✦</span>' : ''}</div><div style="font-size:.72rem;color:var(--warm-grey)">${esc(c.phone)}</div></td>
+      <td>${esc(c.city)}</td>
+      <td style="font-weight:800">${c.ordersCount}</td>
+      <td>${rs(c.totalSpend)}</td>
+      <td>
+        <select class="sort-sel" onchange="setMembership('${esc(c.phone)}', this.value, this)">
+          <option value="Standard" ${c.membershipType === 'Standard' ? 'selected' : ''}>Standard</option>
+          <option value="Founding" ${c.membershipType === 'Founding' ? 'selected' : ''}>✦ Founding${c.foundingNumber ? ' #' + c.foundingNumber : ''}</option>
+          <option value="ManualVIP" ${c.membershipType === 'ManualVIP' ? 'selected' : ''}>✦ VIP (manual)</option>
+        </select>
+      </td>
+      <td style="font-size:.78rem;color:var(--warm-grey)">${fmtDate(c.eliteSince)}</td>
+    </tr>`).join('');
+}
+
+async function setMembership(phone, type, sel) {
+  const c = A.customers.find(x => x.phone === phone);
+  try {
+    const res = await ADMIN.call('PATCH', '/api/admin/customers/' + encodeURIComponent(phone), { membershipType: type });
+    Object.assign(c, res.customer);
+    await loadData();
+    renderElite();
+    Toast.show(`${c.name}: ${type}`, 'success');
+  } catch (e) {
+    sel.value = c.membershipType;
+    if (e.message !== 'Login required') Toast.show(e.message, 'error');
+  }
+}
+
+async function saveEliteSettings() {
+  await withBusy('btn-save-elite', async () => {
+    const res = await ADMIN.call('PUT', '/api/admin/settings', {
+      elite: {
+        foundingActive: document.getElementById('el-founding-active').checked,
+        foundingLimit: parseInt(document.getElementById('el-founding-limit').value, 10) || 0,
+        chargeEnabled: document.getElementById('el-charge-enabled').checked,
+        chargePerItem: parseInt(document.getElementById('el-charge').value, 10) || 0,
+        label: document.getElementById('el-label').value
+      }
+    });
+    A.settings = res.settings;
+    renderElite(); renderProducts();
+    Toast.show('Elite settings saved', 'success');
+  });
 }
 
 // ---- INVENTORY ----
 function renderInventory() {
-  const grid = document.getElementById('inv-grid');
-  grid.innerHTML = PRODUCTS.map(p => `
+  document.getElementById('inv-grid').innerHTML = A.products.map(p => `
     <div class="inv-card">
       <div class="inv-card-hd">
-        <div class="inv-card-img" style="font-size:1.5rem">👟</div>
-        <div>
-          <div class="inv-card-name">${p.name}</div>
-          <div class="inv-card-cat">${p.category.join(' · ')}</div>
-        </div>
+        <div class="inv-card-img" style="overflow:hidden">${productThumb(p)}</div>
+        <div><div class="inv-card-name">${esc(p.name)}</div><div class="inv-card-cat">${esc((p.category || []).join(' · '))}</div></div>
       </div>
       <div class="inv-sizes">
-        ${Object.entries(p.stock).map(([sz, qty]) => `
-          <div class="inv-sz">
-            <span class="inv-sz-lbl">${sz}</span>
-            <input class="inv-sz-inp ${qty === 0 ? 'zero' : qty <= 2 ? 'low' : ''}" 
-                   type="number" min="0" max="999" value="${qty}"
-                   data-product="${p.id}" data-size="${sz}"
-                   onchange="updateStockUI(this)">
-          </div>
-        `).join('')}
+        ${Object.entries(p.stock || {}).map(([sz, qty]) => `
+          <div class="inv-sz"><span class="inv-sz-lbl">${esc(sz)}</span>
+            <input class="inv-sz-inp ${qty === 0 ? 'zero' : qty <= 2 ? 'low' : ''}" type="number" min="0" max="999" value="${qty}"
+                   data-product="${esc(p.id)}" data-size="${esc(sz)}" onchange="updateStockUI(this)"></div>`).join('')}
       </div>
-      <div class="inv-save-row">
-        <button class="btn btn-primary btn-sm" style="flex:1" onclick="saveProductInventory('${p.id}')">Save ${p.name.split(' ')[1]}</button>
-      </div>
-    </div>
-  `).join('');
+      <div class="inv-save-row"><button class="btn btn-primary btn-sm" style="flex:1" id="inv-save-${esc(p.id)}" onclick="saveProductInventory('${esc(p.id)}')">Save</button></div>
+    </div>`).join('') || '<p style="color:var(--warm-grey)">Pehle Products mein items add karein.</p>';
 }
 
 function updateStockUI(inp) {
-  const val = parseInt(inp.value) || 0;
+  const val = parseInt(inp.value, 10) || 0;
   inp.className = 'inv-sz-inp ' + (val === 0 ? 'zero' : val <= 2 ? 'low' : '');
 }
 
-function saveProductInventory(productId) {
-  const product = PRODUCTS.find(p => p.id === productId);
-  if (!product) return;
-  document.querySelectorAll(`[data-product="${productId}"]`).forEach(inp => {
-    product.stock[inp.dataset.size] = parseInt(inp.value) || 0;
-  });
-  Toast.show(`${product.name} stock updated`, 'success');
+async function saveProductInventory(productId, silent) {
+  const p = A.products.find(x => x.id === productId);
+  if (!p) return;
+  const stock = { ...p.stock };
+  document.querySelectorAll(`[data-product="${CSS.escape(productId)}"]`).forEach(inp => { stock[inp.dataset.size] = parseInt(inp.value, 10) || 0; });
+  const run = async () => {
+    const res = await ADMIN.call('PUT', '/api/admin/products/' + encodeURIComponent(productId), { stock });
+    Object.assign(p, res.product);
+    if (!silent) Toast.show(`${p.name} stock updated`, 'success');
+  };
+  if (silent) return run();
+  await withBusy('inv-save-' + productId, run);
 }
 
-function saveAllInventory() {
-  PRODUCTS.forEach(p => saveProductInventory(p.id));
-  Toast.show('All inventory saved', 'success');
+async function saveAllInventory() {
+  try {
+    for (const p of A.products) await saveProductInventory(p.id, true);
+    renderDashboard();
+    Toast.show('All inventory saved', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
 // ---- COUPONS ----
 function renderCoupons() {
-  const list = document.getElementById('coupon-list');
-  const coupons = Object.entries(Store.coupons);
-  list.innerHTML = coupons.length ? coupons.map(([code, c]) => `
+  const coupons = Object.entries(A.settings.coupons || {});
+  document.getElementById('coupon-list').innerHTML = coupons.map(([code, c]) => `
     <div class="coupon-row-adm">
-      <div>
-        <div class="coupon-code">${code}</div>
-        <div class="coupon-det">${c.type === 'percent' ? c.value + '% off' : 'Rs. ' + c.value + ' off'} · ${c.label}</div>
-      </div>
-      <button class="act-btn act-danger" onclick="deleteCoupon('${code}')">Delete</button>
-    </div>
-  `).join('') : '<p style="font-size:.82rem;color:var(--warm-grey)">No coupons yet</p>';
+      <div><div class="coupon-code">${esc(code)}</div><div class="coupon-det">${c.type === 'percent' ? c.value + '% off' : 'Rs. ' + c.value + ' off'} · ${esc(c.label)}</div></div>
+      <button class="act-btn act-danger" onclick="deleteCoupon('${esc(code)}')">Delete</button>
+    </div>`).join('') || '<p style="font-size:.82rem;color:var(--warm-grey)">No coupons yet</p>';
 }
 
-function createCoupon() {
+async function saveCoupons(coupons, msg) {
+  const res = await ADMIN.call('PUT', '/api/admin/settings', { coupons });
+  A.settings = res.settings;
+  renderCoupons();
+  Toast.show(msg, 'success');
+}
+
+async function createCoupon() {
   const code = document.getElementById('new-coupon-code').value.trim().toUpperCase();
   const type = document.getElementById('new-coupon-type').value;
   const value = parseFloat(document.getElementById('new-coupon-value').value);
   const label = document.getElementById('new-coupon-label').value.trim();
   if (!code || !value || !label) { Toast.show('Fill all fields', 'error'); return; }
-  Store.coupons[code] = { type, value, label };
-  renderCoupons();
-  Toast.show(`Coupon ${code} created`, 'success');
-  document.getElementById('new-coupon-code').value = '';
-  document.getElementById('new-coupon-value').value = '';
-  document.getElementById('new-coupon-label').value = '';
+  try {
+    await saveCoupons({ ...A.settings.coupons, [code]: { type, value, label } }, `Coupon ${code} created`);
+    ['new-coupon-code', 'new-coupon-value', 'new-coupon-label'].forEach(id => { document.getElementById(id).value = ''; });
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
-function deleteCoupon(code) {
-  if (window.confirm(`Delete coupon "${code}"?`)) {
-    delete Store.coupons[code];
-    renderCoupons();
-    Toast.show(`Coupon ${code} deleted`, 'error');
-  }
+async function deleteCoupon(code) {
+  if (!confirm(`Delete coupon "${code}"?`)) return;
+  const coupons = { ...A.settings.coupons };
+  delete coupons[code];
+  try { await saveCoupons(coupons, `Coupon ${code} deleted`); }
+  catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
-// ---- COUNTDOWN ----
-function saveCountdown() {
+// ---- COUNTDOWN & DROP ----
+function fillCountdownForms() {
+  const cd = A.settings.countdown || {};
+  document.getElementById('cd-active').checked = !!cd.active;
+  document.getElementById('cd-label').value = cd.label || 'Limited Drop Ends In';
+  const end = cd.endTime ? new Date(cd.endTime) : new Date(Date.now() + 3 * 86400000);
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('cd-end-date').value = `${end.getFullYear()}-${pad(end.getMonth() + 1)}-${pad(end.getDate())}`;
+  document.getElementById('cd-end-time').value = cd.endTime ? `${pad(end.getHours())}:${pad(end.getMinutes())}` : '23:59';
+  const d = A.settings.drop || {};
+  document.getElementById('drop-active').checked = !!d.active;
+  document.getElementById('drop-title').value = d.title || '';
+  document.getElementById('drop-pairs').value = d.pairs ?? 0;
+}
+
+async function saveCountdown() {
   const active = document.getElementById('cd-active').checked;
   const label = document.getElementById('cd-label').value;
   const date = document.getElementById('cd-end-date').value;
-  const time = document.getElementById('cd-end-time').value;
+  const time = document.getElementById('cd-end-time').value || '23:59';
   if (!date) { Toast.show('End date select karein', 'error'); return; }
-  const endTime = new Date(`${date}T${time || '23:59'}:00`);
-  const config = { active, label, endTime: endTime.toISOString() };
-  localStorage.setItem('RAWAN_countdown', JSON.stringify(config));
-  Store.countdownConfig = config;
-  if (active) Countdown.start(endTime, label);
-  else Countdown.clear();
-  Toast.show('Countdown saved & activated', 'success');
+  const endTime = new Date(`${date}T${time}:00`);
+  try {
+    const res = await ADMIN.call('PUT', '/api/admin/settings', { countdown: { active, label, endTime: endTime.toISOString() } });
+    A.settings = res.settings;
+    if (active) Countdown.start(endTime, label); else Countdown.clear();
+    Toast.show('Countdown saved — website par live', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
-function saveDropSettings() {
-  Toast.show('Drop settings saved', 'success');
+async function saveDropSettings() {
+  try {
+    const res = await ADMIN.call('PUT', '/api/admin/settings', {
+      drop: {
+        active: document.getElementById('drop-active').checked,
+        title: document.getElementById('drop-title').value,
+        pairs: parseInt(document.getElementById('drop-pairs').value, 10) || 0
+      }
+    });
+    A.settings = res.settings;
+    Toast.show('Drop settings saved', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
 // ---- RTO ----
-function markRTO() {
-  const phone = document.getElementById('rto-phone-inp').value.trim();
+async function rtoAction(phone, action) {
+  const res = await ADMIN.call('POST', '/api/admin/rto', { phone, action });
+  A.rto = res.rto;
+  renderRTO(); renderOrders();
+}
+
+async function markRTO() {
+  const inp = document.getElementById('rto-phone-inp');
+  const phone = inp.value.trim();
   if (!phone) { Toast.show('Phone number dalein', 'error'); return; }
-  RTO.logRefusal(phone);
-  document.getElementById('rto-phone-inp').value = '';
-  renderRTO();
-  Toast.show(`${phone} marked as RTO`, 'error');
+  try { await rtoAction(phone, 'add'); inp.value = ''; Toast.show(`${phone} RTO ledger mein`, 'success'); }
+  catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
+}
+
+async function markRTOPhone(phone) {
+  if (!confirm(`${phone} ko RTO ledger mein daalein? Agle COD orders par advance deposit lagega.`)) return;
+  try { await rtoAction(phone, 'add'); Toast.show('RTO marked', 'success'); }
+  catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
+}
+
+async function clearRTO(phone) {
+  if (!confirm(`RTO record clear karein: ${phone}?`)) return;
+  try { await rtoAction(phone, 'clear'); Toast.show('RTO record cleared', 'success'); }
+  catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
 function renderRTO() {
-  const tbody = document.getElementById('rto-tbody');
-  const entries = Object.entries(Store.rtoLedger);
-  if (!entries.length) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi RTO record nahi</td></tr>';
-    return;
-  }
-  tbody.innerHTML = entries.map(([phone, record]) => {
-    const risk = record.count >= 3 ? 'HIGH' : record.count >= 1 ? 'MEDIUM' : 'LOW';
-    const riskColor = risk === 'HIGH' ? 'var(--danger)' : risk === 'MEDIUM' ? 'var(--warning)' : 'var(--success)';
-    const lastDate = record.dates.length ? new Date(record.dates[record.dates.length - 1]).toLocaleDateString('en-PK') : '—';
+  const entries = Object.entries(A.rto || {});
+  document.getElementById('rto-tbody').innerHTML = entries.map(([phone, r]) => {
+    const risk = r.count >= 3 ? 'HIGH' : 'MEDIUM';
     return `
       <tr>
-        <td style="font-family:monospace;font-weight:700">${phone}</td>
-        <td style="font-weight:900">${record.count}</td>
-        <td><span style="font-weight:900;color:${riskColor}">${risk}</span></td>
-        <td style="color:var(--warm-grey)">${lastDate}</td>
-        <td><button class="act-btn act-danger" onclick="clearRTO('${phone}')">Clear</button></td>
-      </tr>
-    `;
-  }).join('');
+        <td style="font-family:monospace;font-weight:700">${esc(phone)}</td>
+        <td style="font-weight:900">${r.count}</td>
+        <td><span style="font-weight:900;color:${risk === 'HIGH' ? 'var(--danger)' : 'var(--warning)'}">${risk}</span></td>
+        <td style="color:var(--warm-grey)">${fmtDate(r.dates[r.dates.length - 1])}</td>
+        <td><button class="act-btn act-danger" onclick="clearRTO('${esc(phone)}')">Clear</button></td>
+      </tr>`;
+  }).join('') || '<tr><td colspan="5" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi RTO record nahi</td></tr>';
 }
 
 // ---- DISPATCH ----
 function renderDispatch() {
-  const tbody = document.getElementById('dispatch-tbody');
-  const orders = Store.orders.filter(o => ['confirmed','packed'].includes(o.status));
-  if (!orders.length) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi order dispatch ke liye ready nahi</td></tr>';
-    return;
-  }
-  tbody.innerHTML = orders.map(order => `
+  const orders = A.orders.filter(o => ['confirmed', 'packed'].includes(o.status));
+  const couriers = ['TCS', 'Leopards', 'M&P', 'PostEx', 'Trax'];
+  document.getElementById('dispatch-tbody').innerHTML = orders.map(o => `
     <tr>
-      <td style="font-family:monospace;font-weight:700">${order.id}</td>
-      <td>${order.customer.name}<br><span style="font-size:.72rem;color:var(--warm-grey)">${order.customer.phone}</span></td>
-      <td>${order.customer.city}</td>
-      <td>
-        <select class="sort-sel" style="width:100%" onchange="updateCourier('${order.id}', this.value)">
-          <option value="">Select Courier</option>
-          <option value="TCS" ${order.courier==='TCS'?'selected':''}>TCS</option>
-          <option value="Leopards" ${order.courier==='Leopards'?'selected':''}>Leopards</option>
-          <option value="M&P" ${order.courier==='M&P'?'selected':''}>M&P</option>
-          <option value="PostEx" ${order.courier==='PostEx'?'selected':''}>PostEx</option>
-          <option value="Trax" ${order.courier==='Trax'?'selected':''}>Trax</option>
-        </select>
-      </td>
-      <td><input class="admin-srch" style="width:100%" placeholder="Tracking #" value="${order.trackingId||''}" onchange="updateTracking('${order.id}', this.value)"></td>
-      <td><span class="status s-${order.status}">${order.status}</span></td>
-    </tr>
-  `).join('');
+      <td style="font-family:monospace;font-weight:700">${esc(o.id)}</td>
+      <td>${esc(o.customer.name)}<br><span style="font-size:.72rem;color:var(--warm-grey)">${esc(o.customer.phone)}</span></td>
+      <td>${esc(o.customer.city)}</td>
+      <td><select class="sort-sel" style="width:100%" onchange="updateCourier('${esc(o.id)}', this.value)">
+        <option value="">Select Courier</option>
+        ${couriers.map(c => `<option value="${esc(c)}" ${o.courier === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}
+      </select></td>
+      <td><input class="admin-srch" style="width:100%" placeholder="Tracking # (dalne par Dispatched)" value="${esc(o.trackingId || '')}" onchange="updateTracking('${esc(o.id)}', this.value)"></td>
+      <td><span class="status s-${esc(o.status)}">${esc(o.status)}</span></td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;padding:var(--space-2xl);color:var(--warm-grey)">Koi order dispatch ke liye ready nahi</td></tr>';
 }
 
-function updateCourier(orderId, courier) {
-  const order = Store.orders.find(o => o.id === orderId);
-  if (order) { order.courier = courier; Store.save(); }
+async function patchOrder(orderId, body, msg) {
+  try {
+    const res = await ADMIN.call('PATCH', '/api/admin/orders/' + encodeURIComponent(orderId), body);
+    Object.assign(A.orders.find(o => o.id === orderId), res.order);
+    renderDispatch(); renderOrders(); renderDashboard();
+    Toast.show(msg, 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
-
-function updateTracking(orderId, trackingId) {
-  const order = Store.orders.find(o => o.id === orderId);
-  if (order) {
-    order.trackingId = trackingId;
-    if (trackingId && order.status === 'packed') {
-      order.status = 'dispatched';
-    }
-    Store.save();
-    Toast.show(`Tracking updated: ${trackingId}`, 'success');
-  }
-}
+const updateCourier = (id, courier) => patchOrder(id, { courier }, `Courier: ${courier || '—'}`);
+const updateTracking = (id, trackingId) => patchOrder(id, { trackingId }, trackingId ? `Tracking ${trackingId} — order Dispatched` : 'Tracking removed');
 
 // ---- ANALYTICS ----
 function renderAnalytics() {
-  const orders = Store.orders;
+  const orders = A.orders.filter(o => o.status !== 'cancelled');
   const cityCount = {};
   const productCount = {};
   orders.forEach(o => {
     cityCount[o.customer.city] = (cityCount[o.customer.city] || 0) + 1;
     o.items.forEach(i => { productCount[i.name] = (productCount[i.name] || 0) + i.qty; });
   });
+  const revenue = orders.reduce((s, o) => s + o.total, 0);
+  const aov = orders.length ? Math.round(revenue / orders.length) : 0;
+  const repeat = A.customers.filter(c => c.ordersCount > 1).length;
+  const codShare = orders.length ? Math.round(orders.filter(o => o.paymentMethod === 'cod').length / orders.length * 100) : 0;
+  document.getElementById('analytics-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-lbl">Avg Order Value</div><div class="stat-val">${rs(aov)}</div></div>
+    <div class="stat-card"><div class="stat-lbl">Customers</div><div class="stat-val">${A.customers.length}</div><div class="stat-change up">${repeat} repeat</div></div>
+    <div class="stat-card"><div class="stat-lbl">COD Share</div><div class="stat-val">${codShare}%</div></div>`;
 
-  const topCities = Object.entries(cityCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
-  const topProducts = Object.entries(productCount).sort((a,b) => b[1]-a[1]).slice(0, 5);
-
-  document.getElementById('city-analytics').innerHTML = topCities.length
-    ? topCities.map(([city, count]) => `
-        <div style="display:flex;align-items:center;gap:var(--space-md);padding:10px 0;border-bottom:1px solid #F0F0F2">
-          <div style="font-weight:700;min-width:120px">${city}</div>
-          <div style="flex:1;height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;background:var(--obsidian);border-radius:4px;width:${Math.round(count/topCities[0][1]*100)}%"></div>
-          </div>
-          <div style="font-weight:800;min-width:30px;text-align:right">${count}</div>
-        </div>
-      `).join('')
-    : '<p style="color:var(--warm-grey)">No data yet</p>';
-
-  document.getElementById('product-analytics').innerHTML = topProducts.length
-    ? topProducts.map(([name, count]) => `
-        <div style="display:flex;align-items:center;gap:var(--space-md);padding:10px 0;border-bottom:1px solid #F0F0F2">
-          <div style="font-weight:700;min-width:160px;font-size:.85rem">${name}</div>
-          <div style="flex:1;height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden">
-            <div style="height:100%;background:var(--accent-gold);border-radius:4px;width:${Math.round(count/topProducts[0][1]*100)}%"></div>
-          </div>
-          <div style="font-weight:800;min-width:30px;text-align:right">${count}</div>
-        </div>
-      `).join('')
-    : '<p style="color:var(--warm-grey)">No data yet</p>';
+  const bars = (entries, color) => entries.length ? entries.map(([name, count]) => `
+    <div style="display:flex;align-items:center;gap:var(--space-md);padding:10px 0;border-bottom:1px solid #F0F0F2">
+      <div style="font-weight:700;min-width:140px;font-size:.85rem">${esc(name)}</div>
+      <div style="flex:1;height:8px;background:#F0F0F2;border-radius:4px;overflow:hidden"><div style="height:100%;background:${color};border-radius:4px;width:${Math.round(count / entries[0][1] * 100)}%"></div></div>
+      <div style="font-weight:800;min-width:30px;text-align:right">${count}</div>
+    </div>`).join('') : '<p style="color:var(--warm-grey)">No data yet</p>';
+  document.getElementById('city-analytics').innerHTML = bars(Object.entries(cityCount).sort((a, b) => b[1] - a[1]).slice(0, 5), 'var(--obsidian)');
+  document.getElementById('product-analytics').innerHTML = bars(Object.entries(productCount).sort((a, b) => b[1] - a[1]).slice(0, 5), 'var(--accent-gold)');
 }
 
 // ---- EXPORT ----
-function exportCSV() {
-  const orders = Store.orders;
-  if (!orders.length) { Toast.show('No orders to export', 'error'); return; }
-  const headers = ['Order ID','Date','Name','Phone','Email','Address','City','Items','Subtotal','Discount','Delivery','Total','Payment','Status','Courier','Tracking'];
-  const rows = orders.map(o => [
-    o.id,
-    new Date(o.date).toLocaleDateString('en-PK'),
-    o.customer.name, o.customer.phone, o.customer.email || '',
-    o.customer.address, o.customer.city,
-    o.items.map(i => `${i.name} x${i.qty}`).join(' | '),
-    o.subtotal, o.discount || 0, o.delivery, o.total,
-    o.paymentMethod, o.status, o.courier || '', o.trackingId || ''
-  ]);
-  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-  downloadFile('RAWAN_orders.csv', csv, 'text/csv');
-  Toast.show('Orders CSV downloaded', 'success');
-}
-
-function exportJSON() {
-  downloadFile('RAWAN_orders.json', JSON.stringify(Store.orders, null, 2), 'application/json');
-  Toast.show('Orders JSON downloaded', 'success');
-}
-
-function exportCustomers() {
-  const customers = Store.orders.map(o => ({
-    name: o.customer.name,
-    phone: o.customer.phone,
-    city: o.customer.city,
-    totalSpend: o.total,
-    orders: 1
-  }));
-  const headers = ['Name','Phone','City','Total Spend'];
-  const rows = customers.map(c => [c.name, c.phone, c.city, c.totalSpend]);
-  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-  downloadFile('RAWAN_customers.csv', csv, 'text/csv');
-  Toast.show('Customers CSV downloaded', 'success');
-}
-
+const csvCell = v => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
 function downloadFile(filename, content, type) {
-  const blob = new Blob([content], { type });
+  const blob = new Blob(['\ufeff' + content], { type });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url; a.download = filename; a.click();
   URL.revokeObjectURL(url);
 }
 
-// ---- SETTINGS ----
-function saveSettings() {
-  Toast.show('Settings saved', 'success');
+function exportCSV() {
+  if (!A.orders.length) { Toast.show('No orders to export', 'error'); return; }
+  const headers = ['Order ID', 'Date', 'Name', 'Phone', 'Email', 'Address', 'City', 'Items', 'Subtotal', 'Discount', 'Elite Charge', 'Delivery', 'Total', 'Advance', 'Payment', 'Status', 'Courier', 'Tracking', 'Membership'];
+  const rows = A.orders.map(o => [
+    o.id, new Date(o.date).toLocaleString('en-PK'), o.customer.name, o.customer.phone, o.customer.email,
+    o.customer.address, o.customer.city, o.items.map(i => `${i.name} EU${i.size} x${i.qty}`).join(' | '),
+    o.subtotal, o.discount, o.eliteCharge, o.delivery, o.total, o.advanceRequired ? o.advanceAmount : 0,
+    o.paymentMethod, o.status, o.courier, o.trackingId, o.membershipAtOrder
+  ]);
+  downloadFile('RAWAN_orders.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
+  Toast.show('Orders CSV downloaded', 'success');
 }
 
-function saveBankDetails() {
-  Toast.show('Bank details saved', 'success');
+function exportJSON() {
+  downloadFile('RAWAN_orders.json', JSON.stringify(A.orders, null, 2), 'application/json');
+  Toast.show('Orders JSON downloaded', 'success');
+}
+
+function exportCustomers() {
+  const headers = ['Name', 'Phone', 'City', 'Orders', 'Total Spend', 'Membership', 'Elite Since'];
+  const rows = A.customers.map(c => [c.name, c.phone, c.city, c.ordersCount, c.totalSpend, c.membershipType, c.eliteSince || '']);
+  downloadFile('RAWAN_customers.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
+  Toast.show('Customers CSV downloaded', 'success');
+}
+
+// ---- SETTINGS ----
+function fillSettingsForms() {
+  const s = A.settings;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v ?? ''; };
+  set('set-wa', s.whatsappNumber);
+  set('set-pass', '');
+  set('set-free-del', s.freeDeliveryThreshold);
+  set('set-del-charge', s.deliveryCharge);
+  set('set-advance', s.advanceDeposit);
+  set('set-hv', s.highValueThreshold);
+  set('set-website', s.website);
+  const b = s.bank || {};
+  set('set-bank', b.bankName); set('set-acc-name', b.accountName); set('set-acc-num', b.accountNumber);
+  set('set-iban', b.iban); set('set-ep', b.easyPaisa); set('set-jc', b.jazzCash);
+}
+
+async function saveSettings() {
+  try {
+    const res = await ADMIN.call('PUT', '/api/admin/settings', {
+      whatsappNumber: document.getElementById('set-wa').value,
+      freeDeliveryThreshold: document.getElementById('set-free-del').value,
+      deliveryCharge: document.getElementById('set-del-charge').value,
+      advanceDeposit: document.getElementById('set-advance').value,
+      highValueThreshold: document.getElementById('set-hv').value,
+      website: document.getElementById('set-website').value
+    });
+    A.settings = res.settings;
+    const newPass = document.getElementById('set-pass').value;
+    if (newPass) {
+      const r = await ADMIN.call('POST', '/api/admin/password', { newPassword: newPass });
+      ADMIN.token = r.token;
+      sessionStorage.setItem('rawan_admin_token', r.token);
+      document.getElementById('set-pass').value = '';
+      Toast.show('Password badal gaya — naya password yaad rakhein', 'success', 6000);
+    }
+    Toast.show('Settings saved', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error', 5000); }
+}
+
+async function saveBankDetails() {
+  try {
+    const res = await ADMIN.call('PUT', '/api/admin/settings', {
+      bank: {
+        bankName: document.getElementById('set-bank').value,
+        accountName: document.getElementById('set-acc-name').value,
+        accountNumber: document.getElementById('set-acc-num').value,
+        iban: document.getElementById('set-iban').value,
+        easyPaisa: document.getElementById('set-ep').value,
+        jazzCash: document.getElementById('set-jc').value
+      }
+    });
+    A.settings = res.settings;
+    Toast.show('Bank details saved — checkout par live', 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
 
 // ---- COLLECTION MANAGER ----
 function renderCollectionManager() {
   const grid = document.getElementById('collection-manager-grid');
-  if (!grid || typeof PRODUCTS === 'undefined') return;
-
-  grid.innerHTML = PRODUCTS.map(product => {
-    const currentColl = Store.getProductSetting(product.id, 'collection', product.collection);
-    const isExec = currentColl === 'executive';
-    const isRecommended = Store.getProductSetting(product.id, 'recommended', product.recommended);
-    const heelTag = product.heelHeight ? `<span style="background:var(--bone);padding:2px 8px;border-radius:99px;font-size:.65rem;font-weight:600;color:var(--mid-grey)">👠 ${product.heelHeight}</span>` : '';
-
+  if (!grid) return;
+  grid.innerHTML = A.products.map(product => {
+    const isExec = product.collection === 'executive';
+    const heelTag = product.heelHeight ? `<span style="background:var(--bone);padding:2px 8px;border-radius:99px;font-size:.65rem;font-weight:600;color:var(--mid-grey)">👠 ${esc(product.heelHeight)}</span>` : '';
     return `
-      <div class="collection-toggle-row" id="ctr-${product.id}">
+      <div class="collection-toggle-row" id="ctr-${esc(product.id)}">
         <div class="coll-toggle-info">
-          <div class="coll-toggle-name">${product.name} ${heelTag}</div>
-          <div class="coll-toggle-status" id="ctr-status-${product.id}">
-            Currently: <strong style="color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong>
-          </div>
+          <div class="coll-toggle-name">${esc(product.name)} ${heelTag}</div>
+          <div class="coll-toggle-status">Currently: <strong style="color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong></div>
         </div>
         <div class="coll-toggle-controls">
           <div>
             <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:4px;text-align:center">Collection</div>
             <div style="display:flex;gap:6px;align-items:center">
               <span style="font-size:.72rem;color:var(--terracotta);font-weight:600">Regular</span>
-              <div class="toggle-sw ${isExec ? 'exec-on' : ''}" id="coll-toggle-${product.id}" onclick="toggleCollection('${product.id}', this)"></div>
+              <div class="toggle-sw ${isExec ? 'exec-on' : ''}" onclick="toggleCollection('${esc(product.id)}')"></div>
               <span style="font-size:.72rem;color:var(--emerald);font-weight:600">Executive</span>
             </div>
           </div>
@@ -1038,47 +1511,58 @@ function renderCollectionManager() {
             <div style="font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-grey);margin-bottom:4px;text-align:center">⭐ Recommended</div>
             <div style="display:flex;gap:6px;align-items:center">
               <span style="font-size:.72rem;color:var(--warm-grey);font-weight:600">Off</span>
-              <div class="toggle-sw ${isRecommended ? 'on' : ''}" id="rec-toggle-${product.id}" onclick="toggleRecommended('${product.id}', this)"></div>
+              <div class="toggle-sw ${product.recommended ? 'on' : ''}" onclick="toggleRecommended('${esc(product.id)}')"></div>
               <span style="font-size:.72rem;color:var(--success);font-weight:600">On</span>
             </div>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 }
 
-function toggleCollection(productId, toggleEl) {
-  const isNowExec = !toggleEl.classList.contains('exec-on');
-  toggleEl.classList.toggle('exec-on', isNowExec);
-  toggleEl.classList.toggle('on', false);
-  Store.updateProductSetting(productId, 'collection', isNowExec ? 'executive' : 'regular');
-  const statusEl = document.getElementById(`ctr-status-${productId}`);
-  if (statusEl) {
-    statusEl.innerHTML = `Currently: <strong style="color:${isNowExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isNowExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong>`;
-  }
+async function updateProductField(id, body, msg) {
+  try {
+    const res = await ADMIN.call('PUT', '/api/admin/products/' + encodeURIComponent(id), body);
+    Object.assign(A.products.find(p => p.id === id), res.product);
+    renderCollectionManager(); renderProducts();
+    Toast.show(msg, 'success');
+  } catch (e) { if (e.message !== 'Login required') Toast.show(e.message, 'error'); }
 }
-
-function toggleRecommended(productId, toggleEl) {
-  const isNowOn = !toggleEl.classList.contains('on');
-  toggleEl.classList.toggle('on', isNowOn);
-  Store.updateProductSetting(productId, 'recommended', isNowOn);
+function toggleCollection(id) {
+  const p = A.products.find(x => x.id === id);
+  const next = p.collection === 'executive' ? 'regular' : 'executive';
+  updateProductField(id, { collection: next }, `${p.name} → ${next === 'executive' ? 'Executive' : 'Regular'}`);
 }
-
+function toggleRecommended(id) {
+  const p = A.products.find(x => x.id === id);
+  updateProductField(id, { recommended: !p.recommended }, `${p.name}: Recommended ${p.recommended ? 'off' : 'on'}`);
+}
 function saveAllCollectionSettings() {
-  Store.save();
-  Toast.show('✓ Collection settings saved! Changes will reflect on store.', 'success');
+  Toast.show('✓ Har change foran save hota hai — website par live hai.', 'success');
 }
 
-// ---- AUTO LOGIN CHECK ----
+// ---- AUTO LOGIN ----
 window.addEventListener('load', () => {
-  if (sessionStorage.getItem('RAWAN_admin')) {
-    document.getElementById('admin-login').style.display = 'none';
-    document.getElementById('admin-wrap').classList.add('on');
-    initAdmin();
-  }
+  document.getElementById('pf-modal').addEventListener('click', e => { if (e.target.id === 'pf-modal') closeProductForm(); });
+  if (ADMIN.token) enterAdmin().catch(() => showLogin());
 });
 </script>
+
+<!-- PRODUCT FORM MODAL -->
+<div class="modal-wrap" id="pf-modal">
+  <div class="modal pf-modal-box">
+    <div class="modal-hd">
+      <div class="modal-title" id="pf-title">Add Product</div>
+      <button class="modal-close" type="button" onclick="closeProductForm()">✕</button>
+    </div>
+    <div id="pf-body"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:var(--space-lg);position:sticky;bottom:0;background:inherit;padding-top:var(--space-md)">
+      <button class="btn btn-outline btn-sm" type="button" onclick="closeProductForm()">Cancel</button>
+      <button class="btn btn-primary btn-sm" type="button" id="pf-save" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
 
 </body>
 </html>

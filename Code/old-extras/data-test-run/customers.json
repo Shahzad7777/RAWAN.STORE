@@ -1,0 +1,30 @@
+[
+  {
+    "id": "03001234567",
+    "phone": "03001234567",
+    "name": "Test One",
+    "email": "",
+    "city": "Lahore",
+    "membershipType": "Founding",
+    "foundingNumber": 1,
+    "eliteSince": "2026-10-16T11:04:33.676Z",
+    "ordersCount": 1,
+    "totalSpend": 22999,
+    "firstOrderAt": "2026-10-16T11:04:33.676Z",
+    "lastOrderAt": "2026-10-16T11:04:33.676Z"
+  },
+  {
+    "id": "03219876543",
+    "phone": "03219876543",
+    "name": "UI Tester",
+    "email": "",
+    "city": "Lahore",
+    "membershipType": "Founding",
+    "foundingNumber": 2,
+    "eliteSince": "2026-10-16T11:09:12.336Z",
+    "ordersCount": 1,
+    "totalSpend": 22999,
+    "firstOrderAt": "2026-10-16T11:09:12.336Z",
+    "lastOrderAt": "2026-10-16T11:09:12.336Z"
+  }
+]

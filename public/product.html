@@ -357,6 +357,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
+    if (!PRODUCTS.length) { document.getElementById('pdp-name').textContent = 'Products jald aa rahe hain'; return; }
     const productId = params.get('id') || PRODUCTS[0].id;
     currentProduct = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
 
@@ -415,6 +416,11 @@
       orig.style.display = '';
       orig.textContent = `Rs. ${p.originalPrice.toLocaleString()}`;
     }
+
+    // Elite membership pricing note (Executive items only)
+    document.querySelectorAll('.elite-notice').forEach(el => el.remove());
+    const eliteHtml = eliteNoticeHTML(p);
+    if (eliteHtml) document.getElementById('pdp-price').parentElement.insertAdjacentHTML('afterend', eliteHtml);
 
     const fitEl = document.getElementById('pdp-fit');
     fitEl.className = `fit-ind fit-${p.fitIndicator}`;

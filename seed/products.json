@@ -1,0 +1,547 @@
+[
+  {
+    "id": "noor-stiletto",
+    "name": "Noor Stiletto Heel",
+    "collection": "executive",
+    "category": [
+      "women",
+      "executive",
+      "heels",
+      "party"
+    ],
+    "badge": "exec",
+    "heelType": "stiletto",
+    "heelHeight": "4.5 inch",
+    "occasions": [
+      "Night Party Glam",
+      "Wedding Guest Look"
+    ],
+    "price": 22999,
+    "originalPrice": 27999,
+    "promise": "Where craftsmanship meets royalty — every step a statement.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": true,
+    "colors": [
+      {
+        "name": "Midnight Black",
+        "hex": "#1A1A1A",
+        "label": "Midnight"
+      },
+      {
+        "name": "Deep Wine",
+        "hex": "#5C1E2E",
+        "label": "Bordeaux"
+      },
+      {
+        "name": "Rose Gold",
+        "hex": "#C8956C",
+        "label": "Rose Gold"
+      }
+    ],
+    "stock": {
+      "35": 4,
+      "36": 6,
+      "37": 8,
+      "38": 5,
+      "39": 3,
+      "40": 2
+    },
+    "images": [
+      "images/products/noor-1.jpg",
+      "images/products/noor-2.jpg"
+    ],
+    "material": "Italian-grade suede upper. Swarovski crystal embellishments. Memory foam insole. Steel-reinforced 4.5-inch stiletto heel. Leather-lined interior.",
+    "care": "Store in dust bag. Wipe with soft cloth. Avoid rough surfaces. Apply heel caps regularly.",
+    "reviews": [
+      {
+        "author": "Ayesha R.",
+        "city": "Lahore",
+        "stars": 5,
+        "text": "Mere wedding mein yeh heels ne sab ka dil jeet liya. Crystal detailing bilkul real lagti hai — queen feel mili.",
+        "verified": true
+      },
+      {
+        "author": "Zara N.",
+        "city": "Karachi",
+        "stars": 5,
+        "text": "Quality itni premium hai ke main believe nahi kar sakti Pakistan mein milti hain. 10/10.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "layla-crystal-sandal",
+    "name": "Layla Crystal Sandal",
+    "collection": "executive",
+    "category": [
+      "women",
+      "executive",
+      "sandals",
+      "party"
+    ],
+    "badge": "exec",
+    "heelType": "stiletto",
+    "heelHeight": "4 inch",
+    "occasions": [
+      "Wedding Guest Look",
+      "Night Party Glam"
+    ],
+    "price": 18999,
+    "originalPrice": null,
+    "promise": "Light as air, radiant as moonlight — your perfect celebration sandal.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": true,
+    "colors": [
+      {
+        "name": "Silver Crystal",
+        "hex": "#C0C0C0",
+        "label": "Silver Crystal"
+      },
+      {
+        "name": "Gold Pearl",
+        "hex": "#D4AF6A",
+        "label": "Gold Pearl"
+      },
+      {
+        "name": "Ivory",
+        "hex": "#F5F0E8",
+        "label": "Ivory"
+      }
+    ],
+    "stock": {
+      "35": 5,
+      "36": 8,
+      "37": 6,
+      "38": 4,
+      "39": 2,
+      "40": 1
+    },
+    "images": [
+      "images/products/mehr-1.jpg",
+      "images/products/mehr-2.jpg"
+    ],
+    "material": "Hand-beaded crystal straps. Padded leather insole. 4-inch heel with geometric base for stability. Satin finish.",
+    "care": "Handle crystals gently. Store flat in box. Avoid water. Polish leather heel with soft cloth.",
+    "reviews": [
+      {
+        "author": "Sana K.",
+        "city": "Islamabad",
+        "stars": 5,
+        "text": "Gold Pearl color meri engagement mein perfect tha. Itni comfortable hai ke raat bhar pain nahi hua!",
+        "verified": true
+      },
+      {
+        "author": "Hira F.",
+        "city": "Karachi",
+        "stars": 5,
+        "text": "Layla Crystal ne mere look ko 10x upgrade kar diya. Premium packaging bhi bohat lovely tha.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "sultana-block-heel",
+    "name": "Sultana Block Heel",
+    "collection": "executive",
+    "category": [
+      "women",
+      "executive",
+      "heels"
+    ],
+    "badge": "exec",
+    "heelType": "block",
+    "heelHeight": "3.5 inch",
+    "occasions": [
+      "Elegant Day Wear",
+      "Wedding Guest Look"
+    ],
+    "price": 16999,
+    "originalPrice": null,
+    "promise": "Authority in every stride — block heel grace redefined.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": false,
+    "colors": [
+      {
+        "name": "Emerald",
+        "hex": "#0A3A2F",
+        "label": "Deep Emerald"
+      },
+      {
+        "name": "Black",
+        "hex": "#1A1A1A",
+        "label": "Midnight"
+      },
+      {
+        "name": "Cognac",
+        "hex": "#8B4513",
+        "label": "Cognac"
+      }
+    ],
+    "stock": {
+      "35": 6,
+      "36": 9,
+      "37": 10,
+      "38": 7,
+      "39": 5,
+      "40": 3
+    },
+    "images": [
+      "images/products/dastoor-1.jpg",
+      "images/products/dastoor-2.jpg"
+    ],
+    "material": "Full-grain leather upper. Padded footbed with arch support. 3.5-inch solid block heel. Rubber-tipped for grip.",
+    "care": "Polish with matching cream. Use a soft brush on suede versions. Condition monthly.",
+    "reviews": [
+      {
+        "author": "Fatima A.",
+        "city": "Lahore",
+        "stars": 5,
+        "text": "Office aur dinner dono ke liye perfect. Deep Emerald color literally jaan hai.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "rawa-kitten-heel",
+    "name": "Rawa Kitten Heel",
+    "collection": "regular",
+    "category": [
+      "women",
+      "regular",
+      "heels",
+      "everyday"
+    ],
+    "badge": "bestseller",
+    "heelType": "kitten",
+    "heelHeight": "2 inch",
+    "occasions": [
+      "Elegant Day Wear",
+      "Wedding Guest Look"
+    ],
+    "price": 4499,
+    "originalPrice": null,
+    "promise": "Everyday elegance at a price that makes sense.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": true,
+    "colors": [
+      {
+        "name": "Blush",
+        "hex": "#D4A5A5",
+        "label": "Dusty Rose"
+      },
+      {
+        "name": "Nude",
+        "hex": "#C8A882",
+        "label": "Nude"
+      },
+      {
+        "name": "Black",
+        "hex": "#1A1A1A",
+        "label": "Midnight"
+      }
+    ],
+    "stock": {
+      "35": 12,
+      "36": 18,
+      "37": 20,
+      "38": 15,
+      "39": 10,
+      "40": 6
+    },
+    "images": [
+      "images/products/saba-1.jpg",
+      "images/products/saba-2.jpg"
+    ],
+    "material": "Soft faux leather upper. Cushioned insole. 2-inch kitten heel. Non-slip rubber base.",
+    "care": "Wipe with damp cloth. Air dry. Store in cool, dry place.",
+    "reviews": [
+      {
+        "author": "Mahnaz S.",
+        "city": "Faisalabad",
+        "stars": 5,
+        "text": "Office ke liye perfect! Comfortable aur stylish, price bhi bilkul sahi.",
+        "verified": true
+      },
+      {
+        "author": "Nadia K.",
+        "city": "Lahore",
+        "stars": 5,
+        "text": "Dusty Rose color real mein aur bhi pyara hai. Koi pain nahi hota sara din.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "zara-party-sandal",
+    "name": "Zara Party Sandal",
+    "collection": "regular",
+    "category": [
+      "women",
+      "regular",
+      "sandals",
+      "party"
+    ],
+    "badge": "new",
+    "heelType": "block",
+    "heelHeight": "2.5 inch",
+    "occasions": [
+      "Night Party Glam",
+      "Wedding Guest Look"
+    ],
+    "price": 3999,
+    "originalPrice": 5499,
+    "promise": "Party-ready on any budget — look expensive, feel amazing.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": false,
+    "colors": [
+      {
+        "name": "Shimmer Gold",
+        "hex": "#D4AF6A",
+        "label": "Shimmer Gold"
+      },
+      {
+        "name": "Silver",
+        "hex": "#C0C0C0",
+        "label": "Silver"
+      },
+      {
+        "name": "Rose Pink",
+        "hex": "#E8C5C0",
+        "label": "Rose Pink"
+      }
+    ],
+    "stock": {
+      "35": 10,
+      "36": 14,
+      "37": 16,
+      "38": 12,
+      "39": 8,
+      "40": 4
+    },
+    "images": [
+      "images/products/mehr-1.jpg",
+      "images/products/mehr-2.jpg"
+    ],
+    "material": "Metallic faux leather straps. Cushioned block heel. Anti-slip sole. Adjustable ankle strap.",
+    "care": "Wipe gently with soft cloth. Avoid water. Store away from direct sunlight.",
+    "reviews": [
+      {
+        "author": "Saba M.",
+        "city": "Karachi",
+        "stars": 5,
+        "text": "Gold wali itni khoobsurat hai ke sab pooch rahe the kahan se li. Aur price bohat affordable!",
+        "verified": true
+      },
+      {
+        "author": "Rabia F.",
+        "city": "Lahore",
+        "stars": 4,
+        "text": "Comfortable hai aur size bilkul sahi. Shadi mein pehni, sab ne tarif ki.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "laila-flat-sandal",
+    "name": "Laila Flat Sandal",
+    "collection": "regular",
+    "category": [
+      "women",
+      "regular",
+      "sandals",
+      "everyday"
+    ],
+    "badge": null,
+    "heelType": "flat",
+    "heelHeight": "Flat",
+    "occasions": [
+      "Elegant Day Wear"
+    ],
+    "price": 2999,
+    "originalPrice": null,
+    "promise": "Simple, comfortable, effortlessly chic — for every day.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": false,
+    "colors": [
+      {
+        "name": "Tan",
+        "hex": "#C8A882",
+        "label": "Tan"
+      },
+      {
+        "name": "White",
+        "hex": "#F5F0E8",
+        "label": "Off-White"
+      },
+      {
+        "name": "Black",
+        "hex": "#1A1A1A",
+        "label": "Midnight"
+      }
+    ],
+    "stock": {
+      "35": 15,
+      "36": 20,
+      "37": 22,
+      "38": 18,
+      "39": 12,
+      "40": 8
+    },
+    "images": [
+      "images/products/raah-1.jpg",
+      "images/products/raah-2.jpg"
+    ],
+    "material": "Genuine leather straps. Soft cushioned footbed. Flat rubber sole with arch support.",
+    "care": "Apply leather conditioner monthly. Wipe clean after use. Store flat.",
+    "reviews": [
+      {
+        "author": "Areeba T.",
+        "city": "Islamabad",
+        "stars": 5,
+        "text": "Summer ke liye best buy! Genuine leather lagti hai itni affordable price mein. Love it!",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "mahira-stiletto",
+    "name": "Mahira Stiletto",
+    "collection": "regular",
+    "category": [
+      "women",
+      "regular",
+      "heels",
+      "party"
+    ],
+    "badge": "new",
+    "heelType": "stiletto",
+    "heelHeight": "3.5 inch",
+    "occasions": [
+      "Night Party Glam",
+      "Elegant Day Wear"
+    ],
+    "price": 5999,
+    "originalPrice": 7999,
+    "promise": "High fashion at factory pricing — your dream heels are real.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": true,
+    "colors": [
+      {
+        "name": "Classic Red",
+        "hex": "#B22222",
+        "label": "Classic Red"
+      },
+      {
+        "name": "Black",
+        "hex": "#1A1A1A",
+        "label": "Midnight"
+      },
+      {
+        "name": "Nude",
+        "hex": "#C8A882",
+        "label": "Nude"
+      }
+    ],
+    "stock": {
+      "35": 8,
+      "36": 12,
+      "37": 14,
+      "38": 10,
+      "39": 7,
+      "40": 3
+    },
+    "images": [
+      "images/products/dastoor-1.jpg",
+      "images/products/dastoor-2.jpg"
+    ],
+    "material": "Patent leather upper. Memory foam cushioned insole. 3.5-inch stiletto heel. Reinforced heel counter.",
+    "care": "Polish patent leather with soft cloth. Avoid rain. Use heel caps.",
+    "reviews": [
+      {
+        "author": "Sadia H.",
+        "city": "Lahore",
+        "stars": 5,
+        "text": "Classic Red ne mere outfit ko transform kar diya. Stiletto hone ke bawajood itni comfortable hai.",
+        "verified": true
+      },
+      {
+        "author": "Mariam A.",
+        "city": "Karachi",
+        "stars": 5,
+        "text": "Quality brand wali lagti hai lekin price regular wali! Highly recommended.",
+        "verified": true
+      }
+    ]
+  },
+  {
+    "id": "amira-wedge",
+    "name": "Amira Wedge Heel",
+    "collection": "regular",
+    "category": [
+      "women",
+      "regular",
+      "heels",
+      "everyday"
+    ],
+    "badge": "bestseller",
+    "heelType": "block",
+    "heelHeight": "2.5 inch",
+    "occasions": [
+      "Elegant Day Wear",
+      "Wedding Guest Look"
+    ],
+    "price": 4999,
+    "originalPrice": null,
+    "promise": "The comfort of a wedge, the beauty of a heel — perfectly balanced.",
+    "fitIndicator": "tts",
+    "fitLabel": "True to Size",
+    "recommended": false,
+    "colors": [
+      {
+        "name": "Camel",
+        "hex": "#C19A6B",
+        "label": "Camel"
+      },
+      {
+        "name": "White",
+        "hex": "#F5F0E8",
+        "label": "Off-White"
+      },
+      {
+        "name": "Brown",
+        "hex": "#6B4226",
+        "label": "Chocolate"
+      }
+    ],
+    "stock": {
+      "35": 10,
+      "36": 16,
+      "37": 18,
+      "38": 14,
+      "39": 9,
+      "40": 5
+    },
+    "images": [
+      "images/products/saba-2.jpg",
+      "images/products/saba-1.jpg"
+    ],
+    "material": "Woven upper with leather trim. Cork wedge base. Cushioned footbed. Adjustable ankle strap.",
+    "care": "Wipe with damp cloth. Avoid soaking. Store with shape inserts.",
+    "reviews": [
+      {
+        "author": "Uzma Q.",
+        "city": "Rawalpindi",
+        "stars": 5,
+        "text": "Wedge ki wajah se itni comfortable hai! Sari raat pehni without any pain. Amazing value.",
+        "verified": true
+      }
+    ]
+  }
+]

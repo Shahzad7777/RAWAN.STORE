@@ -1,0 +1,84 @@
+{
+  "whatsappNumber": "923001234567",
+  "freeDeliveryThreshold": 4999,
+  "deliveryCharge": 250,
+  "advanceDeposit": 200,
+  "highValueThreshold": 15000,
+  "bankDiscountPercent": 5,
+  "remoteCities": [
+    "Quetta",
+    "Gwadar",
+    "Turbat",
+    "Khuzdar",
+    "Dalbandin",
+    "Nushki",
+    "Hub",
+    "Chaman",
+    "Zhob",
+    "Loralai",
+    "Sibi",
+    "Kalat",
+    "Panjgur",
+    "Washuk",
+    "Chitral",
+    "Upper Dir",
+    "Dir",
+    "Kohistan",
+    "Gilgit",
+    "Skardu",
+    "Chilas",
+    "Hunza",
+    "Ghizer",
+    "Neelum"
+  ],
+  "bank": {
+    "bankName": "HBL",
+    "accountName": "RAWAN Footwear",
+    "accountNumber": "0012345678901",
+    "iban": "PK36HABB0012345678901",
+    "easyPaisa": "",
+    "jazzCash": ""
+  },
+  "coupons": {
+    "RAWAN10": {
+      "type": "percent",
+      "value": 10,
+      "label": "10% off - Launch Offer"
+    },
+    "FLAT1000": {
+      "type": "flat",
+      "value": 1000,
+      "label": "Rs. 1,000 off"
+    },
+    "FIRST500": {
+      "type": "flat",
+      "value": 500,
+      "label": "Rs. 500 off - First Order"
+    },
+    "EXEC15": {
+      "type": "percent",
+      "value": 15,
+      "label": "15% off - Executive VIP"
+    }
+  },
+  "countdown": {
+    "active": false,
+    "label": "Limited Drop Ends In",
+    "endTime": null
+  },
+  "drop": {
+    "active": true,
+    "title": "Only 15 Executive Pairs Available.",
+    "pairs": 13
+  },
+  "elite": {
+    "foundingLimit": 20,
+    "foundingActive": true,
+    "chargeEnabled": true,
+    "chargePerItem": 500,
+    "label": "Elite Access Charge"
+  },
+  "website": "",
+  "seeded": true,
+  "adminAuth": null
+}

@@ -234,122 +234,179 @@
 <script src="js/store.js"></script>
 <script src="js/animations.js"></script>
 <script>
+  /* Checkout: every total shown here comes from the server (/api/checkout/quote),
+     so Elite charge, coupons, bank discount, delivery and advance deposit
+     always match what the order will actually be saved with. */
+  let lastQuote = null;
+  let quoteTimer = null;
+  let quoteSeq = 0;
+  const fmtRs = n => 'Rs. ' + Number(n || 0).toLocaleString();
+
   document.addEventListener('DOMContentLoaded', () => {
     populateCities('checkout-city');
-    checkAdvanceDeposit();
-    renderSummary();
 
     if (Store.cart.length === 0) {
       document.getElementById('checkout-wrap').style.display = 'none';
       document.getElementById('empty-checkout').style.display = 'block';
+      return;
     }
+
+    // Extra UI slots
+    const rtoWarn = document.getElementById('rto-warning');
+    rtoWarn.insertAdjacentHTML('afterend', '<div id="elite-status" style="display:none;margin-top:8px;padding:10px 12px;border-radius:10px;font-size:.78rem;line-height:1.6"></div>');
+    document.getElementById('place-order-btn').insertAdjacentHTML('beforebegin', '<div id="ck-errors" style="display:none;margin-bottom:var(--space-md);padding:12px 14px;border-radius:10px;background:rgba(180,40,40,.07);border:1px solid rgba(180,40,40,.25);color:var(--danger);font-size:.8rem;line-height:1.6"></div>');
+
+    renderSummaryItems();
+    renderTotals(null);
+    requestQuote();
 
     // Payment toggles
     document.querySelectorAll('[name=payment]').forEach(radio => {
       radio.addEventListener('change', () => {
         document.querySelectorAll('.pay-opt').forEach(opt => opt.classList.remove('on'));
         radio.closest('.pay-opt')?.classList.add('on');
-        const bankPanel = document.getElementById('bank-panel');
-        bankPanel.classList.toggle('on', radio.value === 'bank');
+        document.getElementById('bank-panel').classList.toggle('on', radio.value === 'bank');
+        requestQuote();
       });
     });
 
-    // RTO check on phone blur
-    document.getElementById('ck-phone').addEventListener('blur', (e) => {
-      const phone = e.target.value;
-      const risk = RTO.getRiskLevel(phone);
-      const warning = document.getElementById('rto-warning');
-      if (risk === 'high') { warning.style.display = 'block'; }
-      else { warning.style.display = 'none'; }
-    });
+    document.getElementById('ck-phone').addEventListener('input', scheduleQuote);
+    document.getElementById('checkout-city').addEventListener('change', requestQuote);
 
-    // Summary coupon
-    document.getElementById('summary-apply-coupon').addEventListener('click', () => {
-      const code = document.getElementById('summary-coupon').value;
-      const result = Cart.applyCoupon(code);
-      const msg = document.getElementById('summary-coupon-msg');
-      msg.textContent = result.ok ? `✓ ${result.label}` : 'Invalid coupon code';
-      msg.className = 'coupon-msg ' + (result.ok ? 'ok' : 'err');
-      renderSummary();
-    });
-
-    // Place order
-    document.getElementById('place-order-btn').addEventListener('click', placeOrder);
-
-      // Live Backend Validation Hook
-      async function triggerLiveValidation() {
-        const phone = document.getElementById('ck-phone')?.value.trim();
-        const city = document.getElementById('checkout-city')?.value;
-        const payment = document.querySelector('[name=payment]:checked')?.value || 'cod';
-        if (!city && (!phone || phone.length < 10)) return;
-
-        const res = await RawanAPI.validateCheckout({
-          phone: phone || '',
-          city: city || '',
-          paymentMethod: payment,
-          items: Store.cart
-        });
-
-        if (res && res.success) {
-          const rtoWarn = document.getElementById('rto-warning');
-          if (rtoWarn) {
-            if (res.isRTOFlagged) {
-              rtoWarn.style.display = 'block';
-              rtoWarn.innerHTML = '⚠️ Is number pe delivery issue record hai (' + (res.rtoReason || 'High Risk') + ') - Rs. ' + res.advanceDepositAmount + ' advance deposit required.';
-            } else {
-              rtoWarn.style.display = 'none';
-            }
-          }
-
-          const advNotice = document.getElementById('advance-shipping-notice');
-          if (advNotice) {
-            if (res.advanceDepositRequired) {
-              advNotice.classList.add('on');
-              advNotice.style.display = 'block';
-              advNotice.innerHTML = '🛡️ <strong>Security Advance Deposit Required:</strong> Rs. ' + res.advanceDepositAmount + ' via EasyPaisa/JazzCash ke zariye bhejein. Baaqi payment COD par delivery par hogi.';
-            } else {
-              advNotice.classList.remove('on');
-              advNotice.style.display = 'none';
-            }
-          }
-        }
+    // Coupon
+    const couponInp = document.getElementById('summary-coupon');
+    const couponMsg = document.getElementById('summary-coupon-msg');
+    if (Store.appliedCoupon) {
+      couponInp.value = Store.appliedCoupon.code;
+      couponMsg.textContent = `✓ ${Store.appliedCoupon.label}`;
+      couponMsg.className = 'coupon-msg ok';
+    }
+    document.getElementById('summary-apply-coupon').addEventListener('click', async () => {
+      const code = couponInp.value.trim();
+      if (!code) {
+        Store.appliedCoupon = null; Store.save();
+        couponMsg.textContent = ''; requestQuote(); return;
       }
+      const result = await Cart.applyCoupon(code);
+      couponMsg.textContent = result.ok ? `✓ ${result.label}` : 'Invalid coupon code';
+      couponMsg.className = 'coupon-msg ' + (result.ok ? 'ok' : 'err');
+      requestQuote();
+    });
 
-      document.getElementById('checkout-city')?.addEventListener('change', triggerLiveValidation);
-      document.getElementById('ck-phone')?.addEventListener('input', triggerLiveValidation);
-      document.querySelectorAll('[name=payment]').forEach(r => r.addEventListener('change', triggerLiveValidation));
-
+    document.getElementById('place-order-btn').addEventListener('click', placeOrder);
   });
 
-  function renderSummary() {
-    const itemsEl = document.getElementById('summary-items');
-    const totalsEl = document.getElementById('summary-totals');
-    if (!itemsEl) return;
+  function quotePayload() {
+    return {
+      phone: document.getElementById('ck-phone').value.trim(),
+      city: document.getElementById('checkout-city').value,
+      paymentMethod: document.querySelector('[name=payment]:checked')?.value || 'cod',
+      coupon: Store.appliedCoupon ? Store.appliedCoupon.code : '',
+      items: Store.cart.map(i => ({ productId: i.productId, size: i.size, color: i.color, qty: i.qty, name: i.name }))
+    };
+  }
 
-    itemsEl.innerHTML = Store.cart.map(item => `
+  function scheduleQuote() {
+    clearTimeout(quoteTimer);
+    quoteTimer = setTimeout(requestQuote, 450);
+  }
+
+  async function requestQuote() {
+    const seq = ++quoteSeq;
+    const res = await RawanAPI.post('/api/checkout/quote', quotePayload());
+    if (seq !== quoteSeq) return; // an newer request is in flight
+    if (!res || !res.success) { lastQuote = null; renderTotals(null); return; }
+    lastQuote = res;
+
+    // Coupon removed/expired by admin
+    if (Store.appliedCoupon && !res.coupon) {
+      Store.appliedCoupon = null; Store.save();
+      const m = document.getElementById('summary-coupon-msg');
+      m.textContent = 'Yeh coupon ab valid nahi hai'; m.className = 'coupon-msg err';
+    }
+    renderTotals(res);
+    renderMembership(res);
+    renderAdvance(res);
+    const stockErrors = res.errors.filter(e => !/^Coupon/.test(e));
+    showErrors(stockErrors);
+  }
+
+  function renderSummaryItems() {
+    document.getElementById('summary-items').innerHTML = Store.cart.map(item => `
       <div style="display:flex;gap:var(--space-md);align-items:flex-start">
         <div style="width:56px;height:56px;background:var(--sand);border-radius:var(--radius-sm);flex-shrink:0;overflow:hidden">
           <img src="${item.image}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
         </div>
         <div style="flex:1;min-width:0">
           <div style="font-size:.88rem;font-weight:700;color:var(--obsidian)">${item.name}</div>
-          <div style="font-size:.72rem;color:var(--warm-grey)">EU ${item.size} · ${item.color} · Qty ${item.qty}</div>
+          <div style="font-size:.72rem;color:var(--warm-grey)">EU ${item.size} · ${item.color} · Qty ${item.qty}${item.collection === 'executive' ? ' · <span style="color:var(--emerald);font-weight:700">✦ Executive</span>' : ''}</div>
         </div>
         <div style="font-size:.88rem;font-weight:800;flex-shrink:0">Rs. ${(item.price * item.qty).toLocaleString()}</div>
       </div>
     `).join('');
+  }
 
-    const sub = Cart.getSubtotal();
-    const disc = Cart.getDiscount();
-    const del = Cart.getDelivery();
-    const total = Cart.getTotal();
+  function renderTotals(q) {
+    const el = document.getElementById('summary-totals');
+    if (!q) {
+      // Server not reachable yet: show an estimate
+      el.innerHTML = `
+        <div class="cart-tot-row"><span>Subtotal</span><span>${fmtRs(Cart.getSubtotal())}</span></div>
+        <div class="cart-tot-row grand"><span>Total</span><span>Calculating...</span></div>`;
+      return;
+    }
+    const rows = [];
+    rows.push(`<div class="cart-tot-row"><span>Subtotal</span><span>${fmtRs(q.subtotal)}</span></div>`);
+    if (q.couponDiscount > 0) rows.push(`<div class="cart-tot-row save"><span>Coupon (${q.coupon.code})</span><span>− ${fmtRs(q.couponDiscount)}</span></div>`);
+    if (q.bankDiscount > 0) rows.push(`<div class="cart-tot-row save"><span>Advance Payment Discount</span><span>− ${fmtRs(q.bankDiscount)}</span></div>`);
+    if (q.eliteCharge > 0) {
+      rows.push(`<div class="cart-tot-row" style="color:var(--emerald)"><span>✦ ${q.eliteLabel}</span><span>+ ${fmtRs(q.eliteCharge)}</span></div>`);
+    } else if (q.eliteSaved > 0) {
+      rows.push(`<div class="cart-tot-row save"><span>✦ ${q.eliteLabel} <small>(Elite Member)</small></span><span><s>${fmtRs(q.eliteSaved)}</s> FREE</span></div>`);
+    }
+    rows.push(`<div class="cart-tot-row"><span>Delivery</span><span>${q.delivery === 0 ? '🎉 Free' : fmtRs(q.delivery)}</span></div>`);
+    rows.push(`<div class="cart-tot-row grand"><span>Total</span><span>${fmtRs(q.total)}</span></div>`);
+    if (q.advanceRequired) rows.push(`<div style="font-size:.74rem;color:var(--warning);line-height:1.5">Is mein se ${fmtRs(q.advanceAmount)} advance deposit, baqi delivery par.</div>`);
+    el.innerHTML = rows.join('');
+  }
 
-    totalsEl.innerHTML = `
-      <div class="cart-tot-row"><span>Subtotal</span><span>Rs. ${sub.toLocaleString()}</span></div>
-      ${disc > 0 ? `<div class="cart-tot-row save"><span>Discount</span><span>− Rs. ${disc.toLocaleString()}</span></div>` : ''}
-      <div class="cart-tot-row"><span>Delivery</span><span>${del === 0 ? '🎉 Free' : 'Rs. ' + del.toLocaleString()}</span></div>
-      <div class="cart-tot-row grand"><span>Total</span><span>Rs. ${total.toLocaleString()}</span></div>
-    `;
+  function renderMembership(q) {
+    const box = document.getElementById('elite-status');
+    const phoneOk = Checkout.validatePhone(document.getElementById('ck-phone').value);
+    const m = q.membership;
+    let html = '';
+    let tone = 'emerald';
+    if (phoneOk && m.willBecomeFounding) {
+      html = `🎉 <strong>Mubarak!</strong> Is order ke saath aap <strong>Founding Elite Member</strong> ban jayengi — bilkul FREE.${q.hasExecutive ? ' Executive items par Elite charge nahi lagega.' : ''} <br><small>Sirf ${m.foundingSlotsLeft} Founding spots baqi.</small>`;
+    } else if (phoneOk && m.isElite) {
+      html = `✦ Aap <strong>${m.type === 'Founding' ? 'Founding' : 'VIP'} Elite Member</strong> hain.${q.eliteSaved > 0 ? ` ${q.eliteLabel} waived (${fmtRs(q.eliteSaved)} bachat).` : ''}`;
+    } else if (q.eliteCharge > 0) {
+      html = `✦ Executive items par <strong>${fmtRs(q.eliteCharge)} ${q.eliteLabel}</strong> lagta hai (non-members). Elite members ke liye free.`;
+      tone = 'neutral';
+    }
+    box.style.display = html ? 'block' : 'none';
+    box.innerHTML = html;
+    box.style.background = tone === 'emerald' ? 'rgba(10,58,47,.08)' : 'var(--bone-dark)';
+    box.style.border = tone === 'emerald' ? '1px solid rgba(10,58,47,.2)' : '1px solid var(--sand)';
+    box.style.color = tone === 'emerald' ? 'var(--emerald)' : 'var(--obsidian)';
+
+    document.getElementById('rto-warning').style.display = q.advanceReasons.includes('rto') ? 'block' : 'none';
+  }
+
+  function renderAdvance(q) {
+    const notice = document.getElementById('advance-shipping-notice');
+    notice.classList.toggle('on', q.advanceRequired);
+    if (!q.advanceRequired) { notice.innerHTML = ''; return; }
+    const why = { rto: 'pichli delivery ka masla', remote: 'remote area delivery', highValue: 'high value order' };
+    const reasons = q.advanceReasons.map(r => why[r]).join(', ');
+    notice.innerHTML = `⚠️ <strong>Advance Security Deposit Required:</strong> ${fmtRs(q.advanceAmount)} EasyPaisa/JazzCash ke zariye bhejein (${reasons}). Baqi payment delivery par COD. <br><small>Bank transfer se poori payment karein to deposit ki zaroorat nahi + discount bhi.</small>`;
+  }
+
+  function showErrors(list) {
+    const box = document.getElementById('ck-errors');
+    if (!box) return;
+    box.style.display = list.length ? 'block' : 'none';
+    box.innerHTML = list.map(e => `• ${String(e).replace(/[<>]/g, '')}`).join('<br>');
   }
 
   function validate() {
@@ -366,21 +423,20 @@
     if (!city) errors.city = 'City select karein';
     if (!terms) errors.terms = 'Terms agree karein';
 
+    document.querySelectorAll('.f-err').forEach(el => el.textContent = '');
+    document.querySelectorAll('.f-inp.err').forEach(el => el.classList.remove('err'));
     Object.entries(errors).forEach(([field, msg]) => {
       const el = document.getElementById(`err-${field}`);
       if (el) el.textContent = msg;
-      const inp = document.getElementById(`ck-${field}`) || document.getElementById('agree-terms');
-      inp?.classList.add('err');
+      document.getElementById(`ck-${field}`)?.classList.add('err');
     });
 
     if (Object.keys(errors).length > 0) {
-      Object.keys(errors)[0] && document.getElementById(`ck-${Object.keys(errors)[0]}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const first = Object.keys(errors)[0];
+      (document.getElementById(`ck-${first}`) || document.getElementById(first === 'city' ? 'checkout-city' : 'agree-terms'))
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return false;
     }
-
-    // Clear errors
-    document.querySelectorAll('.f-err').forEach(el => el.textContent = '');
-    document.querySelectorAll('.f-inp.err').forEach(el => el.classList.remove('err'));
     return true;
   }
 
@@ -389,8 +445,11 @@
     if (!validate()) return;
 
     const btn = document.getElementById('place-order-btn');
+    const btnHtml = btn.innerHTML;
     btn.disabled = true;
     btn.textContent = 'Processing...';
+    // Open the WhatsApp tab now (inside the click) so popup blockers allow it
+    const waWin = window.open('', '_blank');
 
     const formData = {
       name: `${document.getElementById('ck-fname').value} ${document.getElementById('ck-lname').value}`.trim(),
@@ -403,15 +462,22 @@
       payment: document.querySelector('[name=payment]:checked')?.value || 'cod'
     };
 
-    // Direct async place order
-      (async () => {
-      const order = await Checkout.placeOrderAsync(formData);
-      const waUrl = Checkout.generateWhatsAppVerification(order);
-      // Open WhatsApp verification
-      window.open(waUrl, '_blank');
-      // Redirect to confirm page
-      window.location.href = `confirm.html?order=${order.id}`;
-    })();
+    const result = await Checkout.placeOrderAsync(formData);
+    if (result.errors) {
+      if (waWin) waWin.close();
+      showErrors(result.errors);
+      Toast.show('Order place nahi hua — details check karein', 'error', 5000);
+      document.getElementById('ck-errors')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      btn.disabled = false;
+      btn.innerHTML = btnHtml;
+      requestQuote();
+      return;
+    }
+
+    const order = result.order;
+    const waUrl = Checkout.generateWhatsAppVerification(order);
+    if (waWin) waWin.location.href = waUrl;
+    window.location.href = `confirm.html?order=${encodeURIComponent(order.id)}${result.becameFounding ? '&founding=1' : ''}`;
   }
 </script>
 

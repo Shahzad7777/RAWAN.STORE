@@ -1,58 +1,79 @@
-# 🚀 RAWAN Footwear - Complete Free Deployment & Domain Guide
+# RAWAN Footwear — Internet par Live karne ka Guide
 
-Aapka pura project **Frontend + Backend** 100% link ho chuka hai aur deployment ke liye ready hai.
+Kharcha: **sirf domain** (~Rs. 3,000–4,000/saal). Baqi sab free hai: GitHub, Render, MongoDB Atlas.
 
 ---
 
-## 1️⃣ GitHub par Code Upload Karna (1-Minute Step)
+## Step 1 — MongoDB Atlas (free database) · ~10 min
+Yahan products, orders aur customers hamesha ke liye save rahenge.
 
-1. [github.com/new](https://github.com/new) par jayein aur new repository banayein:
-   - Repository Name: `rawan-final` (ya jo bhi naam aap chahein)
-   - Public ya Private select karein
-   - "Create repository" par click karein
+1. https://www.mongodb.com/cloud/atlas/register par sign up karein.
+2. **Create a cluster** → **M0 FREE** → region: Mumbai ya Singapore → Create.
+3. **Database Access** → Add New Database User → username `rawan`, ek strong password (yaad rakhein).
+4. **Network Access** → Add IP Address → **Allow access from anywhere** (`0.0.0.0/0`).
+5. **Database** → **Connect** → **Drivers** → connection string copy karein:
+   ```
+   mongodb+srv://rawan:<password>@cluster0.xxxxx.mongodb.net/rawan?retryWrites=true&w=majority
+   ```
+   `<password>` ki jagah apna password likhein, aur `.net/` ke baad `rawan` likhna zaroori hai.
 
-2. Apne terminal ya project folder (`fINAL RAWAN`) mein yeh 3 commands run karein:
-   ```bash
+## Step 2 — GitHub par code upload · ~5 min
+1. https://github.com/new → Repository name: `rawan-final` → **Private** → Create.
+2. Is folder mein terminal kholein aur ye chalayein:
+   ```
    git branch -M main
    git remote add origin https://github.com/Shahzad7777/rawan-final.git
    git push -u origin main
    ```
-   *(Agar aapne koi aur repo naam rakha ho toh URL mein wahi naam daalein)*
+
+## Step 3 — Render par website chalayein · ~10 min
+1. https://render.com par **GitHub se sign up** karein.
+2. **New +** → **Web Service** → `rawan-final` repo select karein.
+3. Settings:
+   | Field | Value |
+   |---|---|
+   | Build Command | `npm install` |
+   | Start Command | `node server.js` |
+   | Instance Type | **Free** |
+4. **Environment Variables** add karein:
+   | Key | Value |
+   |---|---|
+   | `MONGODB_URI` | Step 1 wali connection string |
+   | `ADMIN_PASSWORD` | apna strong admin password |
+   | `SESSION_SECRET` | koi bhi lambi random line (30+ characters) |
+5. **Create Web Service**. 2–4 minute baad link milega: `https://rawan-final.onrender.com`.
+6. Check karein: `https://rawan-final.onrender.com/api/health` par `"storage":"mongodb"` likha aana chahiye.
+
+## Step 4 — Apna domain lagayein · ~15 min (+ DNS ka intezar)
+1. Domain khareedein (Namecheap, GoDaddy, ya PKNIC `.pk`).
+2. Render → aapki service → **Settings → Custom Domains** → `rawanfootwear.com` aur `www.rawanfootwear.com` add karein.
+3. Render jo DNS records dikhaye (CNAME / A record), wo domain ki DNS settings mein daal dein.
+4. SSL (https) Render khud free mein laga deta hai. DNS update hone mein 10 minute se 24 ghante lag sakte hain.
+
+## Step 5 — Admin setup (pehli baar)
+`https://aapka-domain.com/admin.html` → username `admin` + Step 3 wala password.
+
+1. **Store Settings**: WhatsApp number, bank details (Account Title / IBAN), delivery charges.
+2. **Products**: naye items add karein (photos, price, sizes, stock). Demo products edit ya delete kar dein.
+3. **Elite Members**: Founding limit (default 20) aur Elite Access Charge (default Rs. 500 per Executive pair).
 
 ---
 
-## 2️⃣ Free Hosting par Live Karna (Render.com - $0 Free Forever)
+## Elite Membership kaise kaam karti hai
+- Pehle **20 customers** (phone number se pehchane jate hain) pehle order par khud-ba-khud **Founding Elite** ban jate hain. Ye membership free aur hamesha ke liye hai.
+- Founding spots khatam hone ke baad non-members ko **har Executive pair par Elite Access Charge** dena hota hai.
+- Elite members (Founding ya admin ka banaya VIP) se ye charge kabhi nahi liya jata.
+- Admin → Elite Members panel se aap kisi bhi customer ko VIP bana sakte hain ya hata sakte hain.
 
-Yeh best aur 100% free Node.js hosting platform hai:
+## Zaroori baatein
+> **Render free plan:** 15 minute tak koi visitor na aaye to server so jata hai. Agla visitor aaye to pehli dafa page khulne mein ~30–50 second lagte hain. Isse bachne ke liye https://uptimerobot.com (free) par har 5 minute ka monitor `https://aapka-domain.com/api/health` par laga dein. Ya Render ka paid plan ($7/mahina) le lein.
 
-1. [render.com](https://render.com) par jayein aur **"Sign Up with GitHub"** karein.
-2. Dashboard par **"New +"** button daba kar **"Web Service"** select karein.
-3. Apni GitHub repository (`rawan-final`) choose karein.
-4. Settings:
-   - **Name:** `rawan-footwear`
-   - **Environment:** `Node`
-   - **Build Command:** `npm install`
-   - **Start Command:** `node server.js`
-   - **Instance Type:** `Free` ($0/mo)
-5. **"Deploy Web Service"** par click karein.
-   2 minute mein aapki website live ho jayegi aur aapko free live link mil jayega:
-   👉 `https://rawan-footwear.onrender.com`
+- `MONGODB_URI` ke baghair Render par sara data restart pe mit jayega. Isliye Step 1 lazmi hai.
+- Code update karne ke liye: `git add . && git commit -m "update" && git push`. Render khud dobara deploy kar dega.
 
----
-
-## 3️⃣ Custom Domain Connect Karna (.pk ya .com)
-
-Jab aap apna domain purchase kar lein (e.g. `rawanfootwear.com` ya `rawan.pk`):
-1. Render dashboard mein apne service ke **"Settings"** -> **"Custom Domains"** mein jayein.
-2. Apna domain daalein (e.g. `www.rawanfootwear.com`).
-3. Jahan se domain purchase kiya hai (GoDaddy, PKNIC, Namecheap), wahan Render ke diye gaye **CNAME / A Records** add kar dein.
-4. Render automatically **Free SSL (HTTPS)** active kar dega!
-
----
-
-## 4️⃣ Admin Access & Live Management
-
-- **Admin Dashboard:** `https://your-domain.com/admin.html`
-- **Orders Management:** Real-time orders, Courier assignment (TCS, Leopards, M&P, Trax)
-- **Inventory Stock:** Har shoe ka size 35-40 stock update karein
-- **Limited Drop Timer:** Homepage drop countdown aur remaining pairs update karein
+## Local chalana (apne computer par)
+```
+npm install
+node server.js
+```
+Phir browser mein http://localhost:5000 kholein. `MONGODB_URI` set na ho to data `data/` folder mein save hota hai.

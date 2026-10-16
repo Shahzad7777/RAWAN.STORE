@@ -119,11 +119,21 @@
             <span style="font-weight:900;font-size:1rem">Rs. ${order.total.toLocaleString()}</span>
           </div>
         </div>
-        ${order.advanceRequired ? `<div style="margin-top:var(--space-md);padding:var(--space-md);background:rgba(201,145,58,.1);border-radius:var(--radius-sm);font-size:.78rem;color:var(--warning);line-height:1.6">⚠️ <strong>Advance Deposit Required:</strong> Rs. 200 EasyPaisa/JazzCash par bhejein.</div>` : ''}
+        ${order.advanceRequired ? `<div style="margin-top:var(--space-md);padding:var(--space-md);background:rgba(201,145,58,.1);border-radius:var(--radius-sm);font-size:.78rem;color:var(--warning);line-height:1.6">⚠️ <strong>Advance Deposit Required:</strong> Rs. ${(order.advanceAmount || 200).toLocaleString()} EasyPaisa/JazzCash par bhejein.</div>` : ''}
       `;
     }
 
-    Toast.show('Order successfully placed! WhatsApp check karein.', 'success', 5000);
+    if (order && (order.eliteCharge > 0 || order.eliteSaved > 0)) {
+        const box = document.getElementById('order-details-box');
+        box.insertAdjacentHTML('beforeend', order.eliteCharge > 0
+          ? `<div style="margin-top:var(--space-sm);font-size:.78rem;color:var(--emerald)">✦ ${ELITE.label}: Rs. ${order.eliteCharge.toLocaleString()} (total mein shamil)</div>`
+          : `<div style="margin-top:var(--space-sm);font-size:.78rem;color:var(--emerald)">✦ Elite Member — ${ELITE.label} waived (Rs. ${order.eliteSaved.toLocaleString()} bachat)</div>`);
+      }
+      if (params.get('founding') === '1') {
+        document.getElementById('order-details-box').insertAdjacentHTML('beforebegin',
+          '<div style="margin-bottom:var(--space-lg);padding:var(--space-lg);border-radius:var(--radius-md);background:linear-gradient(135deg,#0A3A2F,#14533F);color:#F3DCC6;text-align:center;line-height:1.6"><div style="font-size:1.6rem">✦</div><strong style="font-size:1.05rem">Aap ab Founding Elite Member hain!</strong><br><span style="font-size:.82rem;opacity:.9">Aapki membership hamesha ke liye FREE hai — Executive collection par koi Elite charge nahi lagega. Isi phone number se order karein.</span></div>');
+      }
+      Toast.show('Order successfully placed! WhatsApp check karein.', 'success', 5000);
   });
 </script>
 
