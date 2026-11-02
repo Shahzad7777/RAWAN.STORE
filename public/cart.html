@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -23,9 +23,9 @@
   <nav class="nav">
     <div class="nav-left"></div>
     <a href="index.html" class="nav-logo">
-      <span class="logo-ar">قدم</span>
+      <span class="logo-ar">رواں</span>
       <span class="logo-en">RAWAN</span>
-      <span class="logo-sub">Footwear</span>
+      <span class="logo-sub">by Ella Styles</span>
     </a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger">
@@ -69,7 +69,7 @@
           <input class="f-inp" id="ck-phone" type="tel" placeholder="03xx-xxxxxxx" required>
           <span class="f-err" id="err-phone"></span>
           <span id="rto-warning" style="display:none;font-size:.72rem;color:var(--danger);font-weight:700;margin-top:4px;display:none">
-            ⚠️ Is number pe delivery issue record hai — advance deposit required.
+            ⚠️ This number has a past delivery problem, so an advance deposit is needed.
           </span>
         </div>
         <div class="f-group">
@@ -128,14 +128,14 @@
           <input type="radio" name="payment" value="cod" checked>
           <div>
             <div class="pay-opt-label">💵 Cash on Delivery (COD)</div>
-            <div class="pay-opt-desc">Delivery ke waqt payment — sab se safe option.</div>
+            <div class="pay-opt-desc">Pay when your order arrives. The safest option.</div>
           </div>
         </label>
         <label class="pay-opt" id="pay-opt-bank">
           <input type="radio" name="payment" value="bank">
           <div>
             <div class="pay-opt-label">🏦 Bank Transfer / EasyPaisa / JazzCash</div>
-            <div class="pay-opt-desc">Advance payment — 5% discount milega aapko!</div>
+            <div class="pay-opt-desc">Pay in advance and get a 5% discount!</div>
           </div>
         </label>
       </div>
@@ -154,7 +154,7 @@
           <span class="bank-k">JazzCash</span><span class="bank-v">03xx-xxxxxxx</span>
         </div>
         <p style="font-size:.72rem;color:var(--warning);margin-top:var(--space-md);line-height:1.6">
-          ⚠️ Payment ke baad screenshot WhatsApp par zaroor bhejein: <strong>03xx-xxxxxxx</strong>
+          ⚠️ After you pay, please send a screenshot on WhatsApp: <strong>03xx-xxxxxxx</strong>
         </p>
       </div>
     </div>
@@ -166,16 +166,16 @@
         <label style="display:flex;align-items:flex-start;gap:var(--space-md);cursor:pointer">
           <input type="checkbox" id="agree-terms" style="margin-top:4px;accent-color:var(--obsidian)">
           <span style="font-size:.82rem;color:var(--warm-grey);line-height:1.65">
-            Main RAWAN Footwear ki <a href="exchange.html" style="color:var(--obsidian);font-weight:700">Exchange Policy</a> se mutafiq hoon aur order dene ki confirmation de raha/rahi hoon.
+            I agree to the RAWAN Footwear <a href="exchange.html" style="color:var(--obsidian);font-weight:700">Exchange Policy</a> and I confirm my order.
           </span>
         </label>
         <span class="f-err" id="err-terms"></span>
       </div>
       <button class="btn btn-primary btn-full btn-lg" id="place-order-btn">
-        🛍️ Place Order — Confirm karein
+        🛍️ Place Order, Confirm Now
       </button>
       <p style="font-size:.72rem;color:var(--warm-grey);margin-top:var(--space-md);text-align:center;line-height:1.6">
-        Order place hone ke baad WhatsApp par verification message ayega. COD orders ka payment delivery par dena hoga.
+        After you place your order, you will get a verification message on WhatsApp. For COD orders, pay when the order arrives.
       </p>
     </div>
   </div>
@@ -201,7 +201,7 @@
 
     <div style="margin-top:var(--space-lg);padding:var(--space-md);background:var(--bone-dark);border-radius:var(--radius-sm);font-size:.78rem;color:var(--warm-grey);line-height:1.6">
       <strong style="color:var(--obsidian);">✅ Safe Shopping</strong><br>
-      Agar size fit nahi toh 7 din mein free exchange. Koi sawaal ho toh WhatsApp karein.
+      If the size does not fit, exchange it free within 7 days. If you have questions, message us on WhatsApp.
     </div>
   </div>
 </div>
@@ -210,7 +210,7 @@
 <div id="empty-checkout" style="display:none;text-align:center;padding:var(--space-4xl) var(--space-xl)">
   <div style="font-size:4rem;margin-bottom:var(--space-lg)">🛍️</div>
   <h2 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:var(--space-md)">Your bag is empty</h2>
-  <p style="color:var(--warm-grey);margin-bottom:var(--space-xl)">Kuch add karein aur wapis ayein!</p>
+  <p style="color:var(--warm-grey);margin-bottom:var(--space-xl)">Add something and come back!</p>
   <a href="shop.html" class="btn btn-primary btn-lg">Shop Now</a>
 </div>
 
@@ -322,7 +322,7 @@
     if (Store.appliedCoupon && !res.coupon) {
       Store.appliedCoupon = null; Store.save();
       const m = document.getElementById('summary-coupon-msg');
-      m.textContent = 'Yeh coupon ab valid nahi hai'; m.className = 'coupon-msg err';
+      m.textContent = 'This coupon is no longer valid'; m.className = 'coupon-msg err';
     }
     renderTotals(res);
     renderMembership(res);
@@ -366,7 +366,7 @@
     }
     rows.push(`<div class="cart-tot-row"><span>Delivery</span><span>${q.delivery === 0 ? '🎉 Free' : fmtRs(q.delivery)}</span></div>`);
     rows.push(`<div class="cart-tot-row grand"><span>Total</span><span>${fmtRs(q.total)}</span></div>`);
-    if (q.advanceRequired) rows.push(`<div style="font-size:.74rem;color:var(--warning);line-height:1.5">Is mein se ${fmtRs(q.advanceAmount)} advance deposit, baqi delivery par.</div>`);
+    if (q.advanceRequired) rows.push(`<div style="font-size:.74rem;color:var(--warning);line-height:1.5">Of this, ${fmtRs(q.advanceAmount)} is an advance deposit. Pay the rest on delivery.</div>`);
     el.innerHTML = rows.join('');
   }
 
@@ -377,11 +377,11 @@
     let html = '';
     let tone = 'emerald';
     if (phoneOk && m.willBecomeFounding) {
-      html = `🎉 <strong>Mubarak!</strong> Is order ke saath aap <strong>Founding Elite Member</strong> ban jayengi — bilkul FREE.${q.hasExecutive ? ' Executive items par Elite charge nahi lagega.' : ''} <br><small>Sirf ${m.foundingSlotsLeft} Founding spots baqi.</small>`;
+      html = `🎉 <strong>Congratulations!</strong> With this order you will become a <strong>Founding Elite Member</strong>, completely FREE.${q.hasExecutive ? ' No Elite charge on Executive items.' : ''} <br><small>Only ${m.foundingSlotsLeft} Founding spots left.</small>`;
     } else if (phoneOk && m.isElite) {
-      html = `✦ Aap <strong>${m.type === 'Founding' ? 'Founding' : 'VIP'} Elite Member</strong> hain.${q.eliteSaved > 0 ? ` ${q.eliteLabel} waived (${fmtRs(q.eliteSaved)} bachat).` : ''}`;
+      html = `✦ You are a <strong>${m.type === 'Founding' ? 'Founding' : 'VIP'} Elite Member</strong>.${q.eliteSaved > 0 ? ` ${q.eliteLabel} waived (you save ${fmtRs(q.eliteSaved)}).` : ''}`;
     } else if (q.eliteCharge > 0) {
-      html = `✦ Executive items par <strong>${fmtRs(q.eliteCharge)} ${q.eliteLabel}</strong> lagta hai (non-members). Elite members ke liye free.`;
+      html = `✦ Executive items have a <strong>${fmtRs(q.eliteCharge)} ${q.eliteLabel}</strong> for non-members. It is free for Elite members.`;
       tone = 'neutral';
     }
     box.style.display = html ? 'block' : 'none';
@@ -399,7 +399,7 @@
     if (!q.advanceRequired) { notice.innerHTML = ''; return; }
     const why = { rto: 'pichli delivery ka masla', remote: 'remote area delivery', highValue: 'high value order' };
     const reasons = q.advanceReasons.map(r => why[r]).join(', ');
-    notice.innerHTML = `⚠️ <strong>Advance Security Deposit Required:</strong> ${fmtRs(q.advanceAmount)} EasyPaisa/JazzCash ke zariye bhejein (${reasons}). Baqi payment delivery par COD. <br><small>Bank transfer se poori payment karein to deposit ki zaroorat nahi + discount bhi.</small>`;
+    notice.innerHTML = `⚠️ <strong>Advance Security Deposit Required:</strong> Please send ${fmtRs(q.advanceAmount)} by EasyPaisa/JazzCash (${reasons}). Pay the rest by COD on delivery. <br><small>If you pay in full by bank transfer, no deposit is needed and you also get a discount.</small>`;
   }
 
   function showErrors(list) {
@@ -417,11 +417,11 @@
     const city = document.getElementById('checkout-city').value;
     const terms = document.getElementById('agree-terms').checked;
 
-    if (!name) errors.fname = 'Naam zaroori hai';
-    if (!Checkout.validatePhone(phone)) errors.phone = 'Valid phone number dalein (03xx-xxxxxxx)';
-    if (!address) errors.address = 'Address zaroori hai';
-    if (!city) errors.city = 'City select karein';
-    if (!terms) errors.terms = 'Terms agree karein';
+    if (!name) errors.fname = 'Name is required';
+    if (!Checkout.validatePhone(phone)) errors.phone = 'Enter a valid phone number (03xx-xxxxxxx)';
+    if (!address) errors.address = 'Address is required';
+    if (!city) errors.city = 'Please select a city';
+    if (!terms) errors.terms = 'Please agree to the terms';
 
     document.querySelectorAll('.f-err').forEach(el => el.textContent = '');
     document.querySelectorAll('.f-inp.err').forEach(el => el.classList.remove('err'));
@@ -441,7 +441,7 @@
   }
 
   async function placeOrder() {
-    if (Store.cart.length === 0) { Toast.show('Cart empty hai', 'error'); return; }
+    if (Store.cart.length === 0) { Toast.show('Your cart is empty', 'error'); return; }
     if (!validate()) return;
 
     const btn = document.getElementById('place-order-btn');
@@ -466,7 +466,7 @@
     if (result.errors) {
       if (waWin) waWin.close();
       showErrors(result.errors);
-      Toast.show('Order place nahi hua — details check karein', 'error', 5000);
+      Toast.show('Order was not placed. Please check your details.', 'error', 5000);
       document.getElementById('ck-errors')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       btn.disabled = false;
       btn.innerHTML = btnHtml;

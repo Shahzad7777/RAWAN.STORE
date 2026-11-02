@@ -24,7 +24,7 @@
         <a href="contact.html">Contact</a>
       </div>
     </div>
-    <a href="index.html" class="nav-logo"><span class="logo-ar">قدم</span><span class="logo-en">RAWAN</span><span class="logo-sub">Footwear</span></a>
+    <a href="index.html" class="nav-logo"><span class="logo-ar">رواں</span><span class="logo-en">RAWAN</span><span class="logo-sub">by Ella Styles</span></a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg><span class="cart-badge" id="cart-badge-nav">0</span></button>
     </div>
@@ -38,7 +38,7 @@
 
 <div class="page-hero-bar">
   <h1>The Journal</h1>
-  <p>Style guides, craft stories, aur shoe care tips — RAWAN ki duniya mein khush aamdeed.</p>
+  <p>Style guides, craft stories and shoe care tips. Welcome to the world of RAWAN.</p>
 </div>
 
 <!-- CATEGORY FILTERS -->
@@ -50,88 +50,25 @@
   <button class="filter-chip" data-jcat="brand">Behind the Brand</button>
 </div>
 
-<!-- JOURNAL GRID -->
+<!-- JOURNAL GRID (loaded from the server, admin can add posts) -->
 <div style="max-width:1440px;margin:0 auto;padding:var(--space-xl)">
-  <div class="journal-grid" id="journal-grid">
+  <div class="journal-grid" id="journal-grid"><p style="color:var(--warm-grey)">Loading posts...</p></div>
+</div>
 
-    <article class="j-card reveal d1" data-cat="care">
-      <div class="j-card-img" style="background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:4rem">🧹</div>
-      <div class="j-card-body">
-        <div class="j-cat">Shoe Care</div>
-        <h2 class="j-title">Suede ko properly care karne ka tareeqa</h2>
-        <div class="j-excerpt">Suede ki khubsurti maintain karna mushkil nahi. Sirf kuch simple steps aur aapka joota salon tak naya lagega.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">5 min read · September 2026</div>
-          <a href="#article-suede" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="j-card reveal d2" data-cat="style">
-      <div class="j-card-img" style="background:var(--bone-dark);display:flex;align-items:center;justify-content:center;font-size:4rem">👔</div>
-      <div class="j-card-body">
-        <div class="j-cat">Style</div>
-        <h2 class="j-title">Loafer ke sath 5 perfect outfits — Office se Weekend tak</h2>
-        <div class="j-excerpt">The Saba Loafer har occasion ke liye versatile hai — lekin kaise style karein? Yahan 5 tested combinations hain.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">4 min read · September 2026</div>
-          <a href="#article-loafer" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="j-card reveal d3" data-cat="craft">
-      <div class="j-card-img" style="background:var(--sand-dark);display:flex;align-items:center;justify-content:center;font-size:4rem">🧵</div>
-      <div class="j-card-body">
-        <div class="j-cat">Craft</div>
-        <h2 class="j-title">Goodyear Welt vs Blake Stitch — Kya Farq Hai?</h2>
-        <div class="j-excerpt">Sole construction ka quality par kya asar hota hai — ek simple guide jo shoes khareedne mein help karegi.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">6 min read · August 2026</div>
-          <a href="#article-welt" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="j-card reveal d1" data-cat="brand">
-      <div class="j-card-img" style="background:var(--espresso);display:flex;align-items:center;justify-content:center;font-size:4rem">🌙</div>
-      <div class="j-card-body">
-        <div class="j-cat">Behind the Brand</div>
-        <h2 class="j-title">RAWAN kaise shuru hua — Ek Honest Story</h2>
-        <div class="j-excerpt">Hum ne kisi bhi branded shoe mein genuinely comfortable feeling nahi milti thi — isliye khud banaya. Yeh woh story hai.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">7 min read · August 2026</div>
-          <a href="about.html" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="j-card reveal d2" data-cat="care">
-      <div class="j-card-img" style="background:var(--bone);display:flex;align-items:center;justify-content:center;font-size:4rem">🌧️</div>
-      <div class="j-card-body">
-        <div class="j-cat">Shoe Care</div>
-        <h2 class="j-title">Barsaat mein Leather Shoes kaise bachayein?</h2>
-        <div class="j-excerpt">Monsoon season mein leather shoes ko damage se bachana zaroori hai. Yahan ek simple routine hai jo 5 minute mein ho jati hai.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">3 min read · July 2026</div>
-          <a href="#article-rain" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
-    <article class="j-card reveal d3" data-cat="style">
-      <div class="j-card-img" style="background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:4rem">🎓</div>
-      <div class="j-card-body">
-        <div class="j-cat">Style</div>
-        <h2 class="j-title">Formal Shoes ko Casual outfit ke sath kaise pehnen?</h2>
-        <div class="j-excerpt">Smart casual trend Pakistan mein tezi se barh raha hai — formal shoes ko smart casual mein mix karna ab acceptable hai.</div>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div class="j-meta">4 min read · July 2026</div>
-          <a href="#article-smartcasual" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
-        </div>
-      </div>
-    </article>
-
+<!-- POST READER WITH COMMENTS -->
+<div class="modal-wrap" id="modal-post">
+  <div class="modal" style="max-width:720px;max-height:90vh;overflow:auto">
+    <div class="modal-hd"><div class="modal-title" id="post-title"></div><button class="modal-close" id="post-close">✕</button></div>
+    <img id="post-image" alt="" style="display:none;width:100%;border-radius:12px;margin-bottom:16px">
+    <div id="post-body" style="font-size:.95rem;line-height:1.8;color:var(--warm-grey);white-space:pre-line"></div>
+    <h3 style="margin:28px 0 12px;font-size:1rem">Comments</h3>
+    <div id="post-comments"></div>
+    <form id="comment-form" style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+      <input id="c-name" class="f-inp" maxlength="60" placeholder="Your name" required style="padding:10px;border:1px solid var(--sand);border-radius:8px">
+      <textarea id="c-text" class="f-inp" maxlength="1000" rows="3" placeholder="Write your comment" required style="padding:10px;border:1px solid var(--sand);border-radius:8px"></textarea>
+      <button class="btn btn-primary" type="submit">Post Comment</button>
+      <div id="c-msg" style="font-size:.8rem"></div>
+    </form>
   </div>
 </div>
 
@@ -147,7 +84,7 @@
 
 <footer class="footer">
   <div class="footer-grid">
-    <div><div class="footer-logo-ar">قدم</div><div class="footer-logo-en">RAWAN</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
+    <div><div class="footer-logo-ar">رواں</div><div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by Ella Styles</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
     <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?filter=new">New Arrivals</a><a href="shop.html?filter=bestseller">Bestsellers</a></div></div>
     <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
     <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
@@ -172,22 +109,97 @@
 <script src="js/store.js"></script>
 <script src="js/animations.js"></script>
 <script>
-  // Journal category filter
+  const CAT_NAMES = { craft: 'Craft', style: 'Style', care: 'Shoe Care', brand: 'Behind the Brand' };
+  const BGS = ['var(--sand)', 'var(--bone-dark)', 'var(--sand-dark)', 'var(--bone)'];
+  let ALL_POSTS = [];
+  let currentPostId = null;
+  const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const imgSrc = u => (u && u.startsWith('/api/') ? u : u);
+  const fmtDate = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  function renderPosts(cat) {
+    const list = ALL_POSTS.filter(p => cat === 'all' || p.category === cat);
+    const grid = document.getElementById('journal-grid');
+    if (!list.length) { grid.innerHTML = '<p style="color:var(--warm-grey)">No posts yet.</p>'; return; }
+    grid.innerHTML = list.map((p, i) => `
+      <article class="j-card reveal in" data-cat="${esc(p.category)}">
+        <div class="j-card-img" style="background:${BGS[i % 4]};display:flex;align-items:center;justify-content:center;font-size:4rem">
+          ${p.image ? `<img src="${esc(imgSrc(p.image))}" alt="${esc(p.title)}">` : esc(p.emoji || '📝')}
+        </div>
+        <div class="j-card-body">
+          <div class="j-cat">${esc(CAT_NAMES[p.category] || p.category)}</div>
+          <h2 class="j-title">${esc(p.title)}</h2>
+          <div class="j-excerpt">${esc(p.excerpt)}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="j-meta">${p.readTime} min read, ${fmtDate(p.createdAt)}, ${p.commentCount} comments</div>
+            <a href="#" data-open="${esc(p.id)}" style="font-size:.72rem;font-weight:700;color:var(--obsidian);text-decoration:underline;text-underline-offset:3px">Read →</a>
+          </div>
+        </div>
+      </article>`).join('');
+    grid.querySelectorAll('[data-open]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); openPost(a.dataset.open); }));
+  }
+
+  async function loadPosts() {
+    const res = await RawanAPI.get('/api/posts');
+    ALL_POSTS = (res && res.posts) || [];
+    renderPosts(document.querySelector('[data-jcat].on')?.dataset.jcat || 'all');
+    const wanted = new URLSearchParams(location.search).get('post');
+    if (wanted) openPost(wanted);
+  }
+
+  function renderComments(comments) {
+    const box = document.getElementById('post-comments');
+    if (!comments.length) { box.innerHTML = '<p style="font-size:.85rem;color:var(--warm-grey)">No comments yet. Be the first to comment.</p>'; return; }
+    box.innerHTML = comments.map(c => `
+      <div style="padding:12px 0;border-bottom:1px solid var(--sand)">
+        <div style="font-weight:700;font-size:.85rem">${esc(c.name)} <span style="font-weight:400;color:var(--warm-grey);font-size:.72rem">${fmtDate(c.createdAt)}</span></div>
+        <div style="font-size:.9rem;margin-top:4px">${esc(c.text)}</div>
+        ${c.reply ? `<div style="margin:8px 0 0 16px;padding:8px 12px;background:var(--bone-dark);border-radius:8px;font-size:.85rem"><strong>RAWAN replied:</strong> ${esc(c.reply)}</div>` : ''}
+      </div>`).join('');
+  }
+
+  async function openPost(id) {
+    const res = await RawanAPI.get('/api/posts/' + encodeURIComponent(id));
+    if (!res || !res.success) { Toast.show('Could not open this post', 'error'); return; }
+    currentPostId = id;
+    document.getElementById('post-title').textContent = res.post.title;
+    document.getElementById('post-body').textContent = res.post.body || res.post.excerpt;
+    const img = document.getElementById('post-image');
+    if (res.post.image) { img.src = res.post.image; img.style.display = 'block'; } else { img.style.display = 'none'; }
+    renderComments(res.comments);
+    document.getElementById('c-msg').textContent = '';
+    document.getElementById('modal-post').classList.add('on');
+  }
+
+  document.getElementById('post-close').addEventListener('click', () => document.getElementById('modal-post').classList.remove('on'));
+
+  document.getElementById('comment-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('c-msg');
+    const name = document.getElementById('c-name').value.trim();
+    const text = document.getElementById('c-text').value.trim();
+    localStorage.setItem('rawan_comment_name', name);
+    const res = await RawanAPI.post('/api/posts/' + encodeURIComponent(currentPostId) + '/comments', { name, text });
+    if (res && res.success) {
+      document.getElementById('c-text').value = '';
+      msg.style.color = 'green'; msg.textContent = 'Your comment is posted.';
+      const fresh = await RawanAPI.get('/api/posts/' + encodeURIComponent(currentPostId));
+      if (fresh && fresh.success) renderComments(fresh.comments);
+      loadPosts();
+    } else {
+      msg.style.color = 'crimson'; msg.textContent = (res && res.error) || 'Could not post the comment. Please try again.';
+    }
+  });
+  document.getElementById('c-name').value = localStorage.getItem('rawan_comment_name') || '';
+
   document.querySelectorAll('[data-jcat]').forEach(chip => {
     chip.addEventListener('click', () => {
       document.querySelectorAll('[data-jcat]').forEach(c => c.classList.remove('on'));
       chip.classList.add('on');
-      const cat = chip.dataset.jcat;
-      document.querySelectorAll('#journal-grid .j-card').forEach(card => {
-        if (cat === 'all' || card.dataset.cat === cat) {
-          card.style.display = '';
-          setTimeout(() => card.classList.add('in'), 50);
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      renderPosts(chip.dataset.jcat);
     });
   });
+  loadPosts();
 </script>
 </body>
 </html>

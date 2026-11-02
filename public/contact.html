@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .c-info-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+    .c-info-icon { width: 44px; height: 44px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--bone); }
+    .c-info-icon svg { width: 20px; height: 20px; flex-shrink: 0; }
+  </style>
 </head>
 <body>
 
@@ -16,14 +21,14 @@
 <div class="nav-wrap">
   <nav class="nav">
     <div class="nav-left"><div class="nav-links"><a href="shop.html">Shop</a><a href="journal.html">Journal</a><a href="about.html">About</a></div></div>
-    <a href="index.html" class="nav-logo"><span class="logo-ar">قدم</span><span class="logo-en">RAWAN</span><span class="logo-sub">Footwear</span></a>
+    <a href="index.html" class="nav-logo"><span class="logo-ar">رواں</span><span class="logo-en">RAWAN</span><span class="logo-sub">by Ella Styles</span></a>
     <div class="nav-right"><button class="nav-icon cart-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg><span class="cart-badge" id="cart-badge-nav">0</span></button></div>
   </nav>
 </div>
 
 <div class="page-hero-bar">
   <h1>Get in Touch</h1>
-  <p>Koi sawaal ho, exchange ho, ya sirf hello kehna ho — hum yahan hain.</p>
+  <p>Got a question, an exchange, or just want to say hello? We are here to help.</p>
 </div>
 
 <div class="contact-grid">
@@ -49,7 +54,7 @@
       <div>
         <div class="c-info-lbl">Email</div>
         <div class="c-info-val"><a href="mailto:hello@RAWAN.pk" style="color:var(--obsidian)">hello@RAWAN.pk</a></div>
-        <div style="font-size:.75rem;color:var(--warm-grey);margin-top:3px">24 ghante mein reply (usually faster)</div>
+        <div style="font-size:.75rem;color:var(--warm-grey);margin-top:3px">We reply within 24 hours (usually faster)</div>
       </div>
     </div>
 
@@ -75,7 +80,7 @@
       </div>
     </div>
 
-    <a href="https://wa.me/923001234567?text=Assalam-o-Alaikum!%20RAWAN%20Footwear%20se%20baat%20karni%20hai." class="btn btn-wa btn-full reveal" target="_blank" style="margin-top:var(--space-md)">
+    <a href="https://wa.me/923001234567?text=Hello!%20I%20would%20like%20to%20talk%20to%20RAWAN%20Footwear." class="btn btn-wa btn-full reveal" target="_blank" style="margin-top:var(--space-md)">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg>
       Start Chat on WhatsApp
     </a>
@@ -114,13 +119,13 @@
         </div>
         <div class="f-group">
           <label class="f-label">Message</label>
-          <textarea class="f-inp" id="contact-message" rows="5" placeholder="Apna sawaal ya message yahan likhein..." style="resize:vertical"></textarea>
+          <textarea class="f-inp" id="contact-message" rows="5" placeholder="Write your question or message here..." style="resize:vertical"></textarea>
         </div>
         <button class="btn btn-primary btn-full" id="contact-submit" onclick="sendContact()">
           Send Message
         </button>
         <p style="font-size:.72rem;color:var(--warm-grey);line-height:1.6;text-align:center">
-          Message WhatsApp par forward ho jaata hai — jald reply milega.
+          Your message is sent to WhatsApp. You will get a reply soon.
         </p>
       </div>
     </div>
@@ -129,7 +134,7 @@
 
 <footer class="footer" style="margin-top:var(--space-4xl)">
   <div class="footer-grid">
-    <div><div class="footer-logo-ar">قدم</div><div class="footer-logo-en">RAWAN</div><div class="footer-tagline">Thoughtfully made footwear for Luxury Footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk</div></div>
+    <div><div class="footer-logo-ar">رواں</div><div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by Ella Styles</div><div class="footer-tagline">Thoughtfully made footwear for Luxury Footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk</div></div>
     <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?filter=new">New Arrivals</a></div></div>
     <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
     <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a></div></div>
@@ -159,10 +164,10 @@
     const phone = document.getElementById('contact-phone').value.trim();
     const subject = document.getElementById('contact-subject').value;
     const message = document.getElementById('contact-message').value.trim();
-    if (!name || !message) { Toast.show('Name aur message zaroori hai', 'error'); return; }
-    const waMsg = `Assalam-o-Alaikum! Main ${name} hoon${phone ? ' (' + phone + ')' : ''}.\n\nSubject: ${subject || 'General Query'}\n\n${message}`;
+    if (!name || !message) { Toast.show('Name and message are required', 'error'); return; }
+    const waMsg = `Hello! My name is ${name}${phone ? ' (' + phone + ')' : ''}.\n\nSubject: ${subject || 'General Query'}\n\n${message}`;
     window.open(`https://wa.me/923001234567?text=${encodeURIComponent(waMsg)}`, '_blank');
-    Toast.show('WhatsApp kholega — message send karein!', 'success', 4000);
+    Toast.show('WhatsApp will open. Please send your message.', 'success', 4000);
   }
 </script>
 </body>

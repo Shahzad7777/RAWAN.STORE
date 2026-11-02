@@ -9,3 +9,8 @@ Thumbs.db
 data/
 Code/data/
 Code/old-extras/data-old/
+
+*.bak
+crediationals/
+Media/*.docx
+scratch_*

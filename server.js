@@ -25,13 +25,16 @@ const fs = require('fs');
 const crypto = require('crypto');
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = (process.env.MONGODB_URI || '').trim();
+// Railway's MongoDB service provides MONGO_URL automatically; MONGODB_URI (Atlas etc.) also works
+const MONGODB_URI = (process.env.MONGODB_URI || process.env.MONGO_URL || '').trim();
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'RAWAN2026';
 const SESSION_SECRET = process.env.SESSION_SECRET || crypto.createHash('sha256').update('rawan-session:' + ADMIN_PASSWORD).digest('hex');
 const DATA_DIR = path.join(__dirname, 'data');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const SEED_FILE = path.join(__dirname, 'seed', 'products.json');
+const POSTS_SEED_FILE = path.join(__dirname, 'seed', 'posts.json');
+const UPLOAD_DIR = path.join(PUBLIC_DIR, 'images', 'uploads');
 
 const ORDER_STATUSES = ['pending', 'confirmed', 'packed', 'dispatched', 'delivered', 'cancelled'];
 const MEMBERSHIP_TYPES = ['Standard', 'Founding', 'ManualVIP'];
@@ -80,9 +83,9 @@ const DEFAULT_SETTINGS = {
 /* ------------------------------------------------------------------------------
  * Storage layer: in-memory cache + MongoDB (production) or JSON files (local)
  * ------------------------------------------------------------------------------ */
-const COLLECTIONS = ['products', 'orders', 'customers', 'images'];
+const COLLECTIONS = ['products', 'orders', 'customers', 'images', 'posts', 'comments'];
 const DOCS = ['settings', 'rto'];
-const cache = { products: new Map(), orders: new Map(), customers: new Map(), images: new Map(), settings: null, rto: null };
+const cache = { products: new Map(), orders: new Map(), customers: new Map(), images: new Map(), posts: new Map(), comments: new Map(), settings: null, rto: null };
 let mongoDb = null;
 
 function readFileJson(name, fallback) {
@@ -128,7 +131,7 @@ const db = {
 async function initStorage() {
   if (MONGODB_URI) {
     const mongoose = require('mongoose');
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000 });
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000, dbName: process.env.MONGODB_DB || 'rawan' });
     mongoDb = mongoose.connection.db;
     for (const c of COLLECTIONS) {
       const docs = await mongoDb.collection(c).find({}).toArray();
@@ -166,6 +169,19 @@ async function initStorage() {
       console.log(`>> Seeded ${seed.length} products from seed/products.json`);
     }
     merged.seeded = true;
+    await db.setDoc('settings', merged);
+  }
+
+  // Journal posts: seed once so the Journal is never empty (admin can edit/delete freely)
+  if (!merged.postsSeeded) {
+    if (cache.posts.size === 0 && fs.existsSync(POSTS_SEED_FILE)) {
+      try {
+        const seedPosts = JSON.parse(fs.readFileSync(POSTS_SEED_FILE, 'utf8'));
+        for (const p of seedPosts) await db.put('posts', normalizePost(p, null));
+        console.log(`>> Seeded ${seedPosts.length} journal posts from seed/posts.json`);
+      } catch (err) { console.error('Could not seed posts:', err.message); }
+    }
+    merged.postsSeeded = true;
     await db.setDoc('settings', merged);
   }
 }
@@ -214,11 +230,12 @@ function normalizeProduct(input, existing) {
   const colors = (Array.isArray(input.colors) ? input.colors : base.colors || []).map(c => ({
     name: cleanText(c.name, 40),
     label: cleanText(c.label || c.name, 40),
-    hex: /^#[0-9a-fA-F]{3,8}$/.test(c.hex || '') ? c.hex : '#1A1A1A'
+    hex: /^#[0-9a-fA-F]{3,8}$/.test(c.hex || '') ? c.hex : '#1A1A1A',
+    image: (() => { const v = String(c.image || '').trim(); return /^(images\/|\/api\/images\/|https:\/\/)/.test(v) ? v : ''; })()
   })).filter(c => c.name);
   const images = (Array.isArray(input.images) ? input.images : base.images || [])
     .map(x => String(x || '').trim()).filter(x => /^(images\/|\/api\/images\/|https:\/\/)/.test(x)).slice(0, 8);
-  const collection = input.collection === 'executive' ? 'executive' : 'regular';
+  const collection = (input.collection ?? base.collection) === 'executive' ? 'executive' : 'regular';
   const eliteChargeRaw = input.eliteCharge !== undefined ? input.eliteCharge : base.eliteCharge;
   return {
     id: base.id || input.id,
@@ -292,12 +309,12 @@ function computeQuote({ phone, city, paymentMethod, items, coupon }) {
 
   (Array.isArray(items) ? items : []).slice(0, 30).forEach(it => {
     const p = db.get('products', it.productId);
-    if (!p || p.active === false) { errors.push(`"${cleanText(it.name || it.productId, 60)}" ab available nahi hai`); return; }
+    if (!p || p.active === false) { errors.push(`"${cleanText(it.name || it.productId, 60)}" is no longer available`); return; }
     const size = String(it.size);
     const qty = clamp(toInt(it.qty, 1), 1, 10);
     const inStock = p.stock ? p.stock[size] : undefined;
-    if (inStock === undefined) { errors.push(`${p.name}: size EU ${size} available nahi`); return; }
-    if (inStock < qty) { errors.push(`${p.name} (EU ${size}): sirf ${inStock} pair stock mein hain`); return; }
+    if (inStock === undefined) { errors.push(`${p.name}: size EU ${size} is not available`); return; }
+    if (inStock < qty) { errors.push(`${p.name} (EU ${size}): only ${inStock} pair(s) left in stock`); return; }
     lines.push({
       productId: p.id,
       name: p.name,
@@ -330,7 +347,7 @@ function computeQuote({ phone, city, paymentMethod, items, coupon }) {
       couponDiscount = c.type === 'percent' ? Math.round(subtotal * toNum(c.value) / 100) : Math.min(toInt(c.value), subtotal);
       couponInfo = { code, label: c.label };
     } else {
-      errors.push(`Coupon "${code}" valid nahi hai`);
+      errors.push(`Coupon "${code}" is not valid`);
     }
   }
   const afterCoupon = Math.max(0, subtotal - couponDiscount);
@@ -448,7 +465,7 @@ app.use((req, res, next) => { res.setHeader('X-Content-Type-Options', 'nosniff')
 
 const wrap = fn => (req, res) => Promise.resolve(fn(req, res)).catch(err => {
   console.error(err);
-  res.status(500).json({ success: false, error: 'Server error, dobara koshish karein.' });
+  res.status(500).json({ success: false, error: 'Server error, please try again.' });
 });
 
 /* ---------- Public API ---------- */
@@ -489,17 +506,17 @@ app.post('/api/orders', wrap(async (req, res) => {
   const city = cleanText(b.city, 60);
   const paymentMethod = b.paymentMethod === 'bank' ? 'bank' : 'cod';
   const fieldErrors = [];
-  if (!name) fieldErrors.push('Naam zaroori hai');
-  if (!phone) fieldErrors.push('Valid phone number dalein (03xx-xxxxxxx)');
-  if (!address) fieldErrors.push('Address zaroori hai');
-  if (!city) fieldErrors.push('City zaroori hai');
+  if (!name) fieldErrors.push('Name is required');
+  if (!phone) fieldErrors.push('Please enter a valid phone number (03xx-xxxxxxx)');
+  if (!address) fieldErrors.push('Address is required');
+  if (!city) fieldErrors.push('City is required');
   if (fieldErrors.length) return res.status(400).json({ success: false, errors: fieldErrors });
 
   // Everything below until the first await runs synchronously, so two orders
   // can never oversell the same stock or take the same Founding slot.
   const q = computeQuote({ phone, city, paymentMethod, items: b.items, coupon: b.coupon });
   if (q.errors.length) return res.status(409).json({ success: false, errors: q.errors });
-  if (!q.lines.length) return res.status(400).json({ success: false, errors: ['Cart khali hai'] });
+  if (!q.lines.length) return res.status(400).json({ success: false, errors: ['Your cart is empty'] });
 
   const now = new Date().toISOString();
   const s = settings();
@@ -591,10 +608,10 @@ app.get('/api/track', (req, res) => {
 /* ---------- Admin API ---------- */
 app.post('/api/admin/login', (req, res) => {
   const rec = loginRateLimited(req.ip);
-  if (rec.count >= 8) return res.status(429).json({ success: false, error: '15 minute baad dobara try karein' });
+  if (rec.count >= 8) return res.status(429).json({ success: false, error: 'Too many attempts, please try again after 15 minutes' });
   if (!checkPassword(req.body.user, req.body.pass)) {
     rec.count += 1;
-    return res.status(401).json({ success: false, error: 'Galat username ya password' });
+    return res.status(401).json({ success: false, error: 'Wrong username or password' });
   }
   rec.count = 0;
   res.json({ success: true, token: signToken(), usingDefaultPassword: !settings().adminAuth && !process.env.ADMIN_PASSWORD });
@@ -625,7 +642,7 @@ app.post('/api/admin/products', requireAdmin, wrap(async (req, res) => {
 
 app.put('/api/admin/products/:id', requireAdmin, wrap(async (req, res) => {
   const existing = db.get('products', req.params.id);
-  if (!existing) return res.status(404).json({ success: false, error: 'Product nahi mila' });
+  if (!existing) return res.status(404).json({ success: false, error: 'Product not found' });
   const product = normalizeProduct(req.body, existing);
   await db.put('products', product);
   res.json({ success: true, product });
@@ -643,18 +660,129 @@ app.delete('/api/admin/products/:id', requireAdmin, wrap(async (req, res) => {
 }));
 
 app.post('/api/admin/images', requireAdmin, wrap(async (req, res) => {
-  const m = /^data:(image\/(jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(String(req.body.dataUrl || ''));
-  if (!m) return res.status(400).json({ success: false, error: 'Sirf JPG, PNG ya WEBP image' });
+  const m = /^data:(image\/(jpeg|png|webp|gif));base64,([A-Za-z0-9+/=]+)$/.exec(String(req.body.dataUrl || ''));
+  if (!m) return res.status(400).json({ success: false, error: 'Only JPG, PNG, WEBP or GIF images are allowed' });
   const bytes = Buffer.byteLength(m[3], 'base64');
-  if (bytes > 2.5 * 1024 * 1024) return res.status(413).json({ success: false, error: 'Image 2.5MB se choti honi chahiye' });
+  if (bytes > 4.5 * 1024 * 1024) return res.status(413).json({ success: false, error: 'Image must be smaller than 4.5 MB' });
   const id = crypto.randomBytes(10).toString('hex');
-  await db.put('images', { id, mime: m[1], data: m[3], createdAt: new Date().toISOString() });
-  res.status(201).json({ success: true, url: '/api/images/' + id });
+  // With MongoDB (live site) images are stored in the database: permanent, and visible to everyone.
+  // Without MongoDB (local testing) they are saved as real files in public/images/uploads.
+  if (mongoDb) {
+    await db.put('images', { id, mime: m[1], data: m[3], createdAt: new Date().toISOString() });
+    return res.status(201).json({ success: true, url: '/api/images/' + id });
+  }
+  const ext = m[2] === 'jpeg' ? 'jpg' : m[2];
+  const fileName = `upload-${Date.now()}-${id.slice(0, 6)}.${ext}`;
+  try {
+    fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    fs.writeFileSync(path.join(UPLOAD_DIR, fileName), Buffer.from(m[3], 'base64'));
+    return res.status(201).json({ success: true, url: 'images/uploads/' + fileName });
+  } catch (err) {
+    console.error('Upload folder not writable, saving image in database instead:', err.message);
+    await db.put('images', { id, mime: m[1], data: m[3], createdAt: new Date().toISOString() });
+    return res.status(201).json({ success: true, url: '/api/images/' + id });
+  }
+}));
+
+/* ---------- Blog: posts and comments ---------- */
+const publicPost = p => ({ id: p.id, title: p.title, category: p.category, excerpt: p.excerpt, body: p.body, image: p.image, emoji: p.emoji, readTime: p.readTime, createdAt: p.createdAt });
+const commentsOf = postId => db.all('comments').filter(c => c.postId === postId).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+const commentView = c => ({ id: c.id, name: c.name, text: c.text, createdAt: c.createdAt, reply: c.reply || null, repliedAt: c.repliedAt || null });
+
+function normalizePost(input, existing) {
+  const base = existing || {};
+  return {
+    id: base.id || input.id,
+    title: cleanText(input.title ?? base.title, 140) || 'Untitled Post',
+    category: ['craft', 'style', 'care', 'brand'].includes(input.category) ? input.category : (base.category || 'style'),
+    excerpt: cleanText(input.excerpt ?? base.excerpt ?? '', 300),
+    body: String(input.body ?? base.body ?? '').replace(/[<>]/g, '').trim().slice(0, 12000),
+    image: (() => { const v = String(input.image ?? base.image ?? '').trim(); return /^(images\/|\/api\/images\/|https:\/\/)/.test(v) ? v : ''; })(),
+    emoji: cleanText(input.emoji ?? base.emoji ?? '', 8),
+    readTime: Math.max(1, toInt(input.readTime ?? base.readTime, 3)),
+    active: input.active === undefined ? (base.active !== false) : !!input.active,
+    createdAt: base.createdAt || (input.createdAt && !isNaN(Date.parse(input.createdAt)) ? new Date(input.createdAt).toISOString() : new Date().toISOString()),
+    updatedAt: new Date().toISOString()
+  };
+}
+
+app.get('/api/posts', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  const posts = db.all('posts').filter(p => p.active !== false).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  res.json({ success: true, posts: posts.map(p => ({ ...publicPost(p), commentCount: commentsOf(p.id).length })) });
+});
+
+app.get('/api/posts/:id', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  const p = db.get('posts', req.params.id);
+  if (!p || p.active === false) return res.status(404).json({ success: false, error: 'Post not found' });
+  res.json({ success: true, post: publicPost(p), comments: commentsOf(p.id).map(commentView) });
+});
+
+// Customers can comment right away, no approval needed
+const commentTimes = new Map();
+app.post('/api/posts/:id/comments', wrap(async (req, res) => {
+  const p = db.get('posts', req.params.id);
+  if (!p || p.active === false) return res.status(404).json({ success: false, error: 'Post not found' });
+  const name = cleanText(req.body.name, 60);
+  const text = cleanText(req.body.text, 1000);
+  if (!name || !text) return res.status(400).json({ success: false, error: 'Please enter your name and comment' });
+  const last = commentTimes.get(req.ip) || 0;
+  if (Date.now() - last < 3000) return res.status(429).json({ success: false, error: 'Please wait a few seconds before commenting again' });
+  commentTimes.set(req.ip, Date.now());
+  const comment = { id: 'c' + Date.now().toString(36) + crypto.randomBytes(3).toString('hex'), postId: p.id, name, text, createdAt: new Date().toISOString(), reply: null, repliedAt: null };
+  await db.put('comments', comment);
+  res.status(201).json({ success: true, comment: commentView(comment) });
+}));
+
+app.get('/api/admin/posts', requireAdmin, (req, res) => {
+  const posts = db.all('posts').sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
+  res.json({ success: true, posts, comments: db.all('comments').sort((a, b) => b.createdAt.localeCompare(a.createdAt)) });
+});
+
+app.post('/api/admin/posts', requireAdmin, wrap(async (req, res) => {
+  let id = slugify(req.body.title);
+  while (cache.posts.has(id)) id = slugify(req.body.title) + '-' + crypto.randomInt(100, 1000);
+  const post = normalizePost({ ...req.body, id }, null);
+  post.id = id;
+  await db.put('posts', post);
+  res.status(201).json({ success: true, post });
+}));
+
+app.put('/api/admin/posts/:id', requireAdmin, wrap(async (req, res) => {
+  const existing = db.get('posts', req.params.id);
+  if (!existing) return res.status(404).json({ success: false, error: 'Post not found' });
+  const post = normalizePost(req.body, existing);
+  await db.put('posts', post);
+  res.json({ success: true, post });
+}));
+
+app.delete('/api/admin/posts/:id', requireAdmin, wrap(async (req, res) => {
+  const existing = db.get('posts', req.params.id);
+  if (!existing) return res.status(404).json({ success: false });
+  for (const c of commentsOf(existing.id)) await db.del('comments', c.id);
+  await db.del('posts', existing.id);
+  res.json({ success: true });
+}));
+
+app.post('/api/admin/comments/:id/reply', requireAdmin, wrap(async (req, res) => {
+  const c = db.get('comments', req.params.id);
+  if (!c) return res.status(404).json({ success: false, error: 'Comment not found' });
+  const reply = cleanText(req.body.reply, 1000);
+  const updated = { ...c, reply: reply || null, repliedAt: reply ? new Date().toISOString() : null };
+  await db.put('comments', updated);
+  res.json({ success: true, comment: updated });
+}));
+
+app.delete('/api/admin/comments/:id', requireAdmin, wrap(async (req, res) => {
+  if (!db.get('comments', req.params.id)) return res.status(404).json({ success: false });
+  await db.del('comments', req.params.id);
+  res.json({ success: true });
 }));
 
 app.patch('/api/admin/orders/:id', requireAdmin, wrap(async (req, res) => {
   const existing = db.get('orders', req.params.id);
-  if (!existing) return res.status(404).json({ success: false, error: 'Order nahi mila' });
+  if (!existing) return res.status(404).json({ success: false, error: 'Order not found' });
   const order = { ...existing, timeline: { ...(existing.timeline || {}) } };
   const now = new Date().toISOString();
   const changedProducts = [];
@@ -733,7 +861,7 @@ app.put('/api/admin/settings', requireAdmin, wrap(async (req, res) => {
 
 app.post('/api/admin/password', requireAdmin, wrap(async (req, res) => {
   const pass = String(req.body.newPassword || '');
-  if (pass.length < 8) return res.status(400).json({ success: false, error: 'Password kam az kam 8 characters ka ho' });
+  if (pass.length < 8) return res.status(400).json({ success: false, error: 'Password must be at least 8 characters' });
   const salt = crypto.randomBytes(16).toString('hex');
   await db.setDoc('settings', { ...settings(), adminAuth: { salt, hash: hashPassword(pass, salt) } });
   res.json({ success: true, token: signToken() });
@@ -741,7 +869,7 @@ app.post('/api/admin/password', requireAdmin, wrap(async (req, res) => {
 
 app.post('/api/admin/rto', requireAdmin, wrap(async (req, res) => {
   const phone = normPhone(req.body.phone);
-  if (!phone) return res.status(400).json({ success: false, error: 'Valid phone number dalein' });
+  if (!phone) return res.status(400).json({ success: false, error: 'Please enter a valid phone number' });
   const rto = { ...(db.doc('rto') || {}) };
   if (req.body.action === 'clear') {
     delete rto[phone];
@@ -755,7 +883,7 @@ app.post('/api/admin/rto', requireAdmin, wrap(async (req, res) => {
 
 app.patch('/api/admin/customers/:phone', requireAdmin, wrap(async (req, res) => {
   const existing = db.get('customers', req.params.phone);
-  if (!existing) return res.status(404).json({ success: false, error: 'Customer nahi mila' });
+  if (!existing) return res.status(404).json({ success: false, error: 'Customer not found' });
   const type = req.body.membershipType;
   if (!MEMBERSHIP_TYPES.includes(type)) return res.status(400).json({ success: false, error: 'Invalid membership' });
   const customer = { ...existing, membershipType: type };

@@ -27,6 +27,21 @@
     .pf-img button { position:absolute; top:4px; left:4px; width:24px; height:24px; border-radius:50%; border:none; background:rgba(0,0,0,.6); color:#fff; cursor:pointer; font-size:.75rem; line-height:24px; padding:0; }
     .pf-img .pf-img-del { left:auto; right:4px; background:rgba(180,40,40,.85); }
     .pf-img-main { position:absolute; bottom:4px; left:4px; background:#C9A96E; color:#fff; font-size:.62rem; font-weight:800; padding:2px 6px; border-radius:var(--radius-full); }
+    .inv-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:var(--space-lg); }
+    .inv-card { background:#fff; border-radius:var(--radius-lg); padding:var(--space-md); box-shadow:0 2px 12px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:12px; }
+    .inv-card-hd { display:flex; align-items:center; gap:12px; }
+    .inv-card-img { width:64px; height:64px; flex-shrink:0; border-radius:var(--radius-md); background:#f6f3ee; }
+    .inv-card-img img { width:100%; height:100%; object-fit:cover; display:block; }
+    .inv-card-name { font-weight:800; font-size:.92rem; }
+    .inv-card-cat { font-size:.72rem; color:var(--warm-grey); text-transform:capitalize; margin-top:2px; }
+    .inv-sizes { display:grid; grid-template-columns:repeat(auto-fill,minmax(58px,1fr)); gap:8px; }
+    .inv-sz { display:flex; flex-direction:column; align-items:center; gap:4px; background:#F7F7F9; border-radius:10px; padding:6px 4px; }
+    .inv-sz-lbl { font-size:.68rem; font-weight:800; color:var(--warm-grey); }
+    .inv-sz-inp { width:100%; max-width:52px; text-align:center; font-weight:800; font-size:.9rem; border:1px solid rgba(0,0,0,.12); border-radius:8px; padding:5px 2px; background:#fff; }
+    .inv-sz-inp:focus { outline:none; border-color:#C9A96E; box-shadow:0 0 0 2px rgba(201,169,110,.25); }
+    .inv-sz-inp.low { border-color:#E0A33A; background:#FFF6E6; color:#8A5300; }
+    .inv-sz-inp.zero { border-color:#D9534F; background:#FDECEC; color:#B02A2A; }
+    .inv-save-row { display:flex; gap:8px; }
   </style>
 </head>
 <body class="admin-body">
@@ -34,7 +49,7 @@
 <!-- ============ LOGIN SCREEN ============ -->
 <div class="admin-login" id="admin-login">
   <div class="admin-login-card">
-    <div style="font-size:2.5rem;font-weight:700;font-family:serif;margin-bottom:4px">قدم</div>
+    <div style="font-size:2.5rem;font-weight:700;font-family:serif;margin-bottom:4px">رواں</div>
     <h2>Admin Panel</h2>
     <p>RAWAN Footwear — Store Management</p>
     <div class="form-grid" style="text-align:left;margin-bottom:var(--space-xl)">
@@ -57,8 +72,8 @@
   <!-- SIDEBAR -->
   <aside class="admin-sidebar">
     <div class="admin-sidebar-logo">
-      <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">قدم</div>
-      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div>
+      <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">رواں</div>
+      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div><div style="font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;margin-top:4px">by Ella Styles</div>
     </div>
 
     <div class="admin-nav-sec">Main</div>
@@ -84,6 +99,10 @@
     </button>
 
     <div class="admin-nav-sec">Collections</div>
+    <button class="admin-nav-item" data-panel="journal" id="nav-journal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      Journal &amp; Comments
+    </button>
     <button class="admin-nav-item" data-panel="collections" id="nav-collections">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       Collection Manager
@@ -211,6 +230,29 @@
           <button class="btn btn-primary btn-sm" id="btn-add-product" onclick="openProductForm()">+ Add Product</button>
         </div>
         <div class="prod-adm-grid" id="prod-list"><!-- Populated by JS --></div>
+      </div>
+
+      <!-- ======= JOURNAL & COMMENTS ======= -->
+      <div class="admin-panel" id="panel-journal">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-xl);gap:var(--space-md);flex-wrap:wrap">
+          <div>
+            <h2 style="font-family:var(--font-serif);font-size:1.6rem">Journal &amp; Comments</h2>
+            <p style="font-size:.82rem;color:var(--warm-grey);margin-top:4px">Blog posts likhein, customers ke comments dekhein aur reply dein.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openPostForm()">+ New Post</button>
+        </div>
+        <h3 style="font-size:1rem;margin-bottom:12px">Posts</h3>
+        <div id="post-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:var(--space-2xl)"></div>
+        <h3 style="font-size:1rem;margin-bottom:12px">Customer Comments</h3>
+        <div id="comment-list" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+      <div class="modal-wrap" id="post-modal">
+        <div class="modal" style="max-width:640px;max-height:92vh;overflow:auto">
+          <div class="modal-hd"><div class="modal-title" id="post-modal-title">New Post</div><button class="modal-close" onclick="closePostForm()">✕</button></div>
+          <div id="post-form-body"></div>
+          <div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary" id="post-save-btn" onclick="savePost()">Save Post</button><button class="btn btn-outline" onclick="closePostForm()">Cancel</button></div>
+        </div>
       </div>
 
       <!-- ======= ELITE MEMBERS ======= -->
@@ -637,6 +679,116 @@ async function enterAdmin() {
 async function loadData() {
   const d = await ADMIN.call('GET', '/api/admin/data');
   Object.assign(A, d);
+  try {
+    const j = await ADMIN.call('GET', '/api/admin/posts');
+    A.posts = j.posts || [];
+    A.comments = j.comments || [];
+  } catch (e) { if (e.message === 'Login required') throw e; A.posts = A.posts || []; A.comments = A.comments || []; }
+}
+
+// ---- JOURNAL & COMMENTS ----
+let editingPostId = null;
+let postImage = '';
+
+function renderJournal() {
+  const posts = A.posts || [], comments = A.comments || [];
+  const titleOf = id => (posts.find(p => p.id === id) || {}).title || '(deleted post)';
+  document.getElementById('post-list').innerHTML = posts.map(p => {
+    const n = comments.filter(c => c.postId === p.id).length;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:#fff;border:1px solid var(--sand);border-radius:12px;flex-wrap:wrap">
+      <div><strong>${esc(p.emoji || '')} ${esc(p.title)}</strong>${p.active === false ? ' <span style="color:crimson;font-size:.72rem">(hidden)</span>' : ''}
+        <div style="font-size:.75rem;color:var(--warm-grey)">${esc(p.category)} · ${fmtDate(p.createdAt)} · ${n} comments</div></div>
+      <div style="display:flex;gap:8px"><button class="btn btn-outline btn-sm" onclick="openPostForm('${esc(p.id)}')">Edit</button><button class="btn btn-sm" style="color:crimson;border-color:crimson" onclick="deletePost('${esc(p.id)}')">Delete</button></div>
+    </div>`;
+  }).join('') || '<div style="color:var(--warm-grey);font-size:.85rem">Koi post nahi. "+ New Post" dabayein.</div>';
+  document.getElementById('comment-list').innerHTML = comments.map(c => `
+    <div style="padding:14px 16px;background:#fff;border:1px solid var(--sand);border-radius:12px">
+      <div style="font-size:.75rem;color:var(--warm-grey)">On: <strong>${esc(titleOf(c.postId))}</strong> · ${fmtDate(c.createdAt)}</div>
+      <div style="margin-top:6px"><strong>${esc(c.name)}:</strong> ${esc(c.text)}</div>
+      ${c.reply ? `<div style="margin-top:8px;padding:8px 12px;background:var(--bone-dark);border-radius:8px;font-size:.85rem"><strong>Your reply:</strong> ${esc(c.reply)}</div>` : ''}
+      <textarea id="reply-${esc(c.id)}" class="f-inp" rows="2" maxlength="1000" placeholder="Reply likhein..." style="margin-top:10px">${esc(c.reply || '')}</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-primary btn-sm" onclick="replyComment('${esc(c.id)}', this)">${c.reply ? 'Update Reply' : 'Send Reply'}</button><button class="btn btn-sm" style="color:crimson;border-color:crimson" onclick="deleteComment('${esc(c.id)}')">Delete Comment</button></div>
+    </div>`).join('') || '<div style="color:var(--warm-grey);font-size:.85rem">Abhi koi comment nahi aaya.</div>';
+}
+
+async function replyComment(id, btn) {
+  const reply = document.getElementById('reply-' + id).value.trim();
+  await withBusy(btn, async () => {
+    await ADMIN.call('POST', '/api/admin/comments/' + encodeURIComponent(id) + '/reply', { reply });
+    await loadData(); renderJournal();
+    Toast.show(reply ? 'Reply save ho gayi, website par nazar aayegi' : 'Reply hata di gayi', 'success');
+  });
+}
+
+async function deleteComment(id) {
+  if (!confirm('Is comment ko delete karein?')) return;
+  try { await ADMIN.call('DELETE', '/api/admin/comments/' + encodeURIComponent(id)); await loadData(); renderJournal(); }
+  catch (e) { Toast.show(e.message, 'error'); }
+}
+
+async function deletePost(id) {
+  if (!confirm('Post aur uske saare comments delete karein?')) return;
+  try { await ADMIN.call('DELETE', '/api/admin/posts/' + encodeURIComponent(id)); await loadData(); renderJournal(); Toast.show('Post delete ho gayi', 'success'); }
+  catch (e) { Toast.show(e.message, 'error'); }
+}
+
+function openPostForm(id) {
+  const p = id ? (A.posts || []).find(x => x.id === id) : null;
+  editingPostId = p ? p.id : null;
+  postImage = p ? (p.image || '') : '';
+  const v = x => esc(x == null ? '' : x);
+  document.getElementById('post-modal-title').textContent = p ? 'Edit Post' : 'New Post';
+  document.getElementById('post-form-body').innerHTML = `
+    <div class="f-group"><label class="f-label">Title</label><input class="f-inp" id="po-title" maxlength="140" value="${v(p?.title)}"></div>
+    <div class="admin-form-row">
+      <div class="f-group"><label class="f-label">Category</label><select class="f-sel" id="po-cat">${[['style', 'Style'], ['craft', 'Craft'], ['care', 'Shoe Care'], ['brand', 'Behind the Brand']].map(([k, l]) => `<option value="${k}" ${p?.category === k ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+      <div class="f-group"><label class="f-label">Read time (min)</label><input class="f-inp" id="po-read" type="number" min="1" value="${v(p?.readTime || 3)}"></div>
+    </div>
+    <div class="f-group"><label class="f-label">Emoji (photo na ho to dikhega)</label><input class="f-inp" id="po-emoji" maxlength="8" value="${v(p?.emoji)}"></div>
+    <div class="f-group"><label class="f-label">Short summary</label><textarea class="f-inp" id="po-excerpt" rows="2" maxlength="300">${v(p?.excerpt)}</textarea></div>
+    <div class="f-group"><label class="f-label">Full post</label><textarea class="f-inp" id="po-body" rows="8" maxlength="12000">${v(p?.body)}</textarea></div>
+    <div class="f-group"><label class="f-label">Cover photo (optional)</label>
+      <div id="po-img-preview"></div>
+      <label class="btn btn-outline btn-sm" style="display:inline-block;cursor:pointer;margin-top:8px">📷 Upload<input type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="uploadPostImage(this)"></label>
+      <button type="button" class="btn btn-sm" onclick="postImage='';renderPostImg()">Remove</button></div>
+    <label style="display:flex;gap:8px;align-items:center;font-size:.82rem"><input type="checkbox" id="po-active" ${p?.active === false ? '' : 'checked'}> Website par dikhayein</label>`;
+  renderPostImg();
+  document.getElementById('post-modal').classList.add('on');
+}
+
+function renderPostImg() {
+  document.getElementById('po-img-preview').innerHTML = postImage ? `<img src="${esc(postImage)}" alt="" style="max-width:200px;border-radius:8px">` : '<span style="font-size:.78rem;color:var(--warm-grey)">Koi photo nahi</span>';
+}
+
+async function uploadPostImage(input) {
+  const f = input.files[0]; if (!f) return;
+  try {
+    const dataUrl = await compressImage(f);
+    const res = await ADMIN.call('POST', '/api/admin/images', { dataUrl });
+    postImage = res.url; renderPostImg();
+  } catch (e) { Toast.show(e.message, 'error'); }
+  input.value = '';
+}
+
+function closePostForm() { document.getElementById('post-modal').classList.remove('on'); }
+
+async function savePost() {
+  const title = document.getElementById('po-title').value.trim();
+  if (!title) { Toast.show('Title zaroori hai', 'error'); return; }
+  const body = {
+    title, category: document.getElementById('po-cat').value,
+    readTime: parseInt(document.getElementById('po-read').value, 10) || 3,
+    emoji: document.getElementById('po-emoji').value.trim(),
+    excerpt: document.getElementById('po-excerpt').value.trim(),
+    body: document.getElementById('po-body').value,
+    image: postImage, active: document.getElementById('po-active').checked
+  };
+  await withBusy('post-save-btn', async () => {
+    if (editingPostId) await ADMIN.call('PUT', '/api/admin/posts/' + encodeURIComponent(editingPostId), body);
+    else await ADMIN.call('POST', '/api/admin/posts', body);
+    closePostForm(); await loadData(); renderJournal();
+    Toast.show('Post save ho gayi', 'success');
+  });
 }
 
 // ---- PANEL NAVIGATION ----
@@ -651,6 +803,7 @@ const PANEL_RENDER = {
   dispatch: () => renderDispatch(),
   analytics: () => renderAnalytics(),
   collections: () => renderCollectionManager(),
+  journal: () => renderJournal(),
   countdown: () => fillCountdownForms(),
   settings: () => fillSettingsForms()
 };

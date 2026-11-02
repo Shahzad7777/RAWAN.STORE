@@ -18,7 +18,7 @@
     ],
     "price": 22999,
     "originalPrice": 27999,
-    "promise": "Where craftsmanship meets royalty — every step a statement.",
+    "promise": "Where craftsmanship meets royalty. Every step is a statement.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": true,
@@ -26,17 +26,20 @@
       {
         "name": "Midnight Black",
         "hex": "#1A1A1A",
-        "label": "Midnight"
+        "label": "Midnight",
+        "image": "images/products/noor-1.jpg"
       },
       {
         "name": "Deep Wine",
         "hex": "#5C1E2E",
-        "label": "Bordeaux"
+        "label": "Bordeaux",
+        "image": "images/products/noor-2.jpg"
       },
       {
         "name": "Rose Gold",
         "hex": "#C8956C",
-        "label": "Rose Gold"
+        "label": "Rose Gold",
+        "image": "images/products/noor-1.jpg"
       }
     ],
     "stock": {
@@ -58,14 +61,14 @@
         "author": "Ayesha R.",
         "city": "Lahore",
         "stars": 5,
-        "text": "Mere wedding mein yeh heels ne sab ka dil jeet liya. Crystal detailing bilkul real lagti hai — queen feel mili.",
+        "text": "These heels won everyone's heart at my wedding. The crystals look so real and I felt like a queen.",
         "verified": true
       },
       {
         "author": "Zara N.",
         "city": "Karachi",
         "stars": 5,
-        "text": "Quality itni premium hai ke main believe nahi kar sakti Pakistan mein milti hain. 10/10.",
+        "text": "The quality is so premium. I could not believe shoes like this are available in Pakistan. 10 out of 10.",
         "verified": true
       }
     ]
@@ -89,7 +92,7 @@
     ],
     "price": 18999,
     "originalPrice": null,
-    "promise": "Light as air, radiant as moonlight — your perfect celebration sandal.",
+    "promise": "Light as air and bright as moonlight. Your perfect celebration sandal.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": true,
@@ -97,17 +100,20 @@
       {
         "name": "Silver Crystal",
         "hex": "#C0C0C0",
-        "label": "Silver Crystal"
+        "label": "Silver Crystal",
+        "image": "images/products/mehr-1.jpg"
       },
       {
         "name": "Gold Pearl",
         "hex": "#D4AF6A",
-        "label": "Gold Pearl"
+        "label": "Gold Pearl",
+        "image": "images/products/mehr-2.jpg"
       },
       {
         "name": "Ivory",
         "hex": "#F5F0E8",
-        "label": "Ivory"
+        "label": "Ivory",
+        "image": "images/products/mehr-1.jpg"
       }
     ],
     "stock": {
@@ -129,14 +135,14 @@
         "author": "Sana K.",
         "city": "Islamabad",
         "stars": 5,
-        "text": "Gold Pearl color meri engagement mein perfect tha. Itni comfortable hai ke raat bhar pain nahi hua!",
+        "text": "The Gold Pearl colour was perfect for my engagement. So comfortable, I had no pain all night!",
         "verified": true
       },
       {
         "author": "Hira F.",
         "city": "Karachi",
         "stars": 5,
-        "text": "Layla Crystal ne mere look ko 10x upgrade kar diya. Premium packaging bhi bohat lovely tha.",
+        "text": "Layla Crystal made my whole look 10x better. The packaging was lovely too.",
         "verified": true
       }
     ]
@@ -159,7 +165,7 @@
     ],
     "price": 16999,
     "originalPrice": null,
-    "promise": "Authority in every stride — block heel grace redefined.",
+    "promise": "Confidence in every step. Block heel comfort with elegant style.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": false,
@@ -167,17 +173,20 @@
       {
         "name": "Emerald",
         "hex": "#0A3A2F",
-        "label": "Deep Emerald"
+        "label": "Deep Emerald",
+        "image": "images/products/dastoor-1.jpg"
       },
       {
         "name": "Black",
         "hex": "#1A1A1A",
-        "label": "Midnight"
+        "label": "Midnight",
+        "image": "images/products/dastoor-2.jpg"
       },
       {
         "name": "Cognac",
         "hex": "#8B4513",
-        "label": "Cognac"
+        "label": "Cognac",
+        "image": "images/products/dastoor-1.jpg"
       }
     ],
     "stock": {
@@ -199,7 +208,7 @@
         "author": "Fatima A.",
         "city": "Lahore",
         "stars": 5,
-        "text": "Office aur dinner dono ke liye perfect. Deep Emerald color literally jaan hai.",
+        "text": "Perfect for both office and dinner. The Deep Emerald colour is beautiful.",
         "verified": true
       }
     ]
@@ -231,17 +240,20 @@
       {
         "name": "Blush",
         "hex": "#D4A5A5",
-        "label": "Dusty Rose"
+        "label": "Dusty Rose",
+        "image": "images/products/saba-1.jpg"
       },
       {
         "name": "Nude",
         "hex": "#C8A882",
-        "label": "Nude"
+        "label": "Nude",
+        "image": "images/products/saba-2.jpg"
       },
       {
         "name": "Black",
         "hex": "#1A1A1A",
-        "label": "Midnight"
+        "label": "Midnight",
+        "image": "images/products/saba-1.jpg"
       }
     ],
     "stock": {
@@ -263,14 +275,14 @@
         "author": "Mahnaz S.",
         "city": "Faisalabad",
         "stars": 5,
-        "text": "Office ke liye perfect! Comfortable aur stylish, price bhi bilkul sahi.",
+        "text": "Perfect for office. Comfortable and stylish, and the price is just right.",
         "verified": true
       },
       {
         "author": "Nadia K.",
         "city": "Lahore",
         "stars": 5,
-        "text": "Dusty Rose color real mein aur bhi pyara hai. Koi pain nahi hota sara din.",
+        "text": "Dusty Rose looks even nicer in real life. No pain at all, even after a full day.",
         "verified": true
       }
     ]
@@ -294,7 +306,7 @@
     ],
     "price": 3999,
     "originalPrice": 5499,
-    "promise": "Party-ready on any budget — look expensive, feel amazing.",
+    "promise": "Party ready on any budget. Look expensive and feel amazing.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": false,
@@ -302,17 +314,20 @@
       {
         "name": "Shimmer Gold",
         "hex": "#D4AF6A",
-        "label": "Shimmer Gold"
+        "label": "Shimmer Gold",
+        "image": "images/products/mehr-1.jpg"
       },
       {
         "name": "Silver",
         "hex": "#C0C0C0",
-        "label": "Silver"
+        "label": "Silver",
+        "image": "images/products/mehr-2.jpg"
       },
       {
         "name": "Rose Pink",
         "hex": "#E8C5C0",
-        "label": "Rose Pink"
+        "label": "Rose Pink",
+        "image": "images/products/mehr-1.jpg"
       }
     ],
     "stock": {
@@ -334,14 +349,14 @@
         "author": "Saba M.",
         "city": "Karachi",
         "stars": 5,
-        "text": "Gold wali itni khoobsurat hai ke sab pooch rahe the kahan se li. Aur price bohat affordable!",
+        "text": "The gold one is so pretty that everyone asked where I bought it. And the price is very affordable!",
         "verified": true
       },
       {
         "author": "Rabia F.",
         "city": "Lahore",
         "stars": 4,
-        "text": "Comfortable hai aur size bilkul sahi. Shadi mein pehni, sab ne tarif ki.",
+        "text": "Comfortable and the size is right. I wore it at a wedding and everyone praised it.",
         "verified": true
       }
     ]
@@ -364,7 +379,7 @@
     ],
     "price": 2999,
     "originalPrice": null,
-    "promise": "Simple, comfortable, effortlessly chic — for every day.",
+    "promise": "Simple, comfortable and effortlessly chic for every day.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": false,
@@ -372,17 +387,20 @@
       {
         "name": "Tan",
         "hex": "#C8A882",
-        "label": "Tan"
+        "label": "Tan",
+        "image": "images/products/raah-1.jpg"
       },
       {
         "name": "White",
         "hex": "#F5F0E8",
-        "label": "Off-White"
+        "label": "Off-White",
+        "image": "images/products/raah-2.jpg"
       },
       {
         "name": "Black",
         "hex": "#1A1A1A",
-        "label": "Midnight"
+        "label": "Midnight",
+        "image": "images/products/raah-1.jpg"
       }
     ],
     "stock": {
@@ -404,7 +422,7 @@
         "author": "Areeba T.",
         "city": "Islamabad",
         "stars": 5,
-        "text": "Summer ke liye best buy! Genuine leather lagti hai itni affordable price mein. Love it!",
+        "text": "Best buy for summer! It looks like real leather at such an affordable price. Love it!",
         "verified": true
       }
     ]
@@ -428,7 +446,7 @@
     ],
     "price": 5999,
     "originalPrice": 7999,
-    "promise": "High fashion at factory pricing — your dream heels are real.",
+    "promise": "High fashion at factory price. Your dream heels are real.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": true,
@@ -436,17 +454,20 @@
       {
         "name": "Classic Red",
         "hex": "#B22222",
-        "label": "Classic Red"
+        "label": "Classic Red",
+        "image": "images/products/dastoor-1.jpg"
       },
       {
         "name": "Black",
         "hex": "#1A1A1A",
-        "label": "Midnight"
+        "label": "Midnight",
+        "image": "images/products/dastoor-2.jpg"
       },
       {
         "name": "Nude",
         "hex": "#C8A882",
-        "label": "Nude"
+        "label": "Nude",
+        "image": "images/products/dastoor-1.jpg"
       }
     ],
     "stock": {
@@ -468,14 +489,14 @@
         "author": "Sadia H.",
         "city": "Lahore",
         "stars": 5,
-        "text": "Classic Red ne mere outfit ko transform kar diya. Stiletto hone ke bawajood itni comfortable hai.",
+        "text": "Classic Red changed my whole outfit. Even though it is a stiletto, it is very comfortable.",
         "verified": true
       },
       {
         "author": "Mariam A.",
         "city": "Karachi",
         "stars": 5,
-        "text": "Quality brand wali lagti hai lekin price regular wali! Highly recommended.",
+        "text": "It feels like a big brand but the price is regular. Highly recommended.",
         "verified": true
       }
     ]
@@ -499,7 +520,7 @@
     ],
     "price": 4999,
     "originalPrice": null,
-    "promise": "The comfort of a wedge, the beauty of a heel — perfectly balanced.",
+    "promise": "The comfort of a wedge with the beauty of a heel.",
     "fitIndicator": "tts",
     "fitLabel": "True to Size",
     "recommended": false,
@@ -507,17 +528,20 @@
       {
         "name": "Camel",
         "hex": "#C19A6B",
-        "label": "Camel"
+        "label": "Camel",
+        "image": "images/products/saba-2.jpg"
       },
       {
         "name": "White",
         "hex": "#F5F0E8",
-        "label": "Off-White"
+        "label": "Off-White",
+        "image": "images/products/saba-1.jpg"
       },
       {
         "name": "Brown",
         "hex": "#6B4226",
-        "label": "Chocolate"
+        "label": "Chocolate",
+        "image": "images/products/saba-2.jpg"
       }
     ],
     "stock": {
@@ -539,7 +563,7 @@
         "author": "Uzma Q.",
         "city": "Rawalpindi",
         "stars": 5,
-        "text": "Wedge ki wajah se itni comfortable hai! Sari raat pehni without any pain. Amazing value.",
+        "text": "The wedge makes it so comfortable! I wore it all night without any pain. Amazing value.",
         "verified": true
       }
     ]
