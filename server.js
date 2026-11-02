@@ -256,6 +256,7 @@ function normalizeProduct(input, existing) {
     colors: colors.length ? colors : [{ name: 'Black', label: 'Black', hex: '#1A1A1A' }],
     stock,
     images,
+    video: (() => { const v = String(input.video !== undefined ? input.video : (base.video || '')).trim(); return /^(images\/|\/api\/images\/|https:\/\/)/.test(v) ? v.slice(0, 500) : ''; })(),
     material: cleanText(input.material ?? base.material ?? '', 1000),
     care: cleanText(input.care ?? base.care ?? '', 1000),
     reviews: Array.isArray(input.reviews) ? input.reviews : (base.reviews || []),
@@ -460,7 +461,7 @@ function loginRateLimited(ip) {
 const app = express();
 app.set('trust proxy', 1);
 app.use(cors());
-app.use(express.json({ limit: '6mb' }));
+app.use(express.json({ limit: '9mb' }));
 app.use((req, res, next) => { res.setHeader('X-Content-Type-Options', 'nosniff'); next(); });
 
 const wrap = fn => (req, res) => Promise.resolve(fn(req, res)).catch(err => {
@@ -483,7 +484,22 @@ app.get('/api/images/:id', (req, res) => {
   if (!img) return res.status(404).end();
   res.setHeader('Content-Type', img.mime);
   res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-  res.end(Buffer.from(img.data, 'base64'));
+  const buf = Buffer.from(img.data, 'base64');
+  res.setHeader('Accept-Ranges', 'bytes');
+  // Range support is required so videos play (and seek) on iPhone/Safari
+  const range = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+  if (range && (range[1] || range[2])) {
+    let start = range[1] ? parseInt(range[1], 10) : buf.length - parseInt(range[2], 10);
+    let end = range[1] && range[2] ? parseInt(range[2], 10) : buf.length - 1;
+    start = Math.max(0, start); end = Math.min(buf.length - 1, end);
+    if (start > end) { res.setHeader('Content-Range', `bytes */${buf.length}`); return res.status(416).end(); }
+    res.status(206);
+    res.setHeader('Content-Range', `bytes ${start}-${end}/${buf.length}`);
+    res.setHeader('Content-Length', end - start + 1);
+    return res.end(buf.subarray(start, end + 1));
+  }
+  res.setHeader('Content-Length', buf.length);
+  res.end(buf);
 });
 
 app.post('/api/coupons/check', (req, res) => {
@@ -660,10 +676,11 @@ app.delete('/api/admin/products/:id', requireAdmin, wrap(async (req, res) => {
 }));
 
 app.post('/api/admin/images', requireAdmin, wrap(async (req, res) => {
-  const m = /^data:(image\/(jpeg|png|webp|gif));base64,([A-Za-z0-9+/=]+)$/.exec(String(req.body.dataUrl || ''));
-  if (!m) return res.status(400).json({ success: false, error: 'Only JPG, PNG, WEBP or GIF images are allowed' });
+  const m = /^data:((?:image|video)\/(jpeg|png|webp|gif|mp4|webm));base64,([A-Za-z0-9+/=]+)$/.exec(String(req.body.dataUrl || ''));
+  const isVideo = !!m && m[1].startsWith('video/');
+  if (!m) return res.status(400).json({ success: false, error: 'Only JPG, PNG, WEBP, GIF images or MP4/WEBM videos are allowed' });
   const bytes = Buffer.byteLength(m[3], 'base64');
-  if (bytes > 4.5 * 1024 * 1024) return res.status(413).json({ success: false, error: 'Image must be smaller than 4.5 MB' });
+  if (isVideo ? bytes > 6 * 1024 * 1024 : bytes > 4.5 * 1024 * 1024) return res.status(413).json({ success: false, error: isVideo ? 'Video must be smaller than 6 MB (use a short 5-10 second clip)' : 'Image must be smaller than 4.5 MB' });
   const id = crypto.randomBytes(10).toString('hex');
   // With MongoDB (live site) images are stored in the database: permanent, and visible to everyone.
   // Without MongoDB (local testing) they are saved as real files in public/images/uploads.
@@ -672,6 +689,7 @@ app.post('/api/admin/images', requireAdmin, wrap(async (req, res) => {
     return res.status(201).json({ success: true, url: '/api/images/' + id });
   }
   const ext = m[2] === 'jpeg' ? 'jpg' : m[2];
+  if (isVideo && ext === 'gif') return res.status(400).json({ success: false, error: 'Invalid video type' });
   const fileName = `upload-${Date.now()}-${id.slice(0, 6)}.${ext}`;
   try {
     fs.mkdirSync(UPLOAD_DIR, { recursive: true });
@@ -903,7 +921,7 @@ app.get('*', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'index.html')));
 /* ---------- Start ---------- */
 initStorage()
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log('====================================================');
       console.log(' RAWAN Footwear server running');
       console.log(` Store:  http://localhost:${PORT}`);

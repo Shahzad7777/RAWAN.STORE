@@ -37,7 +37,7 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-ar">رواں</span>
       <span class="logo-en">RAWAN</span>
-      <span class="logo-sub">by Ella Styles</span>
+      <span class="logo-sub">by J.S.A</span>
     </a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger">
@@ -71,6 +71,12 @@
 <div class="shop-layout">
   <!-- FILTER SIDEBAR -->
   <aside class="filter-sidebar">
+<div class="filter-group">
+<div class="filter-group-title">Shop For</div>
+<label class="filter-opt"><input type="checkbox" name="cat" value="women"> Women</label>
+<label class="filter-opt"><input type="checkbox" name="cat" value="men"> Men</label>
+<div id="cat-tags"></div>
+</div>
     <div class="filter-group">
       <div class="filter-group-title" style="color:var(--emerald)">✦ Collection</div>
       <label class="filter-opt"><input type="checkbox" name="coll" value="executive" id="f-exec"> <label for="f-exec" style="color:var(--emerald);font-weight:600">Rawan Executive</label></label>
@@ -87,7 +93,12 @@
       <div class="filter-group-title">✨ Occasion</div>
       <label class="filter-opt"><input type="checkbox" name="occasion" value="Wedding Guest Look" id="f-wedding"> <label for="f-wedding">💍 Wedding Guest Look</label></label>
       <label class="filter-opt"><input type="checkbox" name="occasion" value="Night Party Glam" id="f-party"> <label for="f-party">✨ Night Party Glam</label></label>
-      <label class="filter-opt"><input type="checkbox" name="occasion" value="Elegant Day Wear" id="f-elegant"> <label for="f-elegant">🌸 Elegant Day Wear</label></label>
+      <label class="filter-opt"><input type="checkbox" name="occasion" value="University and College"> 🎓 University &amp; College</label>
+<label class="filter-opt"><input type="checkbox" name="occasion" value="Functions and Weddings"> 🎉 Functions &amp; Weddings</label>
+<label class="filter-opt"><input type="checkbox" name="occasion" value="Office and Formal"> 💼 Office &amp; Formal</label>
+<label class="filter-opt"><input type="checkbox" name="occasion" value="Casual Daily"> 👟 Casual Daily</label>
+<label class="filter-opt"><input type="checkbox" name="occasion" value="Eid and Festive"> 🌙 Eid &amp; Festive</label>
+<label class="filter-opt"><input type="checkbox" name="occasion" value="Elegant Day Wear" id="f-elegant"> <label for="f-elegant">🌸 Elegant Day Wear</label></label>
     </div>
     <div class="filter-group">
       <div class="filter-group-title">Badge</div>
@@ -136,7 +147,7 @@
   <div class="footer-grid">
     <div>
       <div class="footer-logo-ar">رواں</div>
-      <div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by Ella Styles</div>
+      <div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div>
       <div class="footer-tagline">Ultra-premium ladies footwear — luxury heels, sandals & party wear. Direct from factory.</div>
       <div class="future-site"><strong>Coming Soon</strong> Editorial website at www.rawan.pk</div>
     </div>
@@ -178,12 +189,12 @@
 <script src="js/store.js"></script>
 <script src="js/animations.js"></script>
 <script>
-  let activeFilters = { colls: [], heels: [], occasions: [], badges: [], sizes: [] };
+  let activeFilters = { cats: [], colls: [], heels: [], occasions: [], badges: [], sizes: [] };
   let sortMode = 'default';
 
   function getFilteredProducts() {
     let prods = [...PRODUCTS];
-    const { colls, heels, occasions, badges, sizes } = activeFilters;
+    const { cats, colls, heels, occasions, badges, sizes } = activeFilters;
 
     // Apply admin-level collection overrides
     prods = prods.map(p => {
@@ -191,6 +202,7 @@
       return { ...p, collection: overrideColl };
     });
 
+    if (cats.length) prods = prods.filter(p => cats.some(c => (p.category || []).map(x => String(x).toLowerCase()).includes(c)));
     if (colls.length) prods = prods.filter(p => colls.includes(p.collection));
     if (heels.length) prods = prods.filter(p => heels.includes(p.heelType));
     if (occasions.length) prods = prods.filter(p => occasions.some(occ => (p.occasions || []).includes(occ)));
@@ -228,6 +240,7 @@
   function renderActiveFilterTags() {
     const container = document.getElementById('active-filters');
     const all = [
+      ...activeFilters.cats.map(v => ({ label: v.charAt(0).toUpperCase() + v.slice(1), remove: () => { activeFilters.cats = activeFilters.cats.filter(x => x !== v); } })),
       ...activeFilters.colls.map(v => ({ label: v === 'executive' ? '✦ Executive' : '◈ Regular', remove: () => { activeFilters.colls = activeFilters.colls.filter(x => x !== v); } })),
       ...activeFilters.heels.map(v => ({ label: '👠 ' + v, remove: () => { activeFilters.heels = activeFilters.heels.filter(x => x !== v); } })),
       ...activeFilters.occasions.map(v => ({ label: v, remove: () => { activeFilters.occasions = activeFilters.occasions.filter(x => x !== v); } })),
@@ -245,11 +258,33 @@
   };
 
   function syncCheckboxes() {
+    document.querySelectorAll('[name=cat]').forEach(cb => { cb.checked = activeFilters.cats.includes(cb.value); });
     document.querySelectorAll('[name=coll]').forEach(cb => { cb.checked = activeFilters.colls.includes(cb.value); });
     document.querySelectorAll('[name=heel]').forEach(cb => { cb.checked = activeFilters.heels.includes(cb.value); });
     document.querySelectorAll('[name=occasion]').forEach(cb => { cb.checked = activeFilters.occasions.includes(cb.value); });
     document.querySelectorAll('[name=badge]').forEach(cb => { cb.checked = activeFilters.badges.includes(cb.value); });
     document.querySelectorAll('[name=size]').forEach(cb => { cb.checked = activeFilters.sizes.includes(cb.value); });
+  }
+
+  // Men / Women / style tags (tags come from the products the admin added)
+  document.addEventListener('change', e => {
+    if (e.target && e.target.name === 'cat') {
+      activeFilters.cats = [...document.querySelectorAll('[name=cat]:checked')].map(c => c.value);
+      renderShop();
+    }
+  });
+  function buildCategoryFilters() {
+    const tags = new Set(['loafers', 'sneakers', 'formal', 'sandals', 'slip-ons', 'boots']);
+    PRODUCTS.forEach(p => (p.category || []).forEach(c => { c = String(c).trim().toLowerCase(); if (c && c !== 'men' && c !== 'women') tags.add(c); }));
+    const box = document.getElementById('cat-tags');
+    if (!box) return;
+    box.textContent = '';
+    [...tags].sort().forEach(t => {
+      const label = document.createElement('label'); label.className = 'filter-opt';
+      const cb = document.createElement('input'); cb.type = 'checkbox'; cb.name = 'cat'; cb.value = t;
+      label.appendChild(cb); label.appendChild(document.createTextNode(' ' + t.charAt(0).toUpperCase() + t.slice(1)));
+      box.appendChild(label);
+    });
   }
 
   document.querySelectorAll('[name=coll]').forEach(cb => cb.addEventListener('change', () => {
@@ -278,7 +313,7 @@
     renderShop();
   });
   document.getElementById('clear-filters').addEventListener('click', () => {
-    activeFilters = { colls: [], heels: [], occasions: [], badges: [], sizes: [] };
+    activeFilters = { cats: [], colls: [], heels: [], occasions: [], badges: [], sizes: [] };
     document.querySelectorAll('.filter-sidebar input[type=checkbox]').forEach(cb => cb.checked = false);
     renderShop();
   });
@@ -290,6 +325,13 @@
     const params = new URLSearchParams(window.location.search);
     const filter = params.get('filter');
     const collection = params.get('collection');
+    buildCategoryFilters();
+    const catParam = params.get('category') || (['men', 'women'].includes(params.get('filter')) ? params.get('filter') : '');
+    if (catParam) {
+      activeFilters.cats = [catParam.toLowerCase()];
+      const t = { men: "Men's Collection", women: "Women's Collection" }[catParam.toLowerCase()];
+      document.getElementById('shop-page-title').textContent = t || (catParam.charAt(0).toUpperCase() + catParam.slice(1));
+    }
 
     if (collection) {
       activeFilters.colls = [collection];

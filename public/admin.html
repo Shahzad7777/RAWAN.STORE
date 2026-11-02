@@ -73,7 +73,7 @@
   <aside class="admin-sidebar">
     <div class="admin-sidebar-logo">
       <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">رواں</div>
-      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div><div style="font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;margin-top:4px">by Ella Styles</div>
+      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div><div style="font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;margin-top:4px">by J.S.A</div>
     </div>
 
     <div class="admin-nav-sec">Main</div>
@@ -751,6 +751,10 @@ function openPostForm(id) {
       <div id="po-img-preview"></div>
       <label class="btn btn-outline btn-sm" style="display:inline-block;cursor:pointer;margin-top:8px">📷 Upload<input type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="uploadPostImage(this)"></label>
       <button type="button" class="btn btn-sm" onclick="postImage='';renderPostImg()">Remove</button></div>
+    <div class="f-group"><label class="f-label">Post ke andar photo / video lagayein (cursor jahan hoga wahan lagegi)</label>
+      <label class="btn btn-outline btn-sm" style="display:inline-block;cursor:pointer">📷 Photo Insert<input type="file" accept="image/jpeg,image/png,image/webp" style="display:none" onchange="insertPostMedia(this,'img')"></label>
+      <label class="btn btn-outline btn-sm" style="display:inline-block;cursor:pointer">🎬 Video Insert<input type="file" accept="video/mp4,video/webm" style="display:none" onchange="insertPostMedia(this,'video')"></label>
+      <div style="font-size:.72rem;color:var(--warm-grey);margin-top:6px">YouTube video ke liye post mein ek line likhein: [youtube:https://youtu.be/xxxx]</div></div>
     <label style="display:flex;gap:8px;align-items:center;font-size:.82rem"><input type="checkbox" id="po-active" ${p?.active === false ? '' : 'checked'}> Website par dikhayein</label>`;
   renderPostImg();
   document.getElementById('post-modal').classList.add('on');
@@ -1076,8 +1080,11 @@ function openProductForm(id) {
         <div class="f-group"><label class="f-label" for="pf-heelheight">Heel Height</label><input class="f-inp" id="pf-heelheight" value="${v(p?.heelHeight)}" placeholder="e.g. 3 inch"></div>
       </div>
       <div class="admin-form-row">
-        <div class="f-group"><label class="f-label" for="pf-category">Categories (comma se)</label><input class="f-inp" id="pf-category" value="${v((p?.category || ['women']).join(', '))}" placeholder="women, heels, party"></div>
-        <div class="f-group"><label class="f-label" for="pf-occasions">Occasions (comma se)</label><input class="f-inp" id="pf-occasions" value="${v((p?.occasions || []).join(', '))}" placeholder="Wedding Guest Look, Night Party Glam"></div>
+        <div class="f-group"><label class="f-label" for="pf-gender">Section (Men / Women)</label>
+          <select class="f-sel" id="pf-gender">${[['women', 'Women'], ['men', 'Men'], ['both', 'Men + Women (Unisex)']].map(([k, l]) => { const c = (p?.category || ['women']).map(x => String(x).trim().toLowerCase()); const cur = c.includes('men') && c.includes('women') ? 'both' : c.includes('men') ? 'men' : 'women'; return `<option value="${k}" ${cur === k ? 'selected' : ''}>${l}</option>`; }).join('')}</select>
+          <input class="f-inp" id="pf-category" style="margin-top:8px" value="${v((p?.category || []).filter(x => !['men', 'women'].includes(String(x).trim().toLowerCase())).join(', '))}" placeholder="Extra tags: loafers, sneakers, formal, sandals, heels"></div>
+        <div class="f-group"><label class="f-label" for="pf-occasions">Occasions (comma se)</label><input class="f-inp" id="pf-occasions" value="${v((p?.occasions || []).join(', '))}" placeholder="Wedding Guest Look, Night Party Glam">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${['Wedding Guest Look', 'Night Party Glam', 'Elegant Day Wear', 'University and College', 'Functions and Weddings', 'Office and Formal', 'Casual Daily', 'Eid and Festive'].map(o => `<button type="button" class="filter-chip" style="font-size:.7rem;padding:4px 10px" onclick="addOcc('${o}')">+ ${o}</button>`).join('')}</div></div>
       </div>
       <div class="f-group"><label class="f-label" for="pf-promise">Short Tagline</label><input class="f-inp" id="pf-promise" value="${v(p?.promise)}" maxlength="200"></div>
       <div class="admin-form-row">
@@ -1096,6 +1103,11 @@ function openProductForm(id) {
           📷 Photos Upload <input type="file" id="pf-file" accept="image/jpeg,image/png,image/webp" multiple style="display:none" onchange="uploadProductImages(this)">
         </label>
         <span id="pf-upload-status" style="font-size:.75rem;color:var(--warm-grey);margin-left:8px"></span>
+        <div style="margin-top:14px"><label class="f-label" for="pf-video">🎬 Video (walking preview) — YouTube link, ya MP4 link, ya neeche se upload (max 6MB, 5-10 sec)</label>
+          <input class="f-inp" id="pf-video" value="${v(p?.video)}" placeholder="https://youtu.be/xxxx  ya  https://.../video.mp4">
+          <label class="btn btn-outline btn-sm" style="margin-top:8px;display:inline-block;cursor:pointer">🎬 Video Upload <input type="file" accept="video/mp4,video/webm" style="display:none" onchange="uploadProductVideo(this)"></label>
+          <button type="button" class="btn btn-sm" onclick="document.getElementById('pf-video').value=''">Video hatayein</button>
+          <span id="pf-video-status" style="font-size:.75rem;color:var(--warm-grey);margin-left:8px"></span></div>
       </div>
 
       <div class="f-group">
@@ -1184,6 +1196,53 @@ async function uploadProductImages(input) {
   input.value = '';
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = () => reject(new Error(file.name + ' read nahi hui'));
+    r.readAsDataURL(file);
+  });
+}
+
+function addOcc(name) {
+  const inp = document.getElementById('pf-occasions');
+  const list = inp.value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!list.includes(name)) list.push(name);
+  inp.value = list.join(', ');
+}
+
+async function uploadProductVideo(input) {
+  const f = input.files[0]; if (!f) return;
+  const status = document.getElementById('pf-video-status');
+  if (f.size > 6 * 1024 * 1024) { Toast.show('Video 6MB se chhoti honi chahiye (5-10 second ki clip)', 'error', 6000); input.value = ''; return; }
+  status.textContent = 'Uploading...';
+  try {
+    const res = await ADMIN.call('POST', '/api/admin/images', { dataUrl: await fileToDataUrl(f) });
+    document.getElementById('pf-video').value = res.url;
+    status.textContent = 'Video upload ho gayi. Product save karein.';
+  } catch (e) { status.textContent = ''; Toast.show(e.message, 'error', 6000); }
+  input.value = '';
+}
+
+async function insertPostMedia(input, kind) {
+  const f = input.files[0]; if (!f) return;
+  try {
+    let dataUrl;
+    if (kind === 'video') {
+      if (f.size > 6 * 1024 * 1024) throw new Error('Video 6MB se chhoti honi chahiye');
+      dataUrl = await fileToDataUrl(f);
+    } else dataUrl = await compressImage(f);
+    const res = await ADMIN.call('POST', '/api/admin/images', { dataUrl });
+    const ta = document.getElementById('po-body');
+    const tag = `\n[${kind === 'video' ? 'video' : 'img'}:${res.url}]\n`;
+    const pos = ta.selectionStart ?? ta.value.length;
+    ta.value = ta.value.slice(0, pos) + tag + ta.value.slice(pos);
+    Toast.show(kind === 'video' ? 'Video post mein lag gayi' : 'Photo post mein lag gayi', 'success');
+  } catch (e) { Toast.show(e.message, 'error', 6000); }
+  input.value = '';
+}
+
 async function saveProduct() {
   const name = document.getElementById('pf-name').value.trim();
   const price = parseInt(document.getElementById('pf-price').value, 10);
@@ -1206,7 +1265,8 @@ async function saveProduct() {
     eliteCharge: eliteVal === '' ? null : parseInt(eliteVal, 10),
     heelType: document.getElementById('pf-heeltype').value,
     heelHeight: document.getElementById('pf-heelheight').value,
-    category: document.getElementById('pf-category').value.split(','),
+    category: (() => { const g = document.getElementById('pf-gender').value; const extra = document.getElementById('pf-category').value.split(',').map(s => s.trim().toLowerCase()).filter(s => s && s !== 'men' && s !== 'women'); return [...(g === 'both' ? ['women', 'men'] : [g]), ...extra]; })(),
+    video: document.getElementById('pf-video').value.trim(),
     occasions: document.getElementById('pf-occasions').value.split(','),
     promise: document.getElementById('pf-promise').value,
     fitIndicator: document.getElementById('pf-fit').value,

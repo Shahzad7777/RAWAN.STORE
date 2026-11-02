@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    RAWAN Footwear — Animations & Micro-Interactions
    ============================================================ */
 
@@ -91,14 +91,19 @@ function initSizeSelector(stockData, onSelect) {
       if (counter && oosModule) {
         if (qty === 0) {
           counter.style.display = 'none';
+          const nearOos = document.getElementById('size-urgency'); if (nearOos) nearOos.style.display = 'none';
           oosModule.classList.add('on');
         } else {
           oosModule.classList.remove('on');
-          if (qty <= 3) {
-            counter.style.display = 'flex';
-            counter.innerHTML = `<span class="stock-dot"></span> Only ${qty} pair${qty > 1 ? 's' : ''} left in Size ${size}`;
+          const near = document.getElementById('size-urgency');
+          if (qty <= 5) {
+            const txt = `<span class="stock-dot"></span> 🔥 Only ${qty} pair${qty > 1 ? 's' : ''} left in Size ${size} — order soon!`;
+            counter.style.display = near ? 'none' : 'flex';
+            counter.innerHTML = txt;
+            if (near) { near.style.display = 'flex'; near.innerHTML = txt; }
           } else {
             counter.style.display = 'none';
+            if (near) near.style.display = 'none';
           }
         }
       }

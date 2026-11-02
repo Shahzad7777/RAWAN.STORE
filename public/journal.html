@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -24,7 +24,7 @@
         <a href="contact.html">Contact</a>
       </div>
     </div>
-    <a href="index.html" class="nav-logo"><span class="logo-ar">رواں</span><span class="logo-en">RAWAN</span><span class="logo-sub">by Ella Styles</span></a>
+    <a href="index.html" class="nav-logo"><span class="logo-ar">رواں</span><span class="logo-en">RAWAN</span><span class="logo-sub">by J.S.A</span></a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg><span class="cart-badge" id="cart-badge-nav">0</span></button>
     </div>
@@ -84,7 +84,7 @@
 
 <footer class="footer">
   <div class="footer-grid">
-    <div><div class="footer-logo-ar">رواں</div><div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by Ella Styles</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
+    <div><div class="footer-logo-ar">رواں</div><div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
     <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?filter=new">New Arrivals</a><a href="shop.html?filter=bestseller">Bestsellers</a></div></div>
     <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
     <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
@@ -147,6 +147,32 @@
     if (wanted) openPost(wanted);
   }
 
+  const SAFE_URL = /^(images\/|\/api\/images\/|https:\/\/)/;
+  function youtubeId(u) {
+    const m = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/.exec(u);
+    return m ? m[1] : '';
+  }
+  // Post text can hold [img:URL], [video:URL] and [youtube:URL] lines. Built with DOM calls (no innerHTML) so it is safe.
+  function renderPostBody(box, text) {
+    box.textContent = '';
+    String(text || '').split(/(\[(?:img|video|youtube):[^\]\s]+\])/).forEach(part => {
+      const m = /^\[(img|video|youtube):([^\]\s]+)\]$/.exec(part);
+      if (!m) { if (part.trim()) { const d = document.createElement('div'); d.textContent = part.trim(); box.appendChild(d); } return; }
+      const url = m[2];
+      if (!SAFE_URL.test(url)) return;
+      let el;
+      if (m[1] === 'img') { el = document.createElement('img'); el.src = url; el.alt = ''; el.loading = 'lazy'; }
+      else if (m[1] === 'video') { el = document.createElement('video'); el.src = url; el.controls = true; el.playsInline = true; el.preload = 'metadata'; }
+      else {
+        const id = youtubeId(url); if (!id) return;
+        el = document.createElement('iframe'); el.src = 'https://www.youtube.com/embed/' + id;
+        el.allowFullscreen = true; el.style.aspectRatio = '16/9'; el.style.border = '0';
+      }
+      el.style.cssText += ';display:block;width:100%;max-width:100%;border-radius:12px;margin:14px 0';
+      box.appendChild(el);
+    });
+  }
+
   function renderComments(comments) {
     const box = document.getElementById('post-comments');
     if (!comments.length) { box.innerHTML = '<p style="font-size:.85rem;color:var(--warm-grey)">No comments yet. Be the first to comment.</p>'; return; }
@@ -163,7 +189,7 @@
     if (!res || !res.success) { Toast.show('Could not open this post', 'error'); return; }
     currentPostId = id;
     document.getElementById('post-title').textContent = res.post.title;
-    document.getElementById('post-body').textContent = res.post.body || res.post.excerpt;
+    renderPostBody(document.getElementById('post-body'), res.post.body || res.post.excerpt);
     const img = document.getElementById('post-image');
     if (res.post.image) { img.src = res.post.image; img.style.display = 'block'; } else { img.style.display = 'none'; }
     renderComments(res.comments);

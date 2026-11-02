@@ -57,6 +57,26 @@
     .tab-pane ul { padding-left: var(--space-lg); display: flex; flex-direction: column; gap: 6px; }
     .pdp-actions { display: flex; flex-direction: column; gap: 10px; margin-bottom: var(--space-xl); }
     .tabs-wrap { margin-top: var(--space-xl); }
+    .pdp-video-slot.has-video { cursor: default; aspect-ratio: 16/9; padding: 0; }
+    .pdp-video-slot video, .pdp-video-slot iframe { width: 100%; height: 100%; border: 0; display: block; background: #000; }
+    #size-urgency { font-size: .85rem; margin: -12px 0 var(--space-lg); }
+    /* Sticky mobile buy bar */
+    .sticky-bar { display: none; }
+    @media (max-width: 768px) {
+      .sticky-bar {
+        display: flex; align-items: center; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 900;
+        padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: #fff; border-top: 1px solid var(--sand);
+        box-shadow: 0 -6px 20px rgba(0,0,0,.08); transform: translateY(110%); transition: transform .3s;
+      }
+      .sticky-bar.show { transform: translateY(0); }
+      .sticky-info { flex: 1; min-width: 0; }
+      .sticky-name { font-size: .8rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .sticky-price { font-size: .78rem; color: var(--warm-grey); font-weight: 600; }
+      .sticky-bar .btn { padding: 10px 14px; font-size: .78rem; white-space: nowrap; }
+      .sticky-bar .sticky-wa { width: 42px; height: 42px; padding: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+      body.has-sticky { padding-bottom: 76px; }
+      body.has-sticky .wa-float { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -87,7 +107,7 @@
     <a href="index.html" class="nav-logo">
       <span class="logo-ar">رواں</span>
       <span class="logo-en">RAWAN</span>
-      <span class="logo-sub">by Ella Styles</span>
+      <span class="logo-sub">by J.S.A</span>
     </a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger">
@@ -198,6 +218,7 @@
         </div>
       </div>
       <div class="size-grid" id="size-grid"></div>
+      <div class="stock-ctr" id="size-urgency" style="display:none"></div>
     </div>
 
     <!-- OOS Waitlist -->
@@ -278,7 +299,7 @@
   <div class="footer-grid">
     <div>
       <div class="footer-logo-ar">رواں</div>
-      <div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by Ella Styles</div>
+      <div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div>
       <div class="footer-tagline">Thoughtfully made footwear for Luxury Footwear.</div>
       <div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk</div>
     </div>
@@ -307,6 +328,13 @@
   <div style="padding:0 var(--space-xl) var(--space-lg);background:#fff;border-top:1px solid var(--sand)">
     <button class="btn btn-primary btn-full" id="cart-checkout-btn">Proceed to Checkout</button>
   </div>
+</div>
+
+<!-- STICKY MOBILE BAR -->
+<div class="sticky-bar" id="sticky-bar">
+  <div class="sticky-info"><div class="sticky-name" id="sticky-name"></div><div class="sticky-price" id="sticky-price"></div></div>
+  <button class="btn btn-wa sticky-wa" id="sticky-wa" aria-label="Order via WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="white"/><path d="M11.998 2.004C6.476 2.004 2 6.479 2 12.001c0 1.731.451 3.354 1.239 4.77L2 22l5.381-1.22A9.955 9.955 0 0011.998 22c5.522 0 9.998-4.476 9.998-9.999 0-5.522-4.476-9.997-9.998-9.997z" fill="white"/></svg></button>
+  <button class="btn btn-primary" id="sticky-atc">Add to Bag</button>
 </div>
 
 <!-- WA FLOAT -->
@@ -437,6 +465,9 @@
       </div>
     `).join('');
 
+    renderVideo(p);
+    setupStickyBar(p);
+
     // Colors
     const colorOpts = document.getElementById('color-opts');
     colorOpts.innerHTML = p.colors.map((c, i) => `
@@ -451,7 +482,7 @@
     // Sizes
     const sizeGrid = document.getElementById('size-grid');
     sizeGrid.innerHTML = Object.entries(p.stock).map(([sz, qty]) => `
-      <button class="sz-btn ${qty === 0 ? 'oos' : qty <= 2 ? 'low' : ''}" 
+      <button class="sz-btn ${qty === 0 ? 'oos' : qty <= 5 ? 'low' : ''}" 
               data-size="${sz}" ${qty === 0 ? 'disabled' : ''}>
         ${sz}
       </button>
@@ -497,6 +528,54 @@
       const msg = `Assalam-o-Alaikum! ${p.name} order karna hai.\nSize: EU ${sz}\nColor: ${col}\nPrice: Rs. ${p.price.toLocaleString()}`;
       window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
     };
+  }
+
+  // Walking video: YouTube link, MP4 link or an uploaded video. Hidden if the admin added none.
+  function renderVideo(p) {
+    const slot = document.getElementById('pdp-video-slot');
+    const url = p.video || '';
+    if (!url) { slot.style.display = 'none'; return; }
+    const yt = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/.exec(url);
+    slot.textContent = '';
+    slot.classList.add('has-video');
+    slot.removeAttribute('title');
+    let el;
+    if (yt) {
+      el = document.createElement('iframe');
+      el.src = 'https://www.youtube.com/embed/' + yt[1];
+      el.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture';
+      el.allowFullscreen = true;
+    } else {
+      el = document.createElement('video');
+      el.src = url; el.controls = true; el.muted = true; el.loop = true; el.playsInline = true; el.preload = 'metadata';
+    }
+    slot.appendChild(el);
+  }
+
+  // Sticky bottom bar on mobile: shows once the main buttons scroll out of view
+  let stickyObserver = null;
+  function setupStickyBar(p) {
+    const bar = document.getElementById('sticky-bar');
+    document.getElementById('sticky-name').textContent = p.name;
+    document.getElementById('sticky-price').textContent = `Rs. ${p.price.toLocaleString()}`;
+    document.body.classList.add('has-sticky');
+    document.getElementById('sticky-atc').onclick = () => {
+      if (!selectedSize) {
+        document.getElementById('size-grid').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (window.Toast) Toast.show('Pehle apna size select karein', 'error');
+        return;
+      }
+      document.getElementById('atc-btn').click();
+    };
+    document.getElementById('sticky-wa').onclick = () => document.getElementById('buynow-btn').click();
+    if (stickyObserver) stickyObserver.disconnect();
+    if ('IntersectionObserver' in window) {
+      stickyObserver = new IntersectionObserver(entries => {
+        const e = entries[0];
+        bar.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0);
+      });
+      stickyObserver.observe(document.querySelector('.pdp-actions'));
+    } else bar.classList.add('show');
   }
 
   function loadMoreProducts(currentP) {
