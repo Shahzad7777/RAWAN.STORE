@@ -61,7 +61,7 @@ const DEFAULT_SETTINGS = {
     jazzCash: ''
   },
   coupons: {
-    LEATHER QUEEN10: { type: 'percent', value: 10, label: '10% off - Launch Offer' },
+    QUEEN10: { type: 'percent', value: 10, label: '10% off - Launch Offer' },
     FLAT1000: { type: 'flat', value: 1000, label: 'Rs. 1,000 off' },
     FIRST500: { type: 'flat', value: 500, label: 'Rs. 500 off - First Order' },
     EXEC15: { type: 'percent', value: 15, label: '15% off - Executive VIP' }
