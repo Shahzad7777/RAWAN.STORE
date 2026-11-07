@@ -3007,3 +3007,72 @@ svg.acc-chevron { width: 18px; height: 18px; flex-shrink: 0; transition: transfo
 .filter-chip.on { background: var(--obsidian, #1a1a1a); color: #fff; border-color: var(--obsidian, #1a1a1a); }
 .footer-logo-sub { font-size: .62rem; letter-spacing: .24em; text-transform: uppercase; opacity: .65; margin-top: 4px; }
 .j-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ==============================================================
+   NAVBAR FIX: the home page has 8 links, which collided with the logo
+   on laptop-width screens. Keep links on one line and switch to the
+   hamburger menu earlier on that page.
+   ============================================================== */
+.nav-links a { white-space: nowrap; }
+.nav { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+@media (max-width: 1360px) {
+  .nav-links { gap: 18px; }
+  .nav-links a { font-size: .72rem; letter-spacing: .07em; }
+}
+@media (max-width: 1220px) {
+  .nav-links:has(.exec-link) { display: none; }
+  .nav-left:has(.exec-link) .hamburger { display: flex; }
+}
+
+/* ==============================================================
+   ADMIN PANEL: layout pieces that had no styles + mobile layout
+   ============================================================== */
+.admin-main { min-width: 0; display: flex; flex-direction: column; }
+.admin-topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px var(--space-xl); background: #fff; border-bottom: 1px solid var(--light-grey);
+  position: sticky; top: 0; z-index: 50;
+}
+.admin-topbar-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.admin-topbar-title { font-weight: 800; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.admin-role { font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--warm-grey); }
+.admin-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .72rem; font-weight: 800; }
+.admin-menu-btn { display: none; width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--light-grey); background: #fff; font-size: 1.2rem; line-height: 1; cursor: pointer; flex-shrink: 0; }
+.admin-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1090; }
+.admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.admin-tbl { width: 100%; border-collapse: collapse; background: #fff; border-radius: 12px; overflow: hidden; }
+.admin-tbl th { background: var(--bone); padding: 12px 14px; text-align: left; font-size: .7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--warm-grey); white-space: nowrap; }
+.admin-tbl td { padding: 12px 14px; border-bottom: 1px solid var(--light-grey); font-size: .84rem; vertical-align: top; }
+.admin-content { min-width: 0; }
+.admin-content img { max-width: 100%; }
+
+@media (max-width: 900px) {
+  .admin-wrap { grid-template-columns: 1fr; }
+  .admin-sidebar {
+    display: flex; position: fixed; left: 0; top: 0; bottom: 0; width: 270px; max-width: 82vw; height: 100vh; z-index: 1100;
+    transform: translateX(-102%); transition: transform .3s ease; box-shadow: 8px 0 30px rgba(0,0,0,.35);
+  }
+  .admin-sidebar.open { transform: translateX(0); }
+  .admin-overlay.open { display: block; }
+  body.admin-menu-open { overflow: hidden; }
+  .admin-menu-btn { display: inline-flex; align-items: center; justify-content: center; }
+  .admin-topbar { padding: 10px 14px; }
+  .admin-role { display: none; }
+  .admin-content { padding: 14px; }
+  .admin-form-row { grid-template-columns: 1fr; gap: 12px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat-card { padding: 14px; }
+  .stat-val { font-size: 1.5rem; }
+  .prod-adm-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .inv-grid { grid-template-columns: 1fr; }
+  .admin-tbl { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
+  .admin-panel-grid { grid-template-columns: 1fr; }
+  .modal, .pf-modal-box { width: 96vw; max-width: 96vw; max-height: 92vh; overflow-y: auto; padding: 16px; }
+  .admin-login-card { width: 92vw; max-width: 420px; padding: 24px; }
+  .admin-content .btn { white-space: normal; }
+}
+@media (max-width: 400px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}

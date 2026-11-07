@@ -1,4 +1,4 @@
-# ðŸ‘  RAWAN Footwear - Official Web & E-Commerce Platform
+# ðŸ‘  Leather Queen Footwear - Official Web & E-Commerce Platform
 
 Production-ready e-commerce store with full-stack Node.js + Express backend, COD logistics engine, RTO risk ledger, 5% bank transfer advance discount, order tracking pipeline, and live admin management dashboard.
 

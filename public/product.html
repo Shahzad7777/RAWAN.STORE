@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Product — RAWAN Luxury Footwear</title>
-  <meta name="description" id="page-desc" content="View product details at RAWAN Luxury Footwear. Premium heels, sandals & party wear.">
+  <title id="page-title">Product — LEATHER QUEEN Luxury Footwear</title>
+  <meta name="description" id="page-desc" content="View product details at LEATHER QUEEN Luxury Footwear. Premium heels, sandals & party wear.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -105,8 +105,8 @@
       </div>
     </div>
     <a href="index.html" class="nav-logo">
-      <span class="logo-ar">رواں</span>
-      <span class="logo-en">RAWAN</span>
+      <span class="logo-ar">لیتھر کوئین</span>
+      <span class="logo-en">LEATHER QUEEN</span>
       <span class="logo-sub">by J.S.A</span>
     </a>
     <div class="nav-right">
@@ -158,7 +158,7 @@
   <div class="pdp-info" id="pdp-info">
     <!-- Collection badge (dynamically set by JS) -->
     <div id="pdp-collection-badge"></div>
-    <div class="pdp-brand" id="pdp-brand-label">RAWAN Luxury Footwear</div>
+    <div class="pdp-brand" id="pdp-brand-label">LEATHER QUEEN Luxury Footwear</div>
     <h1 class="pdp-name" id="pdp-name">Loading...</h1>
     <p class="pdp-promise" id="pdp-promise"></p>
 
@@ -298,16 +298,16 @@
 <footer class="footer" style="border-top:1px solid var(--sand)">
   <div class="footer-grid">
     <div>
-      <div class="footer-logo-ar">رواں</div>
-      <div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div>
+      <div class="footer-logo-ar">لیتھر کوئین</div>
+      <div class="footer-logo-en">LEATHER QUEEN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div>
       <div class="footer-tagline">Thoughtfully made footwear for Luxury Footwear.</div>
-      <div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk</div>
+      <div class="future-site"><strong>Coming Soon</strong>www.leatherqueen.pk</div>
     </div>
     <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html?filter=men">Men</a><a href="shop.html?filter=women">Women</a><a href="shop.html?filter=new">New</a></div></div>
     <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange</a><a href="tracking.html">Track</a><a href="faqs.html">FAQs</a></div></div>
     <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
   </div>
-  <div class="footer-bot"><span>© 2026 RAWAN Footwear.</span></div>
+  <div class="footer-bot"><span>© 2026 Leather Queen Footwear.</span></div>
 </footer>
 
 <!-- CART DRAWER -->
@@ -406,7 +406,7 @@
 
   function loadProduct(p) {
     const isExec = p.collection === 'executive';
-    document.title = `${p.name} — RAWAN ${isExec ? 'Executive' : ''} Luxury Footwear`;
+    document.title = `${p.name} — LEATHER QUEEN ${isExec ? 'Executive' : ''} Luxury Footwear`;
     document.getElementById('page-desc').content = p.promise;
     document.getElementById('pdp-name').textContent = p.name;
     document.getElementById('pdp-promise').textContent = p.promise;
@@ -417,7 +417,7 @@
     const badgeEl = document.getElementById('pdp-collection-badge');
     if (badgeEl) {
       badgeEl.innerHTML = isExec
-        ? `<span class="pdp-collection-badge exec">✦ Rawan Executive</span>`
+        ? `<span class="pdp-collection-badge exec">✦ Queen Executive</span>`
         : `<span class="pdp-collection-badge regular">◈ Regular Collection</span>`;
     }
 
@@ -586,7 +586,7 @@
 
   function oosNotify() {
     const sz = selectedSize || 'unselected';
-    const msg = `Hi RAWAN! ${currentProduct?.name} Size EU ${sz} stock mein aaye toh notify karo please.`;
+    const msg = `Hi LEATHER QUEEN! ${currentProduct?.name} Size EU ${sz} stock mein aaye toh notify karo please.`;
     window.open(`https://wa.me/923001234567?text=${encodeURIComponent(msg)}`, '_blank');
   }
 </script>

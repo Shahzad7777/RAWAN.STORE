@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel — RAWAN Footwear</title>
+  <title>Admin Panel — Leather Queen Footwear</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,9 +49,9 @@
 <!-- ============ LOGIN SCREEN ============ -->
 <div class="admin-login" id="admin-login">
   <div class="admin-login-card">
-    <div style="font-size:2.5rem;font-weight:700;font-family:serif;margin-bottom:4px">رواں</div>
+    <div style="font-size:2.5rem;font-weight:700;font-family:serif;margin-bottom:4px">لیتھر کوئین</div>
     <h2>Admin Panel</h2>
-    <p>RAWAN Footwear — Store Management</p>
+    <p>Leather Queen Footwear — Store Management</p>
     <div class="form-grid" style="text-align:left;margin-bottom:var(--space-xl)">
       <div class="f-group">
         <label class="f-label">Username</label>
@@ -70,10 +70,10 @@
 <!-- ============ ADMIN WRAP ============ -->
 <div class="admin-wrap" id="admin-wrap">
   <!-- SIDEBAR -->
-  <aside class="admin-sidebar">
+  <aside class="admin-sidebar" id="admin-sidebar">
     <div class="admin-sidebar-logo">
-      <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">رواں</div>
-      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">RAWAN</div><div style="font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;margin-top:4px">by J.S.A</div>
+      <div class="logo-ar" style="font-size:1.8rem;color:white;font-family:serif">لیتھر کوئین</div>
+      <div class="logo-en" style="font-size:.72rem;color:rgba(255,255,255,.42);letter-spacing:.28em;text-transform:uppercase;font-family:var(--font-serif)">LEATHER QUEEN</div><div style="font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.2em;text-transform:uppercase;margin-top:4px">by J.S.A</div>
     </div>
 
     <div class="admin-nav-sec">Main</div>
@@ -146,9 +146,10 @@
   </aside>
 
   <!-- MAIN -->
+  <div class="admin-overlay" id="admin-overlay"></div>
   <div class="admin-main">
     <div class="admin-topbar">
-      <div class="admin-topbar-title" id="panel-title">Dashboard</div>
+      <div class="admin-topbar-left"><button class="admin-menu-btn" id="admin-menu-btn" aria-label="Menu">&#9776;</button><div class="admin-topbar-title" id="panel-title">Dashboard</div></div>
       <div class="admin-topbar-right">
         <div class="admin-role">Owner</div>
         <div class="admin-avatar" style="background:var(--emerald);color:var(--rose-gold-light)">RW</div>
@@ -312,7 +313,7 @@
         <div class="admin-panel-hd">
           <div>
             <div class="admin-panel-title">Collection Manager</div>
-            <div class="admin-panel-sub">Toggle each product between Rawan Executive and Regular Collection. Turn Highly Recommended tags on/off.</div>
+            <div class="admin-panel-sub">Toggle each product between Queen Executive and Regular Collection. Turn Highly Recommended tags on/off.</div>
           </div>
           <button class="btn btn-emerald btn-sm" onclick="saveAllCollectionSettings()">Save All Changes</button>
         </div>
@@ -321,7 +322,7 @@
           <div style="display:flex;align-items:center;gap:var(--space-md);margin-bottom:var(--space-md)">
             <div style="width:36px;height:36px;border-radius:50%;background:var(--emerald);display:flex;align-items:center;justify-content:center;color:var(--rose-gold-light);font-size:1.1rem">✦</div>
             <div>
-              <div style="font-weight:700;color:var(--emerald)">Rawan Executive Collection</div>
+              <div style="font-weight:700;color:var(--emerald)">Queen Executive Collection</div>
               <div style="font-size:.78rem;color:var(--warm-grey)">Products shown with emerald green theme, luxury framing, no factory blueprint banner</div>
             </div>
           </div>
@@ -543,7 +544,7 @@
             </div>
             <div class="f-group">
               <label class="f-label">Future Website URL (blog/editorial)</label>
-              <input class="f-inp" id="set-website" placeholder="https://www.RAWAN.pk">
+              <input class="f-inp" id="set-website" placeholder="https://www.leatherqueen.pk">
               <span style="font-size:.72rem;color:var(--warm-grey);margin-top:4px">Yeh URL footer mein show hoga jab ready ho.</span>
             </div>
           </div>
@@ -555,7 +556,7 @@
           <div class="form-grid">
             <div class="admin-form-row">
               <div class="f-group"><label class="f-label">Bank Name</label><input class="f-inp" id="set-bank" value="HBL"></div>
-              <div class="f-group"><label class="f-label">Account Name</label><input class="f-inp" id="set-acc-name" value="RAWAN Footwear"></div>
+              <div class="f-group"><label class="f-label">Account Name</label><input class="f-inp" id="set-acc-name" value="Leather Queen Footwear"></div>
             </div>
             <div class="admin-form-row">
               <div class="f-group"><label class="f-label">Account Number</label><input class="f-inp" id="set-acc-num" value="0012345678901"></div>
@@ -587,11 +588,11 @@
    ADMIN LOGIC - everything is saved on the server
    ============================================================ */
 const ADMIN = {
-  token: sessionStorage.getItem('rawan_admin_token') || '',
+  token: sessionStorage.getItem('leatherqueen_admin_token') || '',
   async call(method, url, body) {
     let res;
     try {
-      res = await fetch(rawanApiBase() + url, {
+      res = await fetch(leatherqueenApiBase() + url, {
         method,
         headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), Authorization: 'Bearer ' + this.token },
         body: body ? JSON.stringify(body) : undefined
@@ -630,7 +631,7 @@ async function withBusy(btn, fn) {
 // ---- AUTH ----
 function showLogin(msg) {
   ADMIN.token = '';
-  sessionStorage.removeItem('rawan_admin_token');
+  sessionStorage.removeItem('leatherqueen_admin_token');
   document.getElementById('admin-wrap').classList.remove('on');
   document.getElementById('admin-login').style.display = '';
   if (msg) {
@@ -646,13 +647,13 @@ async function doLogin() {
   const err = document.getElementById('login-err');
   err.style.display = 'none';
   try {
-    const res = await fetch(rawanApiBase() + '/api/admin/login', {
+    const res = await fetch(leatherqueenApiBase() + '/api/admin/login', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user, pass })
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || !data.success) throw new Error(data.error || 'Invalid credentials');
     ADMIN.token = data.token;
-    sessionStorage.setItem('rawan_admin_token', data.token);
+    sessionStorage.setItem('leatherqueen_admin_token', data.token);
     document.getElementById('admin-pass').value = '';
     await enterAdmin();
     if (data.usingDefaultPassword) {
@@ -794,6 +795,22 @@ async function savePost() {
     Toast.show('Post save ho gayi', 'success');
   });
 }
+
+// ---- MOBILE MENU (sidebar becomes a slide-in drawer on phones) ----
+(function () {
+  const sb = document.getElementById('admin-sidebar');
+  const ov = document.getElementById('admin-overlay');
+  const btn = document.getElementById('admin-menu-btn');
+  const set = open => {
+    sb.classList.toggle('open', open);
+    ov.classList.toggle('open', open);
+    document.body.classList.toggle('admin-menu-open', open);
+  };
+  btn.addEventListener('click', () => set(!sb.classList.contains('open')));
+  ov.addEventListener('click', () => set(false));
+  sb.addEventListener('click', e => { if (e.target.closest('.admin-nav-item')) set(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 900) set(false); });
+})();
 
 // ---- PANEL NAVIGATION ----
 const PANEL_RENDER = {
@@ -988,7 +1005,7 @@ function sendWAVerification(orderId) {
   const o = A.orders.find(x => x.id === orderId);
   if (!o) return;
   const items = o.items.map(i => `• ${i.name} (Size ${i.size}) x${i.qty}`).join('\n');
-  const msg = `Assalam-o-Alaikum ${o.customer.name}! 🌹\nRAWAN Footwear se raabta kar rahe hain.\n\n*Order ID:* ${o.id}\n${items}\n\n*Address:* ${o.customer.address}, ${o.customer.city}\n*Total:* Rs. ${o.total.toLocaleString()} (${o.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'})` +
+  const msg = `Assalam-o-Alaikum ${o.customer.name}! 🌹\nLeather Queen Footwear se raabta kar rahe hain.\n\n*Order ID:* ${o.id}\n${items}\n\n*Address:* ${o.customer.address}, ${o.customer.city}\n*Total:* Rs. ${o.total.toLocaleString()} (${o.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'})` +
     (o.advanceRequired ? `\n\n⚠️ Advance deposit Rs. ${o.advanceAmount} EasyPaisa/JazzCash par bhej dein.` : '') +
     `\n\nKya hum yeh order confirm kar dein? ✅`;
   customerWA(o.customer.phone, msg);
@@ -1625,19 +1642,19 @@ function exportCSV() {
     o.subtotal, o.discount, o.eliteCharge, o.delivery, o.total, o.advanceRequired ? o.advanceAmount : 0,
     o.paymentMethod, o.status, o.courier, o.trackingId, o.membershipAtOrder
   ]);
-  downloadFile('RAWAN_orders.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
+  downloadFile('LEATHER QUEEN_orders.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
   Toast.show('Orders CSV downloaded', 'success');
 }
 
 function exportJSON() {
-  downloadFile('RAWAN_orders.json', JSON.stringify(A.orders, null, 2), 'application/json');
+  downloadFile('LEATHER QUEEN_orders.json', JSON.stringify(A.orders, null, 2), 'application/json');
   Toast.show('Orders JSON downloaded', 'success');
 }
 
 function exportCustomers() {
   const headers = ['Name', 'Phone', 'City', 'Orders', 'Total Spend', 'Membership', 'Elite Since'];
   const rows = A.customers.map(c => [c.name, c.phone, c.city, c.ordersCount, c.totalSpend, c.membershipType, c.eliteSince || '']);
-  downloadFile('RAWAN_customers.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
+  downloadFile('LEATHER QUEEN_customers.csv', [headers, ...rows].map(r => r.map(csvCell).join(',')).join('\n'), 'text/csv');
   Toast.show('Customers CSV downloaded', 'success');
 }
 
@@ -1672,7 +1689,7 @@ async function saveSettings() {
     if (newPass) {
       const r = await ADMIN.call('POST', '/api/admin/password', { newPassword: newPass });
       ADMIN.token = r.token;
-      sessionStorage.setItem('rawan_admin_token', r.token);
+      sessionStorage.setItem('leatherqueen_admin_token', r.token);
       document.getElementById('set-pass').value = '';
       Toast.show('Password badal gaya — naya password yaad rakhein', 'success', 6000);
     }
@@ -1708,7 +1725,7 @@ function renderCollectionManager() {
       <div class="collection-toggle-row" id="ctr-${esc(product.id)}">
         <div class="coll-toggle-info">
           <div class="coll-toggle-name">${esc(product.name)} ${heelTag}</div>
-          <div class="coll-toggle-status">Currently: <strong style="color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Rawan Executive' : '◈ Regular Collection'}</strong></div>
+          <div class="coll-toggle-status">Currently: <strong style="color:${isExec ? 'var(--emerald)' : 'var(--terracotta)'}">${isExec ? '✦ Queen Executive' : '◈ Regular Collection'}</strong></div>
         </div>
         <div class="coll-toggle-controls">
           <div>

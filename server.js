@@ -1,6 +1,6 @@
 /**
  * ==============================================================================
- * RAWAN FOOTWEAR - Full-Stack Server
+ * Leather Queen Footwear - Full-Stack Server
  * ==============================================================================
  * - Serves the storefront (public/) and the REST API from one Node process.
  * - Storage: MongoDB Atlas when MONGODB_URI is set (required for Render/free
@@ -11,7 +11,7 @@
  * Environment variables:
  *   MONGODB_URI     MongoDB Atlas connection string (production)
  *   ADMIN_USER      Admin username (default: admin)
- *   ADMIN_PASSWORD  Initial admin password (default: RAWAN2026 - change it!)
+ *   ADMIN_PASSWORD  Initial admin password (default: LEATHER QUEEN2026 - change it!)
  *   SESSION_SECRET  Random string used to sign admin login tokens
  *   PORT            Port (Render sets this automatically)
  * ==============================================================================
@@ -28,8 +28,8 @@ const PORT = process.env.PORT || 5000;
 // Railway's MongoDB service provides MONGO_URL automatically; MONGODB_URI (Atlas etc.) also works
 const MONGODB_URI = (process.env.MONGODB_URI || process.env.MONGO_URL || '').trim();
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'RAWAN2026';
-const SESSION_SECRET = process.env.SESSION_SECRET || crypto.createHash('sha256').update('rawan-session:' + ADMIN_PASSWORD).digest('hex');
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'LEATHER QUEEN2026';
+const SESSION_SECRET = process.env.SESSION_SECRET || crypto.createHash('sha256').update('leatherqueen-session:' + ADMIN_PASSWORD).digest('hex');
 const DATA_DIR = path.join(__dirname, 'data');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 const SEED_FILE = path.join(__dirname, 'seed', 'products.json');
@@ -54,14 +54,14 @@ const DEFAULT_SETTINGS = {
   ],
   bank: {
     bankName: 'HBL',
-    accountName: 'RAWAN Footwear',
+    accountName: 'Leather Queen Footwear',
     accountNumber: '0012345678901',
     iban: 'PK36HABB0012345678901',
     easyPaisa: '',
     jazzCash: ''
   },
   coupons: {
-    RAWAN10: { type: 'percent', value: 10, label: '10% off - Launch Offer' },
+    LEATHER QUEEN10: { type: 'percent', value: 10, label: '10% off - Launch Offer' },
     FLAT1000: { type: 'flat', value: 1000, label: 'Rs. 1,000 off' },
     FIRST500: { type: 'flat', value: 500, label: 'Rs. 500 off - First Order' },
     EXEC15: { type: 'percent', value: 15, label: '15% off - Executive VIP' }
@@ -131,7 +131,7 @@ const db = {
 async function initStorage() {
   if (MONGODB_URI) {
     const mongoose = require('mongoose');
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000, dbName: process.env.MONGODB_DB || 'rawan' });
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 15000, dbName: process.env.MONGODB_DB || 'leatherqueen' });
     mongoDb = mongoose.connection.db;
     for (const c of COLLECTIONS) {
       const docs = await mongoDb.collection(c).find({}).toArray();
@@ -923,7 +923,7 @@ initStorage()
   .then(() => {
     app.listen(PORT, '0.0.0.0', () => {
       console.log('====================================================');
-      console.log(' RAWAN Footwear server running');
+      console.log(' Leather Queen Footwear server running');
       console.log(` Store:  http://localhost:${PORT}`);
       console.log(` Admin:  http://localhost:${PORT}/admin.html`);
       if (!process.env.ADMIN_PASSWORD && !settings().adminAuth) {

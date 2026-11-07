@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout — RAWAN Footwear</title>
-  <meta name="description" content="Secure checkout at RAWAN Footwear. COD available Pakistan-wide. Easy exchange.">
+  <title>Checkout — Leather Queen Footwear</title>
+  <meta name="description" content="Secure checkout at Leather Queen Footwear. COD available Pakistan-wide. Easy exchange.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -23,8 +23,8 @@
   <nav class="nav">
     <div class="nav-left"></div>
     <a href="index.html" class="nav-logo">
-      <span class="logo-ar">رواں</span>
-      <span class="logo-en">RAWAN</span>
+      <span class="logo-ar">لیتھر کوئین</span>
+      <span class="logo-en">LEATHER QUEEN</span>
       <span class="logo-sub">by J.S.A</span>
     </a>
     <div class="nav-right">
@@ -144,7 +144,7 @@
       <div class="bank-panel" id="bank-panel">
         <p style="font-size:.78rem;font-weight:800;color:var(--obsidian);margin-bottom:var(--space-md)">Payment Details:</p>
         <div class="bank-row"><span class="bank-k">Bank</span><span class="bank-v">HBL</span></div>
-        <div class="bank-row"><span class="bank-k">Account Name</span><span class="bank-v">RAWAN Footwear</span></div>
+        <div class="bank-row"><span class="bank-k">Account Name</span><span class="bank-v">Leather Queen Footwear</span></div>
         <div class="bank-row"><span class="bank-k">Account #</span><span class="bank-v">0012345678901</span></div>
         <div class="bank-row"><span class="bank-k">IBAN</span><span class="bank-v">PK36HABB0012345678901</span></div>
         <div class="bank-row" style="border-top:2px solid var(--sand);margin-top:8px;padding-top:8px">
@@ -166,7 +166,7 @@
         <label style="display:flex;align-items:flex-start;gap:var(--space-md);cursor:pointer">
           <input type="checkbox" id="agree-terms" style="margin-top:4px;accent-color:var(--obsidian)">
           <span style="font-size:.82rem;color:var(--warm-grey);line-height:1.65">
-            I agree to the RAWAN Footwear <a href="exchange.html" style="color:var(--obsidian);font-weight:700">Exchange Policy</a> and I confirm my order.
+            I agree to the Leather Queen Footwear <a href="exchange.html" style="color:var(--obsidian);font-weight:700">Exchange Policy</a> and I confirm my order.
           </span>
         </label>
         <span class="f-err" id="err-terms"></span>
@@ -313,7 +313,7 @@
 
   async function requestQuote() {
     const seq = ++quoteSeq;
-    const res = await RawanAPI.post('/api/checkout/quote', quotePayload());
+    const res = await Leather QueenAPI.post('/api/checkout/quote', quotePayload());
     if (seq !== quoteSeq) return; // an newer request is in flight
     if (!res || !res.success) { lastQuote = null; renderTotals(null); return; }
     lastQuote = res;

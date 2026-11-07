@@ -1,5 +1,5 @@
 /* ============================================================
-   RAWAN FOOTWEAR — Store Core Logic
+   Leather Queen Footwear — Store Core Logic
    Products · Cart · Checkout · Orders · RTO Engine
    Two-Tier Collections: Executive (Emerald) + Regular (Terracotta)
    ============================================================ */
@@ -12,22 +12,22 @@
 /* Products, prices, stock and store settings come from the server
    (managed in the Admin Panel). Loaded synchronously so every page script
    can use PRODUCTS immediately, exactly like before. */
-function rawanApiBase() {
+function leatherqueenApiBase() {
   if (location.protocol === 'file:') return 'http://localhost:5000';
   return '';
 }
-const RAWAN_BOOT = (function () {
+const LEATHER QUEEN_BOOT = (function () {
   try {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', rawanApiBase() + '/api/bootstrap', false);
+    xhr.open('GET', leatherqueenApiBase() + '/api/bootstrap', false);
     xhr.send(null);
     if (xhr.status === 200) return JSON.parse(xhr.responseText);
   } catch (e) { /* server unreachable */ }
   return null;
 })();
-const RAWAN_SETTINGS = (RAWAN_BOOT && RAWAN_BOOT.settings) || null;
-const PRODUCTS = (RAWAN_BOOT && RAWAN_BOOT.products) || [];
-if (!RAWAN_BOOT) console.error('RAWAN: store server se connect nahi ho saka.');
+const LEATHER QUEEN_SETTINGS = (LEATHER QUEEN_BOOT && LEATHER QUEEN_BOOT.settings) || null;
+const PRODUCTS = (LEATHER QUEEN_BOOT && LEATHER QUEEN_BOOT.products) || [];
+if (!LEATHER QUEEN_BOOT) console.error('LEATHER QUEEN: store server se connect nahi ho saka.');
 
 /* ============================================================
    2. PAKISTAN CITIES (250+)
@@ -63,35 +63,35 @@ const PK_CITIES = [
   'Mian Channun','Phalia','Pattoki','Renala Khurd','Samundri','Shakargarh'
 ].sort();
 
-const _S = RAWAN_SETTINGS || {};
+const _S = LEATHER QUEEN_SETTINGS || {};
 const REMOTE_CITIES = _S.remoteCities || [];
 const ADVANCE_DEPOSIT = _S.advanceDeposit ?? 200;
 const HIGH_VALUE_THRESHOLD = _S.highValueThreshold ?? 15000;
 const FREE_DELIVERY_THRESHOLD = _S.freeDeliveryThreshold ?? 4999;
 const DELIVERY_CHARGE = _S.deliveryCharge ?? 250;
-const RAWAN_WA = _S.whatsappNumber || '923001234567';
+const LEATHER QUEEN_WA = _S.whatsappNumber || '923001234567';
 const ELITE = _S.elite || { chargeEnabled: false, chargePerItem: 0, label: 'Elite Access Charge', foundingActive: false, foundingSlotsLeft: 0 };
 
 /* ============================================================
    3. STORE STATE
    ============================================================ */
 const Store = {
-  cart: JSON.parse(localStorage.getItem('rawan_cart') || '[]'),
-  wishlist: JSON.parse(localStorage.getItem('rawan_wishlist') || '[]'),
+  cart: JSON.parse(localStorage.getItem('leatherqueen_cart') || '[]'),
+  wishlist: JSON.parse(localStorage.getItem('leatherqueen_wishlist') || '[]'),
   // Customer's own orders on this device (the real record lives on the server)
-  orders: JSON.parse(localStorage.getItem('rawan_orders') || '[]'),
+  orders: JSON.parse(localStorage.getItem('leatherqueen_orders') || '[]'),
   rtoLedger: {},
   // { code, type, value, label } after the server confirms a coupon
-  appliedCoupon: JSON.parse(sessionStorage.getItem('rawan_coupon') || 'null'),
+  appliedCoupon: JSON.parse(sessionStorage.getItem('leatherqueen_coupon') || 'null'),
   countdownConfig: _S.countdown || null,
   productSettings: {},
 
   save() {
-    localStorage.setItem('rawan_cart', JSON.stringify(this.cart));
-    localStorage.setItem('rawan_wishlist', JSON.stringify(this.wishlist));
-    localStorage.setItem('rawan_orders', JSON.stringify(this.orders.slice(0, 20)));
-    if (this.appliedCoupon) sessionStorage.setItem('rawan_coupon', JSON.stringify(this.appliedCoupon));
-    else sessionStorage.removeItem('rawan_coupon');
+    localStorage.setItem('leatherqueen_cart', JSON.stringify(this.cart));
+    localStorage.setItem('leatherqueen_wishlist', JSON.stringify(this.wishlist));
+    localStorage.setItem('leatherqueen_orders', JSON.stringify(this.orders.slice(0, 20)));
+    if (this.appliedCoupon) sessionStorage.setItem('leatherqueen_coupon', JSON.stringify(this.appliedCoupon));
+    else sessionStorage.removeItem('leatherqueen_coupon');
   },
 
   // Collection / recommended flags are stored on the product itself (server)
@@ -108,7 +108,7 @@ const Store = {
 };
 
 // Keep the saved cart in sync with the live catalogue (price changes, removed products)
-if (RAWAN_BOOT) {
+if (LEATHER QUEEN_BOOT) {
   Store.cart = Store.cart.filter(i => PRODUCTS.some(p => p.id === i.productId)).map(i => {
     const p = PRODUCTS.find(x => x.id === i.productId);
     return { ...i, price: p.price, name: p.name, image: p.images[0] || i.image, collection: p.collection, eliteCharge: p.eliteChargeEffective || 0 };
@@ -177,7 +177,7 @@ const Cart = {
   getCount() { return Store.cart.reduce((sum, i) => sum + i.qty, 0); },
 
   async applyCoupon(code) {
-    const res = await RawanAPI.post('/api/coupons/check', { code });
+    const res = await Leather QueenAPI.post('/api/coupons/check', { code });
     if (res && res.ok) {
       Store.appliedCoupon = { code: res.code, type: res.type, value: res.value, label: res.label };
       Store.save();
@@ -321,7 +321,7 @@ const Checkout = {
       coupon: Store.appliedCoupon ? Store.appliedCoupon.code : '',
       items: Store.cart.map(i => ({ productId: i.productId, size: i.size, color: i.color, qty: i.qty, name: i.name }))
     };
-    const res = await RawanAPI.post('/api/orders', payload);
+    const res = await Leather QueenAPI.post('/api/orders', payload);
     if (!res || !res.success) {
       return { errors: (res && res.errors) || ['Server se connection nahi ho saka. Internet check kar ke dobara try karein.'] };
     }
@@ -336,8 +336,8 @@ const Checkout = {
   generateWhatsAppVerification(order) {
     const items = order.items.map(i => `• ${i.name} (Size ${i.size}) x${i.qty}${i.collection === 'executive' ? ' [Executive]' : ''}`).join('\n');
     const elite = order.eliteCharge > 0 ? `\n*${ELITE.label}:* Rs. ${order.eliteCharge.toLocaleString()}` : (order.eliteSaved > 0 ? `\n✦ *Elite Member* - ${ELITE.label} waived (Rs. ${order.eliteSaved.toLocaleString()})` : '');
-    const msg = `Assalam-o-Alaikum ${order.customer.name}! 🌹\n\nAapka *Rawan Footwear* order receive hua:\n\n*Order ID:* ${order.id}\n*Items:*\n${items}\n\n*Delivery Address:*\n${order.customer.address}, ${order.customer.city}\n*Phone:* ${order.customer.phone}\n${elite}\n*Total Amount:* Rs. ${order.total.toLocaleString()}\n*Payment:* ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'}\n${order.advanceRequired ? `\n⚠️ *Advance Deposit Required:* Rs. ${order.advanceAmount || ADVANCE_DEPOSIT} via EasyPaisa/JazzCash\n` : ''}\nKya hum yeh order *dispatch confirm* kar dein? ✅`;
-    return `https://wa.me/${RAWAN_WA}?text=${encodeURIComponent(msg)}`;
+    const msg = `Assalam-o-Alaikum ${order.customer.name}! 🌹\n\nAapka *Leather Queen Footwear* order receive hua:\n\n*Order ID:* ${order.id}\n*Items:*\n${items}\n\n*Delivery Address:*\n${order.customer.address}, ${order.customer.city}\n*Phone:* ${order.customer.phone}\n${elite}\n*Total Amount:* Rs. ${order.total.toLocaleString()}\n*Payment:* ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Bank Transfer'}\n${order.advanceRequired ? `\n⚠️ *Advance Deposit Required:* Rs. ${order.advanceAmount || ADVANCE_DEPOSIT} via EasyPaisa/JazzCash\n` : ''}\nKya hum yeh order *dispatch confirm* kar dein? ✅`;
+    return `https://wa.me/${LEATHER QUEEN_WA}?text=${encodeURIComponent(msg)}`;
   }
 };
 
@@ -363,7 +363,7 @@ const Tracking = {
   },
 
   async findAsync(query) {
-    const res = await RawanAPI.get('/api/track?q=' + encodeURIComponent(query.trim()));
+    const res = await Leather QueenAPI.get('/api/track?q=' + encodeURIComponent(query.trim()));
     if (res && res.success) return res.order;
     return null;
   },
@@ -393,7 +393,7 @@ const Countdown = {
   interval: null,
 
   init() {
-    const config = Store.countdownConfig || JSON.parse(localStorage.getItem('rawan_countdown') || 'null');
+    const config = Store.countdownConfig || JSON.parse(localStorage.getItem('leatherqueen_countdown') || 'null');
     if (!config || !config.active || !config.endTime) return;
     this.start(new Date(config.endTime), config.label);
   },
@@ -624,10 +624,10 @@ function checkAdvanceDeposit() {}
 /* ============================================================
    16. API CLIENT
    ============================================================ */
-const RawanAPI = {
+const Leather QueenAPI = {
   async request(method, url, body) {
     try {
-      const res = await fetch(rawanApiBase() + url, {
+      const res = await fetch(leatherqueenApiBase() + url, {
         method,
         headers: body ? { 'Content-Type': 'application/json' } : {},
         body: body ? JSON.stringify(body) : undefined
@@ -635,7 +635,7 @@ const RawanAPI = {
       const data = await res.json().catch(() => null);
       return data;
     } catch (err) {
-      console.warn('RAWAN API error:', url, err.message);
+      console.warn('LEATHER QUEEN API error:', url, err.message);
       return null;
     }
   },
@@ -661,10 +661,10 @@ function eliteNoticeHTML(product) {
    18. LIVE SETTINGS ON EVERY PAGE (WhatsApp, drop, bank details)
    ============================================================ */
 function applyLiveSettings() {
-  if (!RAWAN_SETTINGS) return;
+  if (!LEATHER QUEEN_SETTINGS) return;
   const DEFAULT_WA = '923001234567';
-  if (RAWAN_WA !== DEFAULT_WA) {
-    const fix = url => typeof url === 'string' ? url.split('wa.me/' + DEFAULT_WA).join('wa.me/' + RAWAN_WA) : url;
+  if (LEATHER QUEEN_WA !== DEFAULT_WA) {
+    const fix = url => typeof url === 'string' ? url.split('wa.me/' + DEFAULT_WA).join('wa.me/' + LEATHER QUEEN_WA) : url;
     document.querySelectorAll(`a[href*="wa.me/${DEFAULT_WA}"]`).forEach(a => { a.href = fix(a.getAttribute('href')); });
     // Links created later by page scripts
     document.addEventListener('click', e => {
@@ -676,7 +676,7 @@ function applyLiveSettings() {
   }
 
   // Homepage drop section
-  const drop = RAWAN_SETTINGS.drop;
+  const drop = LEATHER QUEEN_SETTINGS.drop;
   const dropSection = document.getElementById('drop-section');
   if (dropSection && drop) {
     if (!drop.active) dropSection.style.display = 'none';
@@ -685,14 +685,14 @@ function applyLiveSettings() {
   }
 
   // Checkout bank panel
-  const bank = RAWAN_SETTINGS.bank;
+  const bank = LEATHER QUEEN_SETTINGS.bank;
   const panel = document.getElementById('bank-panel');
   if (panel && bank) {
     const rows = panel.querySelectorAll('.bank-row .bank-v');
     const values = [bank.bankName, bank.accountName, bank.accountNumber, bank.iban, bank.easyPaisa || '\u2014', bank.jazzCash || '\u2014'];
     rows.forEach((el, i) => { if (values[i] !== undefined) el.textContent = values[i]; });
     const waStrong = panel.querySelector('p strong');
-    if (waStrong) waStrong.textContent = '+' + RAWAN_WA;
+    if (waStrong) waStrong.textContent = '+' + LEATHER QUEEN_WA;
   }
 }
 
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
   Countdown.init();
   populateCities('checkout-city');
 
-  if (!RAWAN_BOOT) Toast.show('Store abhi load nahi ho saka. Page refresh karein.', 'error', 6000);
+  if (!LEATHER QUEEN_BOOT) Toast.show('Store abhi load nahi ho saka. Page refresh karein.', 'error', 6000);
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
@@ -724,5 +724,5 @@ window.Store = Store;
 window.PRODUCTS = PRODUCTS;
 window.PK_CITIES = PK_CITIES;
 window.renderProductCard = renderProductCard;
-window.RawanAPI = RawanAPI;
+window.Leather QueenAPI = Leather QueenAPI;
 window.eliteNoticeHTML = eliteNoticeHTML;

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Journal — RAWAN Footwear</title>
-  <meta name="description" content="RAWAN Footwear Journal — shoe care guides, style tips, craft stories, and behind-the-brand content.">
+  <title>Journal — Leather Queen Footwear</title>
+  <meta name="description" content="Leather Queen Footwear Journal — shoe care guides, style tips, craft stories, and behind-the-brand content.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -24,7 +24,7 @@
         <a href="contact.html">Contact</a>
       </div>
     </div>
-    <a href="index.html" class="nav-logo"><span class="logo-ar">رواں</span><span class="logo-en">RAWAN</span><span class="logo-sub">by J.S.A</span></a>
+    <a href="index.html" class="nav-logo"><span class="logo-ar">لیتھر کوئین</span><span class="logo-en">LEATHER QUEEN</span><span class="logo-sub">by J.S.A</span></a>
     <div class="nav-right">
       <button class="nav-icon cart-trigger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/></svg><span class="cart-badge" id="cart-badge-nav">0</span></button>
     </div>
@@ -38,7 +38,7 @@
 
 <div class="page-hero-bar">
   <h1>The Journal</h1>
-  <p>Style guides, craft stories and shoe care tips. Welcome to the world of RAWAN.</p>
+  <p>Style guides, craft stories and shoe care tips. Welcome to the world of LEATHER QUEEN.</p>
 </div>
 
 <!-- CATEGORY FILTERS -->
@@ -77,19 +77,19 @@
   <div class="section-eyebrow" style="color:var(--accent-gold-lt);justify-content:center;text-align:center;margin-bottom:var(--space-lg)">Coming Soon</div>
   <h2 style="font-family:var(--font-serif);font-size:2.5rem;color:var(--bone);margin-bottom:var(--space-lg)">Full Editorial Website</h2>
   <p style="color:rgba(249,246,242,.62);max-width:480px;margin:0 auto var(--space-xl);line-height:1.75">
-    Hamari dedicated website <strong style="color:var(--accent-gold-lt)">www.RAWAN.pk</strong> par journal, lookbooks, craft guides, aur bohat kuch aane wala hai. WhatsApp par follow karein update ke liye.
+    Hamari dedicated website <strong style="color:var(--accent-gold-lt)">www.leatherqueen.pk</strong> par journal, lookbooks, craft guides, aur bohat kuch aane wala hai. WhatsApp par follow karein update ke liye.
   </p>
-  <a href="https://wa.me/923001234567?text=RAWAN%20website%20launch%20par%20notify%20karein%20please!" class="btn btn-gold btn-lg" target="_blank">Notify Me on Launch →</a>
+  <a href="https://wa.me/923001234567?text=LEATHER QUEEN%20website%20launch%20par%20notify%20karein%20please!" class="btn btn-gold btn-lg" target="_blank">Notify Me on Launch →</a>
 </section>
 
 <footer class="footer">
   <div class="footer-grid">
-    <div><div class="footer-logo-ar">رواں</div><div class="footer-logo-en">RAWAN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.RAWAN.pk — Full editorial website</div></div>
+    <div><div class="footer-logo-ar">لیتھر کوئین</div><div class="footer-logo-en">LEATHER QUEEN</div><div class="footer-logo-sub" style="font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;opacity:.65;margin-top:4px">by J.S.A</div><div class="footer-tagline">Thoughtfully made footwear.</div><div class="future-site"><strong>Coming Soon</strong>www.leatherqueen.pk — Full editorial website</div></div>
     <div><div class="footer-col-title">Shop</div><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?filter=new">New Arrivals</a><a href="shop.html?filter=bestseller">Bestsellers</a></div></div>
     <div><div class="footer-col-title">Help</div><div class="footer-links"><a href="exchange.html">Exchange Policy</a><a href="tracking.html">Track Order</a><a href="faqs.html">FAQs</a></div></div>
     <div><div class="footer-col-title">Brand</div><div class="footer-links"><a href="about.html">Our Story</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></div></div>
   </div>
-  <div class="footer-bot"><span>© 2026 RAWAN Footwear.</span></div>
+  <div class="footer-bot"><span>© 2026 Leather Queen Footwear.</span></div>
 </footer>
 
 <div class="cart-overlay" id="cart-overlay"></div>
@@ -140,7 +140,7 @@
   }
 
   async function loadPosts() {
-    const res = await RawanAPI.get('/api/posts');
+    const res = await Leather QueenAPI.get('/api/posts');
     ALL_POSTS = (res && res.posts) || [];
     renderPosts(document.querySelector('[data-jcat].on')?.dataset.jcat || 'all');
     const wanted = new URLSearchParams(location.search).get('post');
@@ -180,12 +180,12 @@
       <div style="padding:12px 0;border-bottom:1px solid var(--sand)">
         <div style="font-weight:700;font-size:.85rem">${esc(c.name)} <span style="font-weight:400;color:var(--warm-grey);font-size:.72rem">${fmtDate(c.createdAt)}</span></div>
         <div style="font-size:.9rem;margin-top:4px">${esc(c.text)}</div>
-        ${c.reply ? `<div style="margin:8px 0 0 16px;padding:8px 12px;background:var(--bone-dark);border-radius:8px;font-size:.85rem"><strong>RAWAN replied:</strong> ${esc(c.reply)}</div>` : ''}
+        ${c.reply ? `<div style="margin:8px 0 0 16px;padding:8px 12px;background:var(--bone-dark);border-radius:8px;font-size:.85rem"><strong>LEATHER QUEEN replied:</strong> ${esc(c.reply)}</div>` : ''}
       </div>`).join('');
   }
 
   async function openPost(id) {
-    const res = await RawanAPI.get('/api/posts/' + encodeURIComponent(id));
+    const res = await Leather QueenAPI.get('/api/posts/' + encodeURIComponent(id));
     if (!res || !res.success) { Toast.show('Could not open this post', 'error'); return; }
     currentPostId = id;
     document.getElementById('post-title').textContent = res.post.title;
@@ -204,19 +204,19 @@
     const msg = document.getElementById('c-msg');
     const name = document.getElementById('c-name').value.trim();
     const text = document.getElementById('c-text').value.trim();
-    localStorage.setItem('rawan_comment_name', name);
-    const res = await RawanAPI.post('/api/posts/' + encodeURIComponent(currentPostId) + '/comments', { name, text });
+    localStorage.setItem('leatherqueen_comment_name', name);
+    const res = await Leather QueenAPI.post('/api/posts/' + encodeURIComponent(currentPostId) + '/comments', { name, text });
     if (res && res.success) {
       document.getElementById('c-text').value = '';
       msg.style.color = 'green'; msg.textContent = 'Your comment is posted.';
-      const fresh = await RawanAPI.get('/api/posts/' + encodeURIComponent(currentPostId));
+      const fresh = await Leather QueenAPI.get('/api/posts/' + encodeURIComponent(currentPostId));
       if (fresh && fresh.success) renderComments(fresh.comments);
       loadPosts();
     } else {
       msg.style.color = 'crimson'; msg.textContent = (res && res.error) || 'Could not post the comment. Please try again.';
     }
   });
-  document.getElementById('c-name').value = localStorage.getItem('rawan_comment_name') || '';
+  document.getElementById('c-name').value = localStorage.getItem('leatherqueen_comment_name') || '';
 
   document.querySelectorAll('[data-jcat]').forEach(chip => {
     chip.addEventListener('click', () => {

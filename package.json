@@ -1,7 +1,7 @@
 {
-  "name": "rawan-footwear-backend",
+  "name": "leatherqueen-footwear-backend",
   "version": "1.0.0",
-  "description": "Enterprise Production-Ready Backend API Server for RAWAN Footwear Pakistan",
+  "description": "Enterprise Production-Ready Backend API Server for Leather Queen Footwear Pakistan",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"

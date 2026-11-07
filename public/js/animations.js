@@ -1,5 +1,5 @@
 /* ============================================================
-   RAWAN Footwear — Animations & Micro-Interactions
+   Leather Queen Footwear — Animations & Micro-Interactions
    ============================================================ */
 
 'use strict';
