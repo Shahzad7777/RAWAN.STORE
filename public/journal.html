@@ -140,7 +140,7 @@
   }
 
   async function loadPosts() {
-    const res = await Leather QueenAPI.get('/api/posts');
+    const res = await StoreAPI.get('/api/posts');
     ALL_POSTS = (res && res.posts) || [];
     renderPosts(document.querySelector('[data-jcat].on')?.dataset.jcat || 'all');
     const wanted = new URLSearchParams(location.search).get('post');
@@ -185,7 +185,7 @@
   }
 
   async function openPost(id) {
-    const res = await Leather QueenAPI.get('/api/posts/' + encodeURIComponent(id));
+    const res = await StoreAPI.get('/api/posts/' + encodeURIComponent(id));
     if (!res || !res.success) { Toast.show('Could not open this post', 'error'); return; }
     currentPostId = id;
     document.getElementById('post-title').textContent = res.post.title;
@@ -205,11 +205,11 @@
     const name = document.getElementById('c-name').value.trim();
     const text = document.getElementById('c-text').value.trim();
     localStorage.setItem('leatherqueen_comment_name', name);
-    const res = await Leather QueenAPI.post('/api/posts/' + encodeURIComponent(currentPostId) + '/comments', { name, text });
+    const res = await StoreAPI.post('/api/posts/' + encodeURIComponent(currentPostId) + '/comments', { name, text });
     if (res && res.success) {
       document.getElementById('c-text').value = '';
       msg.style.color = 'green'; msg.textContent = 'Your comment is posted.';
-      const fresh = await Leather QueenAPI.get('/api/posts/' + encodeURIComponent(currentPostId));
+      const fresh = await StoreAPI.get('/api/posts/' + encodeURIComponent(currentPostId));
       if (fresh && fresh.success) renderComments(fresh.comments);
       loadPosts();
     } else {

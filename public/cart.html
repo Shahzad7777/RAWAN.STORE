@@ -311,7 +311,7 @@
 
   async function requestQuote() {
     const seq = ++quoteSeq;
-    const res = await Leather QueenAPI.post('/api/checkout/quote', quotePayload());
+    const res = await StoreAPI.post('/api/checkout/quote', quotePayload());
     if (seq !== quoteSeq) return; // an newer request is in flight
     if (!res || !res.success) { lastQuote = null; renderTotals(null); return; }
     lastQuote = res;
